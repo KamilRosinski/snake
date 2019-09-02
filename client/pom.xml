@@ -10,6 +10,6 @@
         <version>0.1</version>
     </parent>
 
-    <artifactId>snake-client</artifactId>
+    <artifactId>client</artifactId>
 
 </project>
