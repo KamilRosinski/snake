@@ -14,8 +14,8 @@
     </properties>
 
     <modules>
-        <module>client</module>
-        <module>server</module>
+        <module>snake-client</module>
+        <module>snake-server</module>
     </modules>
 
     <build>

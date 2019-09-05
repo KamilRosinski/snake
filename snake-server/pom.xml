@@ -10,7 +10,7 @@
         <version>0.1</version>
     </parent>
 
-    <artifactId>server</artifactId>
+    <artifactId>snake-server</artifactId>
 
     <properties>
         <spring.boot.version>2.1.7.RELEASE</spring.boot.version>
@@ -67,10 +67,10 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/classes/resources/public/</outputDirectory>
+                            <outputDirectory>${project.build.directory}/classes/resources/</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${project.parent.basedir}/client/src/main/resources/public/</directory>
+                                    <directory>${project.parent.basedir}/snake-client/src/main/resources/public/</directory>
                                 </resource>
                             </resources>
                         </configuration>
