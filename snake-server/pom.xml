@@ -70,7 +70,7 @@
                             <outputDirectory>${project.build.directory}/classes/resources/</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${project.parent.basedir}/snake-client/src/main/resources/public/</directory>
+                                    <directory>${project.parent.basedir}/snake-client/src/main/webapp/dist/snake-app/</directory>
                                 </resource>
                             </resources>
                         </configuration>
