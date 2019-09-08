@@ -1,0 +1,7 @@
+<section>
+    <h2>Messages</h2>
+    <button (click)="clearMessages()">Clear</button>
+    <ul>
+        <li *ngFor="let message of messages">{{message.timestamp}}: {{message.body}}</li>
+    </ul>
+</section>
