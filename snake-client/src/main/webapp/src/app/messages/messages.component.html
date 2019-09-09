@@ -1,7 +1,13 @@
 <section>
     <h2>Messages</h2>
-    <button (click)="clearMessages()">Clear</button>
-    <ul>
-        <li *ngFor="let message of messages">{{message.timestamp}}: {{message.body}}</li>
-    </ul>
+    <div *ngIf="messages.length > 0; then nonEmptyList else emptyList"></div>
+    <ng-template #nonEmptyList>
+        <button (click)="clearMessages()">Clear</button>
+        <ul>
+            <li *ngFor="let message of messages">{{message.timestamp}}: {{message.body}}</li>
+        </ul>
+    </ng-template>
+    <ng-template #emptyList>
+        <p>No messages</p>
+    </ng-template>
 </section>
