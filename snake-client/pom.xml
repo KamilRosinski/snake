@@ -14,9 +14,15 @@
 
     <properties>
         <exec.maven.plugin.version>1.6.0</exec.maven.plugin.version>
+        <webapp.basedir>${project.basedir}/src/main/webapp</webapp.basedir>
     </properties>
 
     <build>
+        <resources>
+            <resource>
+                <directory>${webapp.basedir}/dist</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -27,7 +33,7 @@
                         <id>npm install</id>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <workingDirectory>${project.basedir}/src/main/webapp</workingDirectory>
+                            <workingDirectory>${webapp.basedir}</workingDirectory>
                             <executable>npm</executable>
                             <arguments>
                                 <argument>install</argument>
@@ -41,7 +47,7 @@
                         <id>npm run build</id>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <workingDirectory>${project.basedir}/src/main/webapp</workingDirectory>
+                            <workingDirectory>${webapp.basedir}</workingDirectory>
                             <executable>npm</executable>
                             <arguments>
                                 <argument>run</argument>
