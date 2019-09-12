@@ -4,7 +4,7 @@
     <ng-template #nonEmptyList>
         <button (click)="clearMessages()">Clear</button>
         <ul>
-            <li *ngFor="let message of messages">{{message.timestamp}}: {{message.body}}</li>
+            <li *ngFor="let message of messages">{{message.timestamp | date: 'HH:mm:ss:SSS'}} {{message.body}}</li>
         </ul>
     </ng-template>
     <ng-template #emptyList>
