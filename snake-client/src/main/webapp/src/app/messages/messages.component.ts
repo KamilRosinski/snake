@@ -25,7 +25,7 @@ export class MessagesComponent implements OnInit {
     }
 
     toggleSortOrder(): void {
-        this._order = this._order === SortOrder.ASCENDING ? SortOrder.DESCENDING : SortOrder.ASCENDING;
+        this._order *= -1;
     }
 
     get messagesLength(): number {
@@ -33,11 +33,7 @@ export class MessagesComponent implements OnInit {
     }
 
     get sortedMessages(): Array<Message> {
-        return this._messages.sort((m1, m2) => this.compareTimestamps(m1.timestamp.getTime(), m2.timestamp.getTime()));
-    }
-
-    private compareTimestamps(timestamp1: number, timestamp2: number): number {
-        return this._order === SortOrder.ASCENDING ? timestamp1 - timestamp2 : timestamp2 - timestamp1;
+        return this._messages.sort((m1, m2) => this._order * (m1.timestamp.getTime() - m2.timestamp.getTime()));
     }
 
 }
