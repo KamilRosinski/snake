@@ -1,11 +1,17 @@
 <section>
     <h2>Messages</h2>
-    <div *ngIf="messages.length > 0; then nonEmptyList else emptyList"></div>
+    <div *ngIf="messagesLength > 0; then nonEmptyList else emptyList"></div>
     <ng-template #nonEmptyList>
+        <button (click)="toggleSortOrder()">Toggle sorting</button>
         <button (click)="clearMessages()">Clear</button>
-        <ul>
-            <li *ngFor="let message of messages">{{message.timestamp | date: 'HH:mm:ss:SSS'}} {{message.body}}</li>
-        </ul>
+        <table>
+            <tbody>
+                <tr *ngFor="let message of sortedMessages">
+                    <td>{{message.timestamp | date: 'HH:mm:ss:SSS'}}</td>
+                    <td>{{message.body}}</td>
+                </tr>
+            </tbody>
+        </table>
     </ng-template>
     <ng-template #emptyList>
         <p>No messages</p>
