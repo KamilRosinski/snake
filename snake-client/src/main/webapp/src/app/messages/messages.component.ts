@@ -10,8 +10,9 @@ import {SortOrder} from "./sort-order";
 })
 export class MessagesComponent implements OnInit {
 
+    order: SortOrder = SortOrder.ASCENDING;
+
     private _messages: Array<Message> = [];
-    private _order: SortOrder = SortOrder.ASCENDING;
 
     constructor(private messagingService: MessagingService) {
     }
@@ -25,7 +26,7 @@ export class MessagesComponent implements OnInit {
     }
 
     toggleSortOrder(): void {
-        this._order *= -1;
+        this.order *= -1;
     }
 
     get messagesLength(): number {
@@ -33,7 +34,7 @@ export class MessagesComponent implements OnInit {
     }
 
     get sortedMessages(): Array<Message> {
-        return this._messages.sort((m1, m2) => this._order * (m1.timestamp.getTime() - m2.timestamp.getTime()));
+        return this._messages.sort((m1, m2) => this.order * (m1.timestamp.getTime() - m2.timestamp.getTime()));
     }
 
 }
