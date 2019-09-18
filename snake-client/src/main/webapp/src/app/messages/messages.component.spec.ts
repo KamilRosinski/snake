@@ -2,6 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {MessagesComponent} from './messages.component';
 import {SortOrder} from "./sort-order";
+import {MessagingService} from "./messaging.service";
 
 describe('MessagesComponent', () => {
 
@@ -10,7 +11,8 @@ describe('MessagesComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [MessagesComponent]
+            declarations: [MessagesComponent],
+            providers: [MessagingService]
         }).compileComponents();
     }));
 
@@ -26,7 +28,7 @@ describe('MessagesComponent', () => {
 
     it('should set initial values', () => {
         expect(component.order).toBe(SortOrder.ASCENDING);
-        expect(component.messagesLength).toBe(0);
+        expect(component.hasMessages()).toBe(false);
     });
 
 });
