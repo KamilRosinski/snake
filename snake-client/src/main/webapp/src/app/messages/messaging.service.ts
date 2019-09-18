@@ -9,8 +9,11 @@ export class MessagingService {
 
     private readonly messenger: Subject<Message> = new Subject<Message>();
 
-    sendMessage(message: string) {
-        this.messenger.next(new Message(message));
+    sendMessage(message: string): void {
+        this.messenger.next({
+            timestamp: new Date(),
+            body: message
+        });
     }
 
     getMessenger(): Observable<Message> {

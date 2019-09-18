@@ -1,6 +1,6 @@
 <section>
     <h2>Messages</h2>
-    <div *ngIf="messagesLength > 0; then nonEmptyList else emptyList"></div>
+    <div *ngIf="hasMessages(); then nonEmptyList else emptyList"></div>
     <ng-template #nonEmptyList>
         <button (click)="toggleSortOrder()">Toggle sorting</button>
         <button (click)="clearMessages()">Clear</button>

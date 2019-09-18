@@ -1,7 +1,6 @@
-export class Message {
+export interface Message {
 
-    timestamp: Date = new Date();
+    timestamp: Date;
+    body: string;
 
-    constructor(public body: string){
-    }
 }

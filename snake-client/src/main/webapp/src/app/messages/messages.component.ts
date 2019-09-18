@@ -1,40 +1,48 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Message} from "./message";
 import {MessagingService} from "./messaging.service";
 import {SortOrder} from "./sort-order";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'app-messages',
     templateUrl: './messages.component.html',
     styleUrls: ['./messages.component.scss']
 })
-export class MessagesComponent implements OnInit {
+export class MessagesComponent implements OnInit, OnDestroy {
 
     order: SortOrder = SortOrder.ASCENDING;
 
-    private _messages: Array<Message> = [];
+    private messages: Message[] = [];
+    private messengerSubscription: Subscription;
 
     constructor(private messagingService: MessagingService) {
     }
 
     ngOnInit(): void {
-        this.messagingService.getMessenger().subscribe(message => this._messages.push(message));
+        this.messengerSubscription = this.messagingService.getMessenger().subscribe(message => {
+            this.messages.push(message);
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.messengerSubscription.unsubscribe();
     }
 
     clearMessages(): void {
-      this._messages = [];
+        this.messages = [];
     }
 
     toggleSortOrder(): void {
         this.order *= -1;
     }
 
-    get messagesLength(): number {
-        return this._messages.length;
+    hasMessages(): boolean {
+        return this.messages.length > 0;
     }
 
-    get sortedMessages(): Array<Message> {
-        return this._messages.sort((m1, m2) => this.order * (m1.timestamp.getTime() - m2.timestamp.getTime()));
+    get sortedMessages(): Message[] {
+        return this.messages.sort((m1, m2) => this.order * (m1.timestamp.getTime() - m2.timestamp.getTime()));
     }
 
 }
