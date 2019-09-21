@@ -14,19 +14,21 @@ export class MessagesComponent implements OnInit, OnDestroy {
     order: SortOrder = SortOrder.ASCENDING;
 
     private messages: Message[] = [];
-    private messengerSubscription: Subscription;
+    private subscription: Subscription;
 
     constructor(private messagingService: MessagingService) {
     }
 
     ngOnInit(): void {
-        this.messengerSubscription = this.messagingService.getMessenger().subscribe(message => {
+        this.subscription = this.messagingService.getMessenger().subscribe(message => {
             this.messages.push(message);
         });
     }
 
     ngOnDestroy(): void {
-        this.messengerSubscription.unsubscribe();
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     clearMessages(): void {

@@ -22,13 +22,13 @@ describe('MessagingService', () => {
         // given
         const testMessage: string = 'Test message';
 
-        // when
         service.getMessenger().subscribe(message => {
             // then
             expect(message.body).toBe(testMessage);
             done();
         });
 
+        // when
         service.sendMessage(testMessage);
     });
 
