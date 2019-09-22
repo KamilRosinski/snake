@@ -1,0 +1,23 @@
+@import "../../variables";
+
+#no-messages {
+  background-color: $dark-grey;
+  padding: 0.2rem 0rem;
+  border-radius: 0.2rem;
+  text-align: center;
+
+}
+
+#messages-table {
+  background-color: $dark-grey;
+  border-radius: 0.2em;
+  width: 100%;
+
+  .message-timestamp {
+
+  }
+
+  .message-body {
+
+  }
+}

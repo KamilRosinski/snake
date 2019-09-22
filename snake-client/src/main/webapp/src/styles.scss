@@ -1,1 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+@import "variables";
+
+* {
+  padding: 0 0;
+  margin: 0 0;
+  font-family: Arial;
+}
+
+h2 {
+  margin-bottom: 0.5rem;
+}
+
+header, section {
+  padding: 0.5rem 0.5rem;
+  border-radius: 0.5rem;
+  margin: 0.5rem 0.5rem;
+}
+
+header {
+  text-align: center;
+  color: $main-grey;
+  background-color: $main-green;
+}
+
+section {
+  color: $main-green;
+  background-color: $main-grey;
+}
