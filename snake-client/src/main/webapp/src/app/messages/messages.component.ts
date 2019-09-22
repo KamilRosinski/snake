@@ -11,7 +11,7 @@ import {Subscription} from "rxjs";
 })
 export class MessagesComponent implements OnInit, OnDestroy {
 
-    order: SortOrder = SortOrder.ASCENDING;
+    order: SortOrder = SortOrder.DESCENDING;
 
     private messages: Message[] = [];
     private subscription: Subscription;
