@@ -35,7 +35,7 @@ describe('MessagesComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
-        expect(component.order).toBe(SortOrder.ASCENDING);
+        expect(component.isSortedAscending()).toBe(false);
         expect(component.hasMessages()).toBe(false);
     });
 
@@ -54,22 +54,24 @@ describe('MessagesComponent', () => {
     it('should sort multiple messages in ascending order', () => {
 
         // given
-        component.order = SortOrder.ASCENDING;
         sendMessages({timestamp: new Date(0), body: 'm1'},
             {timestamp: new Date(1), body: 'm2'},
             {timestamp: new Date(2), body: 'm3'});
+
+        component.toggleSortOrder();
+
 
         // when
         const sortedMessages: Message[] = component.sortedMessages;
 
         // then
+        expect(component.isSortedAscending()).toBe(true);
         expect(sortedMessages.map(m => m.body)).toEqual(['m1', 'm2', 'm3']);
     });
 
     it('should sort multiple messages in descending order', () => {
 
         // given
-        component.order = SortOrder.DESCENDING;
         sendMessages({timestamp: new Date(0), body: 'm1'},
             {timestamp: new Date(1), body: 'm2'},
             {timestamp: new Date(2), body: 'm3'});
@@ -78,6 +80,7 @@ describe('MessagesComponent', () => {
         const sortedMessages: Message[] = component.sortedMessages;
 
         // then
+        expect(component.isSortedAscending()).toBe(false);
         expect(sortedMessages.map(m => m.body)).toEqual(['m3', 'm2', 'm1']);
     });
 

@@ -1,34 +1,44 @@
 @import "../../variables";
 
-#messages-placeholder {
-  background-color: $dark-grey;
-  padding: 0.2rem 0rem;
-  border-radius: 0.3rem;
-  text-align: center;
+.btns {
+  display: flex;
 
+  > * {
+    margin: 0rem 0.2rem 0.2rem 0rem;
+
+    &:last-child {
+      margin-right: 0rem;
+    }
+  }
 }
 
 #messages-box {
-  background-color: $dark-grey;
-  border-radius: 0.3em;
   max-height: 10rem;
   overflow: scroll;
 
   table {
-    table-layout: auto;
     border-collapse: collapse;
-    width: 100%;
-  }
 
-  .message-body {
-    padding: 0.1rem;
-  }
+    td {
+      vertical-align: top;
+      padding: 0.1rem;
 
-  .message-timestamp {
-    padding-right: 1rem;
-  }
+      &:first-child {
+        padding-right: 1rem;
+      }
 
-  tr:nth-child(even) {
-    background-color: $darker-grey;
+      &:last-child {
+        width: 100%;
+      }
+    }
+
+    tr:nth-child(even) {
+      background-color: $darker-grey;
+    }
   }
+}
+
+#empty-placeholder {
+  padding: 0.2rem;
+  text-align: center;
 }

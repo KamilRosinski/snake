@@ -2,20 +2,22 @@
     <h2>Messages</h2>
     <div *ngIf="hasMessages(); then nonEmptyList else emptyList"></div>
     <ng-template #nonEmptyList>
-        <button (click)="toggleSortOrder()">Toggle sorting</button>
-        <button (click)="clearMessages()">Clear</button>
-        <div id="messages-box">
+        <div class="btns">
+            <button class="btn" (click)="toggleSortOrder()">Timestamp {{isSortedAscending() ? '&#x25b2;' : '&#x25bc;'}}</button>
+            <button class="btn" (click)="clearMessages()">Clear</button>
+        </div>
+        <div id="messages-box" class="inner-box">
             <table>
                 <tbody>
                     <tr *ngFor="let message of sortedMessages">
-                        <td class="message-timestamp">{{message.timestamp | date: 'HH:mm:ss:SSS'}}</td>
-                        <td class="message-body">{{message.body}}</td>
+                        <td>{{message.timestamp | date: 'HH:mm:ss:SSS'}}</td>
+                        <td>{{message.body}}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </ng-template>
     <ng-template #emptyList>
-        <p id="messages-placeholder">No messages</p>
+        <p id="empty-placeholder" class="inner-box">No messages</p>
     </ng-template>
 </section>

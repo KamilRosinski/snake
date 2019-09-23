@@ -11,9 +11,8 @@ import {Subscription} from "rxjs";
 })
 export class MessagesComponent implements OnInit, OnDestroy {
 
-    order: SortOrder = SortOrder.DESCENDING;
-
     private messages: Message[] = [];
+    private sortOrder: SortOrder = SortOrder.DESCENDING;
     private subscription: Subscription;
 
     constructor(private messagingService: MessagingService) {
@@ -36,7 +35,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
     }
 
     toggleSortOrder(): void {
-        this.order *= -1;
+        this.sortOrder *= -1;
     }
 
     hasMessages(): boolean {
@@ -44,7 +43,11 @@ export class MessagesComponent implements OnInit, OnDestroy {
     }
 
     get sortedMessages(): Message[] {
-        return this.messages.sort((m1, m2) => this.order * (m1.timestamp.getTime() - m2.timestamp.getTime()));
+        return this.messages.sort((m1, m2) => this.sortOrder * (m1.timestamp.getTime() - m2.timestamp.getTime()));
+    }
+
+    isSortedAscending(): boolean {
+        return this.sortOrder === SortOrder.ASCENDING;
     }
 
 }
