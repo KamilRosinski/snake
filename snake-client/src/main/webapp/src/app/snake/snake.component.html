@@ -1,4 +1,11 @@
 <section>
     <h2>Snake</h2>
-    <button class="btn" (click)="sendMessage()">Send test message</button>
+    <div class="btns ctrl-btns">
+        <button class="btn" (click)="play()" [disabled]="!isPlayable()">Play</button>
+        <button class="btn" (click)="pause()" [disabled]="!isPausable()">Pause</button>
+        <button class="btn" (click)="reset()" [disabled]="!isResettable()">Reset</button>
+    </div>
+    <div id="snake-box" class="inner-box">
+        <p>This will be SSSNAKE ;)</p>
+    </div>
 </section>

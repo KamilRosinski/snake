@@ -42,6 +42,27 @@ section {
 
     &:hover {
       background-color: $dark-green;
+      transition: 0.25s;
+    }
+
+    &:disabled {
+      background-color: $dark-grey;
+      color: $darkest-grey;
+      transition: 0.25s;
+      cursor: not-allowed;
     }
   }
+
+  .btns {
+    display: flex;
+
+    > * {
+      margin: 0rem 0.2rem 0.2rem 0rem;
+
+      &:last-child {
+        margin-right: 0rem;
+      }
+    }
+  }
+
 }

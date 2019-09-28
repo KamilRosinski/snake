@@ -1,17 +1,5 @@
 @import "../../variables";
 
-.btns {
-  display: flex;
-
-  > * {
-    margin: 0rem 0.2rem 0.2rem 0rem;
-
-    &:last-child {
-      margin-right: 0rem;
-    }
-  }
-}
-
 #messages-box {
   max-height: 10rem;
   overflow: scroll;
