@@ -32,13 +32,26 @@ section {
   }
 
   .btn {
-    padding: 0.2rem 0.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0.4rem;
     background-color: $main-green;
     color: $main-grey;
     border: none;
     border-radius: 0.3rem;
     cursor: pointer;
     font-size: 0.8rem;
+    min-width: 2.5rem;
+    min-height: 1.5rem;
+
+    span {
+      padding-right: 0.2rem;
+    }
+
+    .material-icons {
+      font-size: 1rem;
+    }
 
     &:hover {
       background-color: $dark-green;
@@ -57,10 +70,10 @@ section {
     display: flex;
 
     > * {
-      margin: 0rem 0.2rem 0.2rem 0rem;
+      margin: 0 0.2rem 0.2rem 0;
 
       &:last-child {
-        margin-right: 0rem;
+        margin-right: 0;
       }
     }
   }

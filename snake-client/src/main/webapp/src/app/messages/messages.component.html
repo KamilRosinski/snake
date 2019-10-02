@@ -3,7 +3,7 @@
     <div *ngIf="hasMessages(); then nonEmptyList else emptyList"></div>
     <ng-template #nonEmptyList>
         <div class="btns">
-            <button class="btn" (click)="toggleSortOrder()">Timestamp {{isSortedAscending() ? '&#x25b2;' : '&#x25bc;'}}</button>
+            <button class="btn" (click)="toggleSortOrder()"><span>Timestamp </span><i class="material-icons">{{isSortedAscending() ? 'arrow_upward' : 'arrow_downward'}}</i></button>
             <button class="btn" (click)="clearMessages()">Clear</button>
         </div>
         <div id="messages-box" class="inner-box">

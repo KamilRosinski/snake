@@ -44,4 +44,10 @@ export class SnakeComponent implements OnInit {
         return this.gameState !== GameState.NEW;
     }
 
+    swipe(event: any): void {
+        if (this.gameState === GameState.RUNNING) {
+            this.messagingService.sendMessage('swipe direction: ' + event.direction);
+        }
+    }
+
 }

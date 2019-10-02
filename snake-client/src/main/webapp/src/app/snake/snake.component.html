@@ -1,11 +1,11 @@
 <section>
     <h2>Snake</h2>
     <div class="btns ctrl-btns">
-        <button class="btn" (click)="play()" [disabled]="!isPlayable()">Play</button>
-        <button class="btn" (click)="pause()" [disabled]="!isPausable()">Pause</button>
-        <button class="btn" (click)="reset()" [disabled]="!isResettable()">Reset</button>
+        <button class="btn" (click)="play()" [disabled]="!isPlayable()"><i class="material-icons">play_arrow</i></button>
+        <button class="btn" (click)="pause()" [disabled]="!isPausable()"><i class="material-icons">pause</i></button>
+        <button class="btn" (click)="reset()" [disabled]="!isResettable()"><i class="material-icons">stop</i></button>
     </div>
-    <div id="snake-box" class="inner-box">
+    <div id="snake-box" class="inner-box" (swipe)="swipe($event)">
         <p>This will be SSSNAKE ;)</p>
     </div>
 </section>
