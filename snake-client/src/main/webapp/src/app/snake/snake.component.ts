@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {MessagingService} from "../messages/messaging.service";
 import {GameState} from "./game-state";
 
@@ -47,6 +47,13 @@ export class SnakeComponent implements OnInit {
     swipe(event: any): void {
         if (this.gameState === GameState.RUNNING) {
             this.messagingService.sendMessage('swipe direction: ' + event.direction);
+        }
+    }
+
+    @HostListener('document:keydown', ['$event'])
+    keydown(event: KeyboardEvent): void {
+        if (this.gameState === GameState.RUNNING) {
+            this.messagingService.sendMessage('key down: ' + event.code);
         }
     }
 
