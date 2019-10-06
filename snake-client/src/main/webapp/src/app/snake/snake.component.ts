@@ -4,6 +4,12 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {MessagingService} from "../messages/messaging.service";
 import {GameState} from "./game-state";
 import {Direction} from "./direction";
+import {Snake} from "./snake";
+import {interval, Observable, Subscription} from "rxjs";
+import {Dimensions} from "./dimensions";
+import {Coordinates} from "./coordinates";
+import {MoveResult} from "./move-result";
+import {SnakeStatus} from "./snake-status";
 
 @Component({
     selector: 'app-snake',
@@ -12,7 +18,7 @@ import {Direction} from "./direction";
 })
 export class SnakeComponent implements OnInit {
 
-    private static readonly DIRECTIONS: Map<string|number, Direction> = new Map<string|number, Direction>([
+    private static readonly DIRECTIONS: Map<string | number, Direction> = new Map<string | number, Direction>([
         ['ArrowUp', Direction.NORTH],
         ['ArrowRight', Direction.EAST],
         ['ArrowDown', Direction.SOUTH],
@@ -23,28 +29,45 @@ export class SnakeComponent implements OnInit {
         [Hammer.DIRECTION_LEFT, Direction.WEST]
     ]);
 
+    private snake: Snake = null;
     private gameState: GameState = GameState.NEW;
-    // private speedMs: number = 1000;
+    private interval: Observable<number> = interval(500);
+    private intervalSubscription: Subscription;
 
     constructor(private messagingService: MessagingService) {
     }
 
     ngOnInit(): void {
-        // interval(this.speedMs).subscribe(value => this.messagingService.sendMessage(value.toString()));
     }
 
     play(): void {
         this.gameState = GameState.RUNNING;
-        this.messagingService.sendMessage('Game started');
+        if (!this.snake) {
+            this.snake = new Snake({numberOfRows: 10, numberOfColumns: 15});
+        }
+        this.intervalSubscription = this.interval.subscribe(value => {
+            let moveResult: MoveResult = this.snake.move();
+            if (moveResult.status !== SnakeStatus.ALIVE) {
+                this.gameState = GameState.FINISHED;
+                this.intervalSubscription.unsubscribe();
+                this.messagingService.sendMessage(`Game ended: snake crashed into wall at position (${moveResult.coordinates.x}, ${moveResult.coordinates.y}).`)
+            } else if (moveResult.directionChanged) {
+                this.messagingService.sendMessage(`Turn at position (${moveResult.coordinates.x}, ${moveResult.coordinates.y}), new direction: ${Direction[moveResult.lastMoveDirection]}.`);
+            } else {
+                this.messagingService.sendMessage(`New position (${moveResult.coordinates.x}, ${moveResult.coordinates.y})`);
+            }
+        });
+        this.messagingService.sendMessage('Game started.');
     }
 
     isPlayable(): boolean {
-        return this.gameState !== GameState.RUNNING;
+        return [GameState.NEW, GameState.PAUSED].includes(this.gameState);
     }
 
     pause(): void {
         this.gameState = GameState.PAUSED;
-        this.messagingService.sendMessage('Game paused');
+        this.intervalSubscription.unsubscribe();
+        this.messagingService.sendMessage('Game paused.');
     }
 
     isPausable(): boolean {
@@ -53,7 +76,9 @@ export class SnakeComponent implements OnInit {
 
     reset(): void {
         this.gameState = GameState.NEW;
-        this.messagingService.sendMessage('Game reset');
+        this.intervalSubscription.unsubscribe();
+        this.snake = null;
+        this.messagingService.sendMessage('Game reset.');
     }
 
     isResettable(): boolean {
@@ -71,8 +96,21 @@ export class SnakeComponent implements OnInit {
 
     private changeDirection(newDirection: Direction): void {
         if (this.gameState === GameState.RUNNING) {
-            this.messagingService.sendMessage(`New direction: ${Direction[newDirection].toLowerCase()}`);
+            this.snake.turn(newDirection);
         }
+    }
+
+    get boardDimensions(): string {
+        return `0 0 ${this.snake.boardDimensions.numberOfColumns} ${this.snake.boardDimensions.numberOfRows}`;
+    }
+
+    get snakeCoordinates(): Coordinates {
+        console.log(this.snake.position);
+        return this.snake.position;
+    }
+
+    get isSnake(): boolean {
+        return !!this.snake;
     }
 
 }

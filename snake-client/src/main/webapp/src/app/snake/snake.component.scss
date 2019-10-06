@@ -4,6 +4,11 @@
 
   p {
     text-align: center;
-    padding: 5rem 0rem;
+    padding: 5rem 0;
   }
+
+  svg circle {
+    fill: $dark-green;
+  }
+
 }

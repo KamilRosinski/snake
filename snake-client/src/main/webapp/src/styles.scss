@@ -22,6 +22,11 @@ header {
   background-color: $main-green;
 }
 
+html {
+  max-width: 628px;
+  margin: auto;
+}
+
 section {
   color: $main-green;
   background-color: $main-grey;
@@ -76,6 +81,10 @@ section {
         margin-right: 0;
       }
     }
+  }
+
+  app-messages {
+    height: 100%;
   }
 
 }

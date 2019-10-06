@@ -6,6 +6,8 @@
         <button class="btn" (click)="reset()" [disabled]="!isResettable()"><i class="material-icons">stop</i></button>
     </div>
     <div id="snake-box" class="inner-box" (swipe)="swipe($event)">
-        <p>This will be SSSNAKE ;)</p>
+        <svg [attr.viewBox]="boardDimensions" *ngIf="isSnake" >
+            <circle r="0.5" [attr.cx]="snakeCoordinates.x + 0.5" [attr.cy]="snakeCoordinates.y + 0.5"></circle>
+        </svg>
     </div>
 </section>
