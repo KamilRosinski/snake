@@ -10,7 +10,7 @@
             <table>
                 <tbody>
                     <tr *ngFor="let message of sortedMessages">
-                        <td>{{message.timestamp | date: 'HH:mm:ss:SSS'}}</td>
+                        <td>{{message.timestamp | date: 'HH:mm:ss.SSS'}}</td>
                         <td>{{message.body}}</td>
                     </tr>
                 </tbody>
