@@ -1,8 +1,18 @@
 @import "../../variables";
 
+section {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+#messages-box, #empty-placeholder {
+  flex-grow: 1;
+}
+
 #messages-box {
-  max-height: 10rem;
-  overflow: scroll;
+  overflow-y: auto;
 
   table {
     border-collapse: collapse;
@@ -27,7 +37,6 @@
 }
 
 #empty-placeholder {
-  display: flex;
   padding: 0.2rem;
   justify-content: center;
   align-items: center;
