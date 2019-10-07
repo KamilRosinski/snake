@@ -53,8 +53,6 @@ export class SnakeComponent implements OnInit {
                 this.messagingService.sendMessage(`Game ended: snake crashed into wall at position (${moveResult.coordinates.x}, ${moveResult.coordinates.y}).`)
             } else if (moveResult.directionChanged) {
                 this.messagingService.sendMessage(`Turn at position (${moveResult.coordinates.x}, ${moveResult.coordinates.y}), new direction: ${Direction[moveResult.lastMoveDirection]}.`);
-            } else {
-                this.messagingService.sendMessage(`New position (${moveResult.coordinates.x}, ${moveResult.coordinates.y})`);
             }
         });
         this.messagingService.sendMessage('Game started.');
