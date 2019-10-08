@@ -1,13 +1,19 @@
 <section>
     <h2>Snake</h2>
-    <div class="btns ctrl-btns">
-        <button class="btn" (click)="play()" [disabled]="!isPlayable()"><i class="material-icons">play_arrow</i></button>
-        <button class="btn" (click)="pause()" [disabled]="!isPausable()"><i class="material-icons">pause</i></button>
-        <button class="btn" (click)="reset()" [disabled]="!isResettable()"><i class="material-icons">stop</i></button>
+    <div id="game-controls">
+        <div class="btns">
+            <button class="btn" (click)="play()" [disabled]="!isPlayable()"><i class="material-icons">play_arrow</i></button>
+            <button class="btn" (click)="pause()" [disabled]="!isPausable()"><i class="material-icons">pause</i></button>
+            <button class="btn" (click)="reset()" [disabled]="!isResettable()"><i class="material-icons">stop</i></button>
+        </div>
+        <div id="game-score" *ngIf="isSnake">
+            <p>Score: {{score}}</p>
+        </div>
     </div>
     <div id="snake-box" class="inner-box" (swipe)="swipe($event)">
         <svg [attr.viewBox]="boardDimensions" *ngIf="isSnake" >
-            <circle r="0.5" [attr.cx]="snakeCoordinates.x + 0.5" [attr.cy]="snakeCoordinates.y + 0.5"></circle>
+            <circle class="food" r="0.45" [attr.cx]="foodCoordinates.x" [attr.cy]="foodCoordinates.y"></circle>
+            <circle class="head" r="0.5" [attr.cx]="headCoordinates.x" [attr.cy]="headCoordinates.y"></circle>
         </svg>
     </div>
 </section>

@@ -16,10 +16,11 @@ export class Snake {
     private lastMoveDirection: Direction = Direction.EAST;
     private nextMoveDirection: Direction = Direction.EAST;
 
-    public position: Coordinates;
+    public headCoordinates: Coordinates;
+    public foodCoordinates: Coordinates = new Coordinates(4, 3);
 
     constructor(public readonly boardDimensions: Dimensions) {
-        this.position = new Coordinates(
+        this.headCoordinates = new Coordinates(
             Math.floor(boardDimensions.numberOfColumns / 2),
             Math.floor(boardDimensions.numberOfRows / 2));
     }
@@ -32,26 +33,32 @@ export class Snake {
 
     move(): MoveResult {
 
-        let directionChanged = false;
-        let status: SnakeStatus = SnakeStatus.WALL_COLLISION;
+        const result: MoveResult = {
+            status: SnakeStatus.WALL_COLLISION,
+            newPosition: null,
+            oldPosition: this.headCoordinates,
+            directionChanged: false,
+            lastMoveDirection: this.lastMoveDirection,
+            foodEaten: false
+        };
 
-        const newPosition: Coordinates = Snake.MOVE_VECTORS.get(this.nextMoveDirection).add(this.position);
+        const newPosition: Coordinates = Snake.MOVE_VECTORS.get(this.nextMoveDirection).add(this.headCoordinates);
         if (newPosition.x >= 0 && newPosition.x < this.boardDimensions.numberOfColumns && newPosition.y >= 0 && newPosition.y < this.boardDimensions.numberOfRows) {
-            status = SnakeStatus.ALIVE;
-            this.position = newPosition;
+
+            result.status = SnakeStatus.ALIVE;
+            result.newPosition = this.headCoordinates = newPosition;
+
             if (this.lastMoveDirection !== this.nextMoveDirection) {
                 this.lastMoveDirection = this.nextMoveDirection;
-                directionChanged = true;
+                result.directionChanged = true;
+            }
+
+            if (this.headCoordinates.x === this.foodCoordinates.x && this.headCoordinates.y === this.foodCoordinates.y) {
+                result.foodEaten = true;
             }
         }
 
-        return {
-            coordinates: this.position,
-            lastMoveDirection: this.lastMoveDirection,
-            directionChanged: directionChanged,
-            status: status,
-            foodEaten: false
-        };
+        return result;
     }
 
 }

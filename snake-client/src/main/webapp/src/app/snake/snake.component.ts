@@ -34,6 +34,8 @@ export class SnakeComponent implements OnInit {
     private interval: Observable<number> = interval(500);
     private intervalSubscription: Subscription;
 
+    score: number = 0;
+
     constructor(private messagingService: MessagingService) {
     }
 
@@ -50,9 +52,15 @@ export class SnakeComponent implements OnInit {
             if (moveResult.status !== SnakeStatus.ALIVE) {
                 this.gameState = GameState.FINISHED;
                 this.intervalSubscription.unsubscribe();
-                this.messagingService.sendMessage(`Game ended: snake crashed into wall at position (${moveResult.coordinates.x}, ${moveResult.coordinates.y}).`)
-            } else if (moveResult.directionChanged) {
-                this.messagingService.sendMessage(`Turn at position (${moveResult.coordinates.x}, ${moveResult.coordinates.y}), new direction: ${Direction[moveResult.lastMoveDirection]}.`);
+                this.messagingService.sendMessage(`Game ended: snake crashed into wall at position (${moveResult.oldPosition.x}, ${moveResult.oldPosition.y}).`)
+            } else {
+                if (moveResult.directionChanged) {
+                    this.messagingService.sendMessage(`Turn at position (${moveResult.oldPosition.x}, ${moveResult.oldPosition.y}), new direction: ${Direction[moveResult.lastMoveDirection]}.`);
+                }
+                if (moveResult.foodEaten) {
+                    ++this.score;
+                    this.messagingService.sendMessage(`Food eaten at position (${moveResult.newPosition.x}, ${moveResult.newPosition.y}), new score: ${this.score}.`);
+                }
             }
         });
         this.messagingService.sendMessage('Game started.');
@@ -76,6 +84,7 @@ export class SnakeComponent implements OnInit {
         this.gameState = GameState.NEW;
         this.intervalSubscription.unsubscribe();
         this.snake = null;
+        this.score = 0;
         this.messagingService.sendMessage('Game reset.');
     }
 
@@ -99,12 +108,15 @@ export class SnakeComponent implements OnInit {
     }
 
     get boardDimensions(): string {
-        return `0 0 ${this.snake.boardDimensions.numberOfColumns} ${this.snake.boardDimensions.numberOfRows}`;
+        return `-0.5 -0.5 ${this.snake.boardDimensions.numberOfColumns} ${this.snake.boardDimensions.numberOfRows}`;
     }
 
-    get snakeCoordinates(): Coordinates {
-        console.log(this.snake.position);
-        return this.snake.position;
+    get headCoordinates(): Coordinates {
+        return this.snake.headCoordinates;
+    }
+
+    get foodCoordinates(): Coordinates {
+        return this.snake.foodCoordinates;
     }
 
     get isSnake(): boolean {
