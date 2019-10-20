@@ -6,14 +6,15 @@
             <button class="btn" (click)="pause()" [disabled]="!isPausable()"><i class="material-icons">pause</i></button>
             <button class="btn" (click)="reset()" [disabled]="!isResettable()"><i class="material-icons">stop</i></button>
         </div>
-        <div id="game-score" *ngIf="isSnake">
+        <div id="game-score" *ngIf="hasSnake">
             <p>Score: {{score}}</p>
         </div>
     </div>
     <div id="snake-box" class="inner-box" (swipe)="swipe($event)">
-        <svg [attr.viewBox]="boardDimensions" *ngIf="isSnake" >
+        <svg [attr.viewBox]="boardDimensions" *ngIf="hasSnake" >
             <circle class="food" r="0.45" [attr.cx]="foodCoordinates.x" [attr.cy]="foodCoordinates.y"></circle>
-            <circle class="head" r="0.5" [attr.cx]="headCoordinates.x" [attr.cy]="headCoordinates.y"></circle>
+            <circle class="tail" r="0.50" *ngFor="let element of snakeCoordinates" [attr.cx]="element.x" [attr.cy]="element.y"></circle>
+            <circle class="head" r="0.35" [attr.cx]="headCoordinates.x" [attr.cy]="headCoordinates.y"></circle>
         </svg>
     </div>
 </section>

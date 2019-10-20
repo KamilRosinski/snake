@@ -4,11 +4,9 @@ import {Direction} from "./direction";
 
 export interface MoveResult {
 
-    newPosition: Coordinates;
-    oldPosition: Coordinates;
-    status: SnakeStatus;
-    foodEaten: boolean;
-    directionChanged: boolean;
-    lastMoveDirection: Direction;
+    readonly status: SnakeStatus;
+    readonly foodEaten: boolean;
+    readonly directionChanged: boolean;
+    readonly moveDirection: Direction;
 
 }
