@@ -5,6 +5,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {SnakeComponent} from './snake/snake.component';
 import {MessagesComponent} from './messages/messages.component';
+import { SnakeFormatterPipe } from './snake/pipe/snake-formatter.pipe';
 
 export class HammerConfig extends HammerGestureConfig {
     overrides = {
@@ -16,7 +17,8 @@ export class HammerConfig extends HammerGestureConfig {
     declarations: [
         AppComponent,
         SnakeComponent,
-        MessagesComponent
+        MessagesComponent,
+        SnakeFormatterPipe
     ],
     imports: [
         BrowserModule

@@ -19,17 +19,22 @@
     border: 1px solid $main-green;
     border-radius: 0.3rem;
 
-    .head {
-      fill: $dark-green;
-    }
-
     .tail {
-      fill: $main-green;
+      stroke: $main-green;
+      fill: none;
+      stroke-width: 0.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .food {
       fill: $red;
     }
+
+    .head {
+      fill: $dark-green;
+    }
+
   }
 
 }
