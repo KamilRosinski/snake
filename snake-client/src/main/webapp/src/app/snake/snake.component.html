@@ -12,9 +12,9 @@
     </div>
     <div id="snake-box" class="inner-box" (swipe)="swipe($event)">
         <svg [attr.viewBox]="boardDimensions" *ngIf="hasSnake">
-            <circle class="food" r="0.30" [attr.cx]="foodCoordinates.x" [attr.cy]="foodCoordinates.y"/>
             <polyline class="tail" [attr.points]="snakeCoordinates | snakeFormatter"/>
-            <circle class="head" r="0.35" [attr.cx]="headCoordinates.x" [attr.cy]="headCoordinates.y"/>
+            <circle class="head" r="0.4" [attr.cx]="headCoordinates.x" [attr.cy]="headCoordinates.y"/>
+            <circle class="food" r="0.3" [attr.cx]="foodCoordinates.x" [attr.cy]="foodCoordinates.y"/>
         </svg>
     </div>
 </section>
