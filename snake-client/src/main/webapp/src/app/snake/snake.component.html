@@ -4,14 +4,12 @@
         <div class="btns">
             <button class="btn" (click)="play()" [disabled]="!isPlayable()"><i class="material-icons">play_arrow</i></button>
             <button class="btn" (click)="pause()" [disabled]="!isPausable()"><i class="material-icons">pause</i></button>
-            <button class="btn" (click)="reset()" [disabled]="!isResettable()"><i class="material-icons">stop</i></button>
+            <button class="btn" (click)="reset()"><i class="material-icons">stop</i></button>
         </div>
-        <div id="game-score" *ngIf="hasSnake">
-            <p>Score: {{score}}</p>
-        </div>
+        <div>Score: {{score}}</div>
     </div>
     <div id="snake-box" class="inner-box" (swipe)="swipe($event)">
-        <svg [attr.viewBox]="boardDimensions" *ngIf="hasSnake">
+        <svg [attr.viewBox]="boardDimensions">
             <polyline class="tail" [attr.points]="snakeCoordinates | snakeFormatter"/>
             <circle class="head" r="0.4" [attr.cx]="headCoordinates.x" [attr.cy]="headCoordinates.y"/>
             <circle class="food" r="0.3" [attr.cx]="foodCoordinates.x" [attr.cy]="foodCoordinates.y"/>

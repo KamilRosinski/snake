@@ -42,6 +42,7 @@ export class SnakeComponent implements OnInit {
     private _score: number = 0;
 
     constructor(private readonly _messagingService: MessagingService) {
+        this._snake = new SnakeLogic(this._boardDimensions);
     }
 
     ngOnInit(): void {
@@ -49,12 +50,7 @@ export class SnakeComponent implements OnInit {
 
     play(): void {
         this._gameState = GameState.RUNNING;
-        if (!this._snake) {
-            this._snake = new SnakeLogic(this._boardDimensions);
-        }
-        this._intervalSubscription = this._interval.subscribe(value => {
-            this.move();
-        });
+        this._intervalSubscription = this._interval.subscribe(value => this.move());
         this._messagingService.sendMessage('Game started.');
     }
 
@@ -98,14 +94,12 @@ export class SnakeComponent implements OnInit {
 
     reset(): void {
         this._gameState = GameState.NEW;
-        this._intervalSubscription.unsubscribe();
-        this._snake = null;
+        if (this._intervalSubscription) {
+            this._intervalSubscription.unsubscribe();
+        }
+        this._snake = new SnakeLogic(this._boardDimensions);
         this._score = 0;
         this._messagingService.sendMessage('Game reset.');
-    }
-
-    isResettable(): boolean {
-        return this._gameState !== GameState.NEW;
     }
 
     swipe(event: any): void {
@@ -129,10 +123,6 @@ export class SnakeComponent implements OnInit {
 
     get foodCoordinates(): Coordinates {
         return this._snake.food;
-    }
-
-    get hasSnake(): boolean {
-        return !!this._snake;
     }
 
     get snakeCoordinates(): Coordinates[] {
