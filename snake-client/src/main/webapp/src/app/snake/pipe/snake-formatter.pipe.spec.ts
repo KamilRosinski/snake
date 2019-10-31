@@ -17,7 +17,7 @@ describe('SnakeFormatterPipe', () => {
         expect(formatted).toEqual('');
     });
 
-    it('should format coordinates\' array', () => {
+    it('should format non empty array', () => {
 
         // given
         const coordinates: Coordinates[] = [
