@@ -43,7 +43,8 @@ export class SnakeLogic {
 
     move(): MoveResult {
         const directionChanged = this._lastMoveDirection != this._nextMoveDirection;
-        const newHead: Coordinates = this._model.head.add(SnakeLogic.MOVE_VECTORS.get(this._nextMoveDirection));
+        const oldHead: Coordinates = this._model.head;
+        const newHead: Coordinates = oldHead.add(SnakeLogic.MOVE_VECTORS.get(this._nextMoveDirection));
         const moveDirection: Direction = this._nextMoveDirection;
         let foodEaten: boolean = false;
         let status: SnakeStatus = SnakeStatus.ALIVE;
@@ -77,7 +78,9 @@ export class SnakeLogic {
             directionChanged,
             foodEaten,
             moveDirection,
-            status
+            status,
+            oldHead,
+            newHead
         };
     }
 

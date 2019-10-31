@@ -64,20 +64,20 @@ export class SnakeComponent implements OnInit {
             case SnakeStatus.WALL_COLLISION:
                 this._gameState = GameState.FINISHED;
                 this._intervalSubscription.unsubscribe();
-                this._messagingService.sendMessage(`Game ended: snake crashed into wall at position (${this._snake.head.x}, ${this._snake.head.y}).`);
+                this._messagingService.sendMessage(`Game ended: snake crashed into wall at position (${moveResult.oldHead.x}, ${moveResult.oldHead.y}).`);
                 break;
             case SnakeStatus.TAIL_COLLISION:
                 this._gameState = GameState.FINISHED;
                 this._intervalSubscription.unsubscribe();
-                this._messagingService.sendMessage(`Game ended: snake crashed into its tail at position (${this._snake.head.x}, ${this._snake.head.y}).`);
+                this._messagingService.sendMessage(`Game ended: snake crashed into its tail at position (${moveResult.oldHead.x}, ${moveResult.oldHead.y}).`);
                 break;
             default:
                 if (moveResult.directionChanged) {
-                    this._messagingService.sendMessage(`New direction: ${Direction[moveResult.moveDirection]}.`);
+                    this._messagingService.sendMessage(`Turned ${Direction[moveResult.moveDirection]} at position (${moveResult.oldHead.x}, ${moveResult.oldHead.y}).`);
                 }
                 if (moveResult.foodEaten) {
                     ++this._score;
-                    this._messagingService.sendMessage(`Food eaten at position (${this._snake.head.x}, ${this._snake.head.y}), new score: ${this._score}.`)
+                    this._messagingService.sendMessage(`Food eaten at position (${moveResult.newHead.x}, ${moveResult.newHead.y}), new score: ${this._score}.`)
                 }
         }
     }

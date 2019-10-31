@@ -8,5 +8,7 @@ export interface MoveResult {
     readonly foodEaten: boolean;
     readonly directionChanged: boolean;
     readonly moveDirection: Direction;
+    readonly oldHead: Coordinates;
+    readonly newHead: Coordinates;
 
 }
