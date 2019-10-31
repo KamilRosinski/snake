@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Message} from "./message";
-import {MessagingService} from "./messaging.service";
+import {MessagingService} from "./service/messaging.service";
 import {SortOrder} from "./sort-order";
 import {Subscription} from "rxjs";
 

@@ -1,7 +1,7 @@
 import * as Hammer from 'hammerjs'
 
 import {Component, HostListener, OnInit} from '@angular/core';
-import {MessagingService} from "../messages/messaging.service";
+import {MessagingService} from "../messages/service/messaging.service";
 import {GameState} from "./game-state";
 import {Direction} from "./direction";
 import {interval, Observable, Subscription} from "rxjs";
