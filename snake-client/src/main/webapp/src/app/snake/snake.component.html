@@ -1,18 +1,32 @@
 <section>
     <h2>Snake</h2>
     <div id="game-controls">
-        <div class="btns">
-            <button class="btn" (click)="play()" [disabled]="!isPlayable()"><i class="material-icons">play_arrow</i></button>
-            <button class="btn" (click)="pause()" [disabled]="!isPausable()"><i class="material-icons">pause</i></button>
-            <button class="btn" (click)="reset()"><i class="material-icons">stop</i></button>
+        <div>
+            <form #snakeControlForm="ngForm">
+                <div>
+                    <label for="width">Width</label>
+                    <input type="number" id="width" name="numberOfColumns" pattern="^[1-9][0-9]*$" [(ngModel)]="boardDimensions.numberOfColumns" [disabled]="!isNew()" (ngModelChange)="resize(snakeControlForm)" required>
+                </div>
+                <div>
+                    <label for="height">Height</label>
+                    <input type="number" id="height" name="numberOfRows" pattern="^[1-9][0-9]*$" [(ngModel)]="boardDimensions.numberOfRows" [disabled]="!isNew()" (ngModelChange)="resize(snakeControlForm)" required>
+                </div>
+            </form>
+            <div class="btns">
+                <button class="btn" type="button" (click)="play()" [disabled]="!(isPaused() || (isNew() && snakeControlForm.valid))"><i class="material-icons">play_arrow</i></button>
+                <button class="btn" type="button" (click)="pause()" [disabled]="!isPausable()"><i class="material-icons">pause</i></button>
+                <button class="btn" type="button" (click)="reset()"><i class="material-icons">stop</i></button>
+            </div>
         </div>
         <div>Score: {{score}}</div>
     </div>
     <div id="snake-box" class="inner-box" (swipe)="swipe($event)">
-        <svg [attr.viewBox]="boardDimensions">
-            <polyline class="tail" [attr.points]="snakeCoordinates | snakeFormatter"/>
-            <circle class="head" r="0.4" [attr.cx]="headCoordinates.x" [attr.cy]="headCoordinates.y"/>
-            <circle class="food" r="0.3" [attr.cx]="foodCoordinates.x" [attr.cy]="foodCoordinates.y"/>
+        <svg [attr.viewBox]="boardDimensions | dimensionsFormatter">
+            <g *ngIf="isSnake">
+                <polyline class="tail" [attr.points]="snakeCoordinates | snakeFormatter"/>
+                <circle class="head" r="0.4" [attr.cx]="headCoordinates.x" [attr.cy]="headCoordinates.y"/>
+                <circle class="food" *ngIf="foodCoordinates" r="0.3" [attr.cx]="foodCoordinates.x" [attr.cy]="foodCoordinates.y"/>
+            </g>
         </svg>
     </div>
 </section>

@@ -3,6 +3,42 @@
 #game-controls {
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
+
+  form{
+    label {
+      padding-right: 0.5rem;
+    }
+
+    input {
+      border: 1px solid $dark-grey;
+      padding: 0.1rem;
+      border-radius: 0.3rem;
+      width: 3rem;
+
+      &:disabled {
+        background-color: $dark-grey;
+        color: $darkest-grey;
+        transition: 0.25s;
+        cursor: not-allowed;
+      }
+    }
+
+    div {
+      margin-bottom: 0.2rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .ng-invalid {
+      border: 1px solid $red;
+      background-color: lighten($red, 30);
+      transition: 0.25s;
+    }
+    .ng-valid {
+      transition: 0.25s;
+    }
+  }
 }
 
 #snake-box {

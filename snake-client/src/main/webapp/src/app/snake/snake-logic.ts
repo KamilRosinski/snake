@@ -20,12 +20,12 @@ export class SnakeLogic {
     private _nextMoveDirection: Direction;
     private _snake: Coordinates[];
 
-    constructor(private readonly boardDimensions: Dimensions, initialDirection: Direction = Direction.EAST) {
-        this._model = new SnakeModel(boardDimensions);
+    constructor(private readonly _boardDimensions: Dimensions, initialDirection: Direction = Direction.EAST) {
+        this._model = new SnakeModel(_boardDimensions);
         this._lastMoveDirection = initialDirection;
         this._nextMoveDirection = initialDirection;
 
-        const initialHead: Coordinates = new Coordinates(Math.floor(boardDimensions.numberOfColumns / 2), Math.floor(boardDimensions.numberOfRows / 2));
+        const initialHead: Coordinates = new Coordinates(Math.floor(_boardDimensions.numberOfColumns / 2), Math.floor(_boardDimensions.numberOfRows / 2));
         this._model.popEmptyField(initialHead);
         this._model.pushSnake(initialHead);
 
@@ -49,7 +49,7 @@ export class SnakeLogic {
         let foodEaten: boolean = false;
         let status: SnakeStatus = SnakeStatus.ALIVE;
 
-        if (newHead.x < 0 || newHead.x >= this.boardDimensions.numberOfColumns || newHead.y < 0 || newHead.y >= this.boardDimensions.numberOfRows) {
+        if (newHead.x < 0 || newHead.x >= this._boardDimensions.numberOfColumns || newHead.y < 0 || newHead.y >= this._boardDimensions.numberOfRows) {
             status = SnakeStatus.WALL_COLLISION;
         } else {
 
@@ -63,7 +63,7 @@ export class SnakeLogic {
                 status = SnakeStatus.TAIL_COLLISION;
             } else {
                 if (foodEaten) {
-                    this._model.updateFoodField(this._model.popRandomEmptyField());
+                    this._model.updateFoodField(this._model.hasEmptyFields() ? this._model.popRandomEmptyField() : null);
                 } else {
                     this._model.popEmptyField(newHead);
                 }

@@ -13,10 +13,10 @@ export class SnakeModel {
     constructor(boardDimensions: Dimensions) {
 
         this._encodeCoordinates = (coords: Coordinates) =>
-            coords.x + coords.y * boardDimensions.numberOfColumns;
+            coords !== null ? coords.x + coords.y * boardDimensions.numberOfColumns : null
 
         this._decodeCoordinates = (coords: number) =>
-            new Coordinates(coords % boardDimensions.numberOfColumns, Math.floor(coords / boardDimensions.numberOfColumns));
+            coords !== null ? new Coordinates(coords % boardDimensions.numberOfColumns, Math.floor(coords / boardDimensions.numberOfColumns)) : null;
 
         for (let row = 0; row < boardDimensions.numberOfRows; ++row) {
             for (let column = 0; column < boardDimensions.numberOfColumns; ++column) {
@@ -71,4 +71,7 @@ export class SnakeModel {
         return this._encodeCoordinates(coordinates) === this._food;
     }
 
+    hasEmptyFields(): boolean {
+        return this._empty.size > 0;
+    }
 }

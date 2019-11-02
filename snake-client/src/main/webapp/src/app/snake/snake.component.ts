@@ -10,6 +10,7 @@ import {MoveResult} from "./move-result";
 import {SnakeStatus} from "./snake-status";
 import {SnakeLogic} from "./snake-logic";
 import {Dimensions} from "./dimensions";
+import {NgForm} from "@angular/forms";
 
 @Component({
     selector: 'app-snake',
@@ -33,16 +34,13 @@ export class SnakeComponent implements OnInit {
     private _gameState: GameState = GameState.NEW;
     private _interval: Observable<number> = interval(500);
     private _intervalSubscription: Subscription;
-
-    private readonly _boardDimensions: Dimensions = {
+    private _score: number = 0;
+    private _boardDimensions: Dimensions = {
         numberOfRows: 10,
         numberOfColumns: 15
     };
 
-    private _score: number = 0;
-
     constructor(private readonly _messagingService: MessagingService) {
-        this._snake = new SnakeLogic(this._boardDimensions);
     }
 
     ngOnInit(): void {
@@ -50,6 +48,9 @@ export class SnakeComponent implements OnInit {
 
     play(): void {
         this._gameState = GameState.RUNNING;
+        if (!this._snake) {
+            this._snake = new SnakeLogic(this.boardDimensions);
+        }
         this._intervalSubscription = this._interval.subscribe(value => this.move());
         this._messagingService.sendMessage('Game started.');
     }
@@ -60,26 +61,34 @@ export class SnakeComponent implements OnInit {
             case SnakeStatus.WALL_COLLISION:
                 this._gameState = GameState.FINISHED;
                 this._intervalSubscription.unsubscribe();
-                this._messagingService.sendMessage(`Game ended: snake crashed into wall at position (${moveResult.oldHead.x}, ${moveResult.oldHead.y}).`);
+                this._messagingService.sendMessage(`Game ended: snake crashed into wall at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
                 break;
             case SnakeStatus.TAIL_COLLISION:
                 this._gameState = GameState.FINISHED;
                 this._intervalSubscription.unsubscribe();
-                this._messagingService.sendMessage(`Game ended: snake crashed into its tail at position (${moveResult.oldHead.x}, ${moveResult.oldHead.y}).`);
+                this._messagingService.sendMessage(`Game ended: snake crashed into its tail at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
                 break;
             default:
                 if (moveResult.directionChanged) {
-                    this._messagingService.sendMessage(`Turned ${Direction[moveResult.moveDirection]} at position (${moveResult.oldHead.x}, ${moveResult.oldHead.y}).`);
+                    this._messagingService.sendMessage(`Turned ${Direction[moveResult.moveDirection]} at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
                 }
                 if (moveResult.foodEaten) {
                     ++this._score;
-                    this._messagingService.sendMessage(`Food eaten at position (${moveResult.newHead.x}, ${moveResult.newHead.y}), new score: ${this._score}.`)
+                    this._messagingService.sendMessage(`Food eaten at position (${moveResult.newHead.y}, ${moveResult.newHead.x}), new score: ${this._score}.`)
                 }
         }
     }
 
     isPlayable(): boolean {
         return [GameState.NEW, GameState.PAUSED].includes(this._gameState);
+    }
+
+    isNew(): boolean {
+        return this._gameState === GameState.NEW;
+    }
+
+    isPaused(): boolean {
+        return this._gameState === GameState.PAUSED;
     }
 
     pause(): void {
@@ -97,7 +106,7 @@ export class SnakeComponent implements OnInit {
         if (this._intervalSubscription) {
             this._intervalSubscription.unsubscribe();
         }
-        this._snake = new SnakeLogic(this._boardDimensions);
+        this._snake = null;
         this._score = 0;
         this._messagingService.sendMessage('Game reset.');
     }
@@ -133,8 +142,18 @@ export class SnakeComponent implements OnInit {
         return this._score;
     }
 
-    get boardDimensions(): string {
-        return `-0.5 -0.5 ${this._boardDimensions.numberOfColumns} ${this._boardDimensions.numberOfRows}`;
+    get boardDimensions(): Dimensions {
+        return this._boardDimensions;
+    }
+
+    get isSnake(): boolean {
+        return !!this._snake;
+    }
+
+    resize(snakeControlForm: NgForm) {
+        if (snakeControlForm.valid) {
+            this._boardDimensions = snakeControlForm.value;
+        }
     }
 
 }
