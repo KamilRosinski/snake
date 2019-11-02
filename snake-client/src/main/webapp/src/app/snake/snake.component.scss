@@ -32,7 +32,7 @@
 
     .ng-invalid {
       border: 1px solid $red;
-      background-color: lighten($red, 30);
+      background-color: $light-red;
       transition: 0.25s;
     }
     .ng-valid {
