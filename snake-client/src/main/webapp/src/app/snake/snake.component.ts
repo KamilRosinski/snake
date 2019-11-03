@@ -32,13 +32,14 @@ export class SnakeComponent implements OnInit {
 
     private _snake: SnakeLogic = null;
     private _gameState: GameState = GameState.NEW;
-    private _interval: Observable<number> = interval(500);
+    private _interval: Observable<number>;
     private _intervalSubscription: Subscription;
     private _score: number = 0;
     private _boardDimensions: Dimensions = {
         numberOfRows: 10,
         numberOfColumns: 15
     };
+    snakeSpeed: number = 4;
 
     constructor(private readonly _messagingService: MessagingService) {
     }
@@ -51,6 +52,7 @@ export class SnakeComponent implements OnInit {
         if (!this._snake) {
             this._snake = new SnakeLogic(this.boardDimensions);
         }
+        this._interval = interval(1000 / this.snakeSpeed);
         this._intervalSubscription = this._interval.subscribe(value => this.move());
         this._messagingService.sendMessage('Game started.');
     }
