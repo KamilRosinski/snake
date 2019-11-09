@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {Coordinates} from "../coordinates";
+import {Coordinates} from "../shared/coordinates";
 
 @Pipe({
     name: 'snakeFormatter'

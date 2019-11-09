@@ -4,67 +4,6 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-
-  form{
-    display: flex;
-
-    fieldset {
-      border-radius: 0.3rem;
-      border: 1px solid $main-green;
-      margin: 0 0.2rem 0.2rem 0;
-      padding: 0.2rem;
-
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-
-    legend {
-      font-size: 1.2rem;
-      padding: 0 0.2rem;
-    }
-
-    label {
-      padding-right: 0.5rem;
-    }
-
-    .input {
-      &-number {
-        border: 1px solid $dark-grey;
-        padding: 0.1rem;
-        border-radius: 0.3rem;
-        width: 3rem;
-
-        &:disabled {
-          background-color: $dark-grey;
-          color: $darkest-grey;
-          transition: 0.25s;
-          cursor: not-allowed;
-        }
-      }
-    }
-
-    .form-line {
-      margin-bottom: 0.2rem;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    #speed-preview {
-      display: flex;
-      justify-content: flex-end;
-      width: 1.5rem;
-    }
-
-    .ng-invalid {
-      border: 1px solid $red;
-      background-color: $light-red;
-      transition: 0.25s;
-    }
-    .ng-valid {
-      transition: 0.25s;
-    }
-  }
 }
 
 #snake-box {

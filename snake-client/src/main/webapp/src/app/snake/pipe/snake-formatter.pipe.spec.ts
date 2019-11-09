@@ -1,5 +1,5 @@
 import {SnakeFormatterPipe} from './snake-formatter.pipe';
-import {Coordinates} from "../coordinates";
+import {Coordinates} from "../shared/coordinates";
 
 describe('SnakeFormatterPipe', () => {
 

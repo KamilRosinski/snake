@@ -7,17 +7,17 @@ import {Message} from "../message";
 })
 export class MessagingService {
 
-    private readonly messenger: Subject<Message> = new Subject<Message>();
+    private readonly _messageSubject: Subject<Message> = new Subject<Message>();
 
     sendMessage(message: string): void {
-        this.messenger.next({
+        this._messageSubject.next({
             timestamp: new Date(),
             body: message
         });
     }
 
-    getMessenger(): Observable<Message> {
-        return this.messenger.asObservable();
+    getMessages(): Observable<Message> {
+        return this._messageSubject.asObservable();
     }
 
 }

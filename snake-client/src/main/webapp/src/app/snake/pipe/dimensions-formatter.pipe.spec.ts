@@ -1,5 +1,5 @@
 import {DimensionsFormatterPipe} from './dimensions-formatter.pipe';
-import {Dimensions} from "../dimensions";
+import {Dimensions} from "../shared/dimensions";
 
 describe('DimensionsFormatterPipe', () => {
 

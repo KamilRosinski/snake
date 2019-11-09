@@ -27,7 +27,7 @@ describe('MessagesComponent', () => {
     beforeEach(() => {
         messagingService = TestBed.get(MessagingService);
         messenger = new Subject<Message>();
-        spyOn(messagingService, 'getMessenger').and.returnValue(messenger.asObservable());
+        spyOn(messagingService, 'getMessages').and.returnValue(messenger.asObservable());
         fixture = TestBed.createComponent(MessagesComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();

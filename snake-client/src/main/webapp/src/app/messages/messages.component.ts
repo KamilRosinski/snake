@@ -19,7 +19,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.subscription = this.messagingService.getMessenger().subscribe(message => {
+        this.subscription = this.messagingService.getMessages().subscribe(message => {
             this.messages.push(message);
         });
     }

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {Dimensions} from "../dimensions";
+import {Dimensions} from "../shared/dimensions";
 
 @Pipe({
   name: 'dimensionsFormatter'

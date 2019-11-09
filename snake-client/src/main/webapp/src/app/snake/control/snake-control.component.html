@@ -1,0 +1,25 @@
+<form [formGroup]="snakeControlForm">
+    <div class="ctrl-btns">
+        <button class=" btn" type="button" (click)="play()" [disabled]="!playable"><i class="material-icons">play_arrow</i></button>
+        <button class="btn" type="button" (click)="pause()" [disabled]="!pausable"><i class="material-icons">pause</i></button>
+        <button class="btn" type="button" (click)="reset()"><i class="material-icons">stop</i></button>
+    </div>
+    <fieldset formGroupName="board">
+        <legend>Board</legend>
+        <div class="form-line">
+            <label for="width">Width</label>
+            <input id="width" type="number" formControlName="width">
+        </div>
+        <div class="form-line">
+            <label for="height">Height</label>
+            <input id="height" type="number" formControlName="height">
+        </div>
+    </fieldset>
+    <fieldset formGroupName="snake">
+        <legend>Snake</legend>
+        <div class="form-line">
+            <label for="speed">Speed</label>
+            <input id="speed" type="number" formControlName="speed">
+        </div>
+    </fieldset>
+</form>

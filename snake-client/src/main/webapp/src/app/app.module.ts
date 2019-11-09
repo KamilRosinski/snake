@@ -6,8 +6,9 @@ import {AppComponent} from './app.component';
 import {SnakeComponent} from './snake/snake.component';
 import {MessagesComponent} from './messages/messages.component';
 import {SnakeFormatterPipe} from './snake/pipe/snake-formatter.pipe';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DimensionsFormatterPipe} from './snake/pipe/dimensions-formatter.pipe';
+import { SnakeControlComponent } from './snake/control/snake-control.component';
 
 export class HammerConfig extends HammerGestureConfig {
     overrides = {
@@ -21,11 +22,13 @@ export class HammerConfig extends HammerGestureConfig {
         SnakeComponent,
         MessagesComponent,
         SnakeFormatterPipe,
-        DimensionsFormatterPipe
+        DimensionsFormatterPipe,
+        SnakeControlComponent
     ],
     imports: [
         BrowserModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
     ],
     providers: [
         {

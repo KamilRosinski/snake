@@ -2,37 +2,12 @@
     <h2>Snake</h2>
     <div id="game-controls">
         <div>
-            <form #snakeControlForm="ngForm">
-                <fieldset>
-                    <legend>Board</legend>
-                    <div class="form-line">
-                        <label for="width">Width</label>
-                        <input id="width" class="input-number" name="numberOfColumns"
-                               type="number" pattern="^[1-9][0-9]*$" required
-                               [ngModel]="boardDimensions.numberOfColumns" [disabled]="!isNew()" (ngModelChange)="resize(snakeControlForm)">
-                    </div>
-                    <div class="form-line">
-                        <label for="height">Height</label>
-                        <input id="height" class="input-number" name="numberOfRows"
-                               type="number" pattern="^[1-9][0-9]*$" required
-                               [ngModel]="boardDimensions.numberOfRows" [disabled]="!isNew()" (ngModelChange)="resize(snakeControlForm)">
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <legend>Snake</legend>
-                    <div class="form-line">
-                        <label for="speed">Speed</label>
-                        <input id="speed" class="input-number" name="speed"
-                               type="number" pattern="^[1-9][0-9]*$" required
-                               [(ngModel)]="snakeSpeed" [disabled]="!isNew()">
-                    </div>
-                </fieldset>
-            </form>
-            <div class="btns">
-                <button class="btn" type="button" (click)="play()" [disabled]="!(isPaused() || (isNew() && snakeControlForm.valid))"><i class="material-icons">play_arrow</i></button>
-                <button class="btn" type="button" (click)="pause()" [disabled]="!isPausable()"><i class="material-icons">pause</i></button>
-                <button class="btn" type="button" (click)="reset()"><i class="material-icons">stop</i></button>
-            </div>
+            <app-snake-control
+                    [gameStateChanged]="gameStateObservable"
+                    (valueChangedEvent)="update($event)"
+                    (playEvent)="play()"
+                    (pauseEvent)="pause()"
+                    (resetEvent)="reset()"></app-snake-control>
         </div>
         <div>Score: {{score}}</div>
     </div>
