@@ -1,28 +1,30 @@
-import {AppState, initializeState} from '../state/app.state';
+import {AppState} from '../state/app.state';
 import {Action, createReducer, on} from '@ngrx/store';
 import {Message} from '../../messages/message';
 import * as SnakeActions from '../actions/snake.actions';
+import {createEntityAdapter, EntityAdapter} from '@ngrx/entity';
 
-const initialState: AppState = initializeState();
+export const messagesAdapter: EntityAdapter<Message> = createEntityAdapter<Message>({
+    sortComparer: (m1: Message, m2: Message) => m1.timestamp.getTime() - m2.timestamp.getTime(),
+    selectId: (m: Message) => `${m.body}_${m.timestamp.getTime()}`
+});
+
+const initialState: AppState = {
+    messages: messagesAdapter.getInitialState()
+};
 
 const reducer = createReducer(
     initialState,
     on(SnakeActions.sendMessage, (state: AppState, action: { payload: Message }) => {
         return {
             ...state,
-            messages: {
-                ...state.messages,
-                messages: [...state.messages.messages, action.payload]
-            }
+            messages: messagesAdapter.addOne(action.payload, state.messages)
         };
     }),
     on(SnakeActions.clearMessages, ((state: AppState) => {
         return {
             ...state,
-            messages: {
-                ...state.messages,
-                messages: []
-            }
+            messages: messagesAdapter.removeAll(state.messages)
         };
     }))
 );

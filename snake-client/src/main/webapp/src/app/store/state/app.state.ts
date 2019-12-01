@@ -1,21 +1,9 @@
-import {Message} from "../../messages/message";
+import {Message} from '../../messages/message';
+import {EntityState} from '@ngrx/entity';
 
-export interface MessagesState {
-    messages: Message[];
+export interface MessagesState extends EntityState<Message> {
 }
 
 export interface AppState {
     messages: MessagesState,
 }
-
-const initialMessagesState: MessagesState = {
-    messages: []
-};
-
-const initialAppState: AppState = {
-    messages: initialMessagesState
-};
-
-export const initializeState: () => AppState = () => {
-    return initialAppState;
-};
