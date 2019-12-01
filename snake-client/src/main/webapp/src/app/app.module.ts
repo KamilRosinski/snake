@@ -11,6 +11,7 @@ import {DimensionsFormatterPipe} from './snake/pipe/dimensions-formatter.pipe';
 import {SnakeControlComponent} from './snake/control/snake-control.component';
 import {StoreModule} from '@ngrx/store';
 import {appReducer} from './store/reducers/snake-reducer';
+import { ReverseOrderPipe } from './messages/pipe/reverse-order.pipe';
 
 export class HammerConfig extends HammerGestureConfig {
     overrides = {
@@ -25,7 +26,8 @@ export class HammerConfig extends HammerGestureConfig {
         MessagesComponent,
         SnakeFormatterPipe,
         DimensionsFormatterPipe,
-        SnakeControlComponent
+        SnakeControlComponent,
+        ReverseOrderPipe
     ],
     imports: [
         BrowserModule,

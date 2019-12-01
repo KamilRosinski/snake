@@ -9,7 +9,7 @@
         <div id="messages-box" class="inner-box">
             <table>
                 <tbody>
-                    <tr *ngFor="let message of sortedMessages">
+                    <tr *ngFor="let message of messages | ReverseOrder: isSortedAscending()">
                         <td>{{message.timestamp | date: 'HH:mm:ss.SSS'}}</td>
                         <td>{{message.body}}</td>
                     </tr>

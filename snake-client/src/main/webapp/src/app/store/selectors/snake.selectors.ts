@@ -4,6 +4,5 @@ import {messagesAdapter} from '../reducers/snake-reducer';
 
 export const selectAppState = createFeatureSelector<AppState>('app');
 
-export const selectAllMessages = createSelector(selectAppState, (state: AppState) => {
-    return messagesAdapter.getSelectors().selectAll(state.messages)
-});
+export const selectAllMessages = createSelector(selectAppState, (state: AppState) =>
+    messagesAdapter.getSelectors().selectAll(state.messages));

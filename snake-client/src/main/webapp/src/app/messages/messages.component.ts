@@ -44,12 +44,12 @@ export class MessagesComponent implements OnInit, OnDestroy {
         return this._messages && this._messages.length > 0;
     }
 
-    get sortedMessages(): Message[] {
-        return [...this._messages].sort((m1, m2) => this._sortOrder * (m1.timestamp.getTime() - m2.timestamp.getTime()));
-    }
-
     isSortedAscending(): boolean {
         return this._sortOrder === SortOrder.ASCENDING;
+    }
+
+    get messages(): Message[] {
+        return this._messages;
     }
 
 }

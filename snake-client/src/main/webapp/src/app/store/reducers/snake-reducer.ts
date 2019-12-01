@@ -5,8 +5,8 @@ import * as SnakeActions from '../actions/snake.actions';
 import {createEntityAdapter, EntityAdapter} from '@ngrx/entity';
 
 export const messagesAdapter: EntityAdapter<Message> = createEntityAdapter<Message>({
-    sortComparer: (m1: Message, m2: Message) => m1.timestamp.getTime() - m2.timestamp.getTime(),
-    selectId: (m: Message) => `${m.body}_${m.timestamp.getTime()}`
+    sortComparer: (m1: Message, m2: Message) => m2.timestamp.getTime() - m1.timestamp.getTime(),
+    selectId: (m: Message) => m.id
 });
 
 const initialState: AppState = {
