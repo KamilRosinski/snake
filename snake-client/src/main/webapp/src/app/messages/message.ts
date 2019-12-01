@@ -1,6 +1,9 @@
-export interface Message {
+export class Message {
 
-    timestamp: Date;
-    body: string;
+    readonly timestamp: Date;
+
+    constructor(public readonly body: string) {
+        this.timestamp = new Date();
+    }
 
 }

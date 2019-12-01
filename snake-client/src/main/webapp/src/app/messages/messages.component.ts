@@ -1,8 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Message} from "./message";
-import {MessagingService} from "./service/messaging.service";
 import {SortOrder} from "./sort-order";
 import {Subscription} from "rxjs";
+import {Store} from "@ngrx/store";
+import {AppState} from "../store/state/app.state";
+import {selectAllMessages} from "../store/selectors/snake.selectors";
+import {clearMessages} from "../store/actions/snake.actions";
 
 @Component({
     selector: 'app-messages',
@@ -11,43 +14,42 @@ import {Subscription} from "rxjs";
 })
 export class MessagesComponent implements OnInit, OnDestroy {
 
-    private messages: Message[] = [];
-    private sortOrder: SortOrder = SortOrder.DESCENDING;
-    private subscription: Subscription;
+    private readonly _subscription: Subscription = new Subscription();
 
-    constructor(private messagingService: MessagingService) {
+    private _messages: Message[] = [];
+    private _sortOrder: SortOrder = SortOrder.DESCENDING;
+
+    constructor(private readonly _store: Store<AppState>) {
     }
 
     ngOnInit(): void {
-        this.subscription = this.messagingService.getMessages().subscribe(message => {
-            this.messages.push(message);
-        });
+        this._subscription.add(this._store.select(selectAllMessages).subscribe((messages: Message[]) => {
+            this._messages = messages;
+        }));
     }
 
     ngOnDestroy(): void {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
+        this._subscription.unsubscribe();
     }
 
     clearMessages(): void {
-        this.messages = [];
+        this._store.dispatch(clearMessages());
     }
 
     toggleSortOrder(): void {
-        this.sortOrder *= -1;
+        this._sortOrder *= -1;
     }
 
     hasMessages(): boolean {
-        return this.messages.length > 0;
+        return this._messages && this._messages.length > 0;
     }
 
     get sortedMessages(): Message[] {
-        return this.messages.sort((m1, m2) => this.sortOrder * (m1.timestamp.getTime() - m2.timestamp.getTime()));
+        return [...this._messages].sort((m1, m2) => this._sortOrder * (m1.timestamp.getTime() - m2.timestamp.getTime()));
     }
 
     isSortedAscending(): boolean {
-        return this.sortOrder === SortOrder.ASCENDING;
+        return this._sortOrder === SortOrder.ASCENDING;
     }
 
 }

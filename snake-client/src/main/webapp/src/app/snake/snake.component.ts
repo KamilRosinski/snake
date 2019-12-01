@@ -1,7 +1,6 @@
 import * as Hammer from 'hammerjs'
 
 import {Component, HostListener, OnInit} from '@angular/core';
-import {MessagingService} from "../messages/service/messaging.service";
 import {GameState} from "./shared/game-state";
 import {Direction} from "./shared/direction";
 import {BehaviorSubject, interval, Observable, Subscription} from "rxjs";
@@ -11,6 +10,10 @@ import {SnakeStatus} from "./shared/snake-status";
 import {SnakeLogic} from "./shared/snake-logic";
 import {Dimensions} from "./shared/dimensions";
 import {SnakeControlData} from "./control/model/snake-control-data";
+import {Store} from "@ngrx/store";
+import {AppState} from "../store/state/app.state";
+import {sendMessage} from "../store/actions/snake.actions";
+import {Message} from "../messages/message";
 
 @Component({
     selector: 'app-snake',
@@ -39,7 +42,7 @@ export class SnakeComponent implements OnInit {
     private _boardDimensions: Dimensions;
     private _snakeSpeed: number;
 
-    constructor(private readonly _messagingService: MessagingService) {
+    constructor(private readonly _store: Store<AppState>) {
     }
 
     ngOnInit(): void {
@@ -58,7 +61,11 @@ export class SnakeComponent implements OnInit {
         }
         this._interval = interval(1000 / this._snakeSpeed);
         this._intervalSubscription = this._interval.subscribe(value => this.move());
-        this._messagingService.sendMessage('Game started.');
+        this.sendMessage('Game started.');
+    }
+
+    private sendMessage(body: string): void {
+        this._store.dispatch(sendMessage({payload: new Message(body)}));
     }
 
     private move(): void {
@@ -67,20 +74,20 @@ export class SnakeComponent implements OnInit {
             case SnakeStatus.WALL_COLLISION:
                 this.gameState = GameState.FINISHED;
                 this._intervalSubscription.unsubscribe();
-                this._messagingService.sendMessage(`Game ended: snake crashed into wall at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
+                this.sendMessage(`Game ended: snake crashed into wall at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
                 break;
             case SnakeStatus.TAIL_COLLISION:
                 this.gameState = GameState.FINISHED;
                 this._intervalSubscription.unsubscribe();
-                this._messagingService.sendMessage(`Game ended: snake crashed into its tail at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
+                this.sendMessage(`Game ended: snake crashed into its tail at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
                 break;
             default:
                 if (moveResult.directionChanged) {
-                    this._messagingService.sendMessage(`Turned ${Direction[moveResult.moveDirection]} at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
+                    this.sendMessage(`Turned ${Direction[moveResult.moveDirection]} at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
                 }
                 if (moveResult.foodEaten) {
                     ++this._score;
-                    this._messagingService.sendMessage(`Food eaten at position (${moveResult.newHead.y}, ${moveResult.newHead.x}), new score: ${this._score}.`)
+                    this.sendMessage(`Food eaten at position (${moveResult.newHead.y}, ${moveResult.newHead.x}), new score: ${this._score}.`)
                 }
         }
     }
@@ -88,7 +95,7 @@ export class SnakeComponent implements OnInit {
     pause(): void {
         this.gameState = GameState.PAUSED;
         this._intervalSubscription.unsubscribe();
-        this._messagingService.sendMessage('Game paused.');
+        this.sendMessage('Game paused.');
     }
 
     reset(): void {
@@ -98,7 +105,7 @@ export class SnakeComponent implements OnInit {
         }
         this._snake = null;
         this._score = 0;
-        this._messagingService.sendMessage('Game reset.');
+        this.sendMessage('Game reset.');
     }
 
     swipe(event: any): void {
