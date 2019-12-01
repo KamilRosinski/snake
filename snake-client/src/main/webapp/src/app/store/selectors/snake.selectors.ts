@@ -1,8 +1,6 @@
-import {AppState, MessagesState} from "../state/app.state";
-import {createSelector} from "@ngrx/store";
+import {AppState} from '../state/app.state';
+import {createFeatureSelector, createSelector} from '@ngrx/store';
 
-export const selectMessages = (state) => {
-    return state.snake.messages;
-};
+export const selectAppState = createFeatureSelector<AppState>('app');
 
-export const selectAllMessages = createSelector(selectMessages, (state: MessagesState) => state.messages);
+export const selectAllMessages = createSelector(selectAppState, (state: AppState) => state.messages.messages);

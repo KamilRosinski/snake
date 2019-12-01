@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Message} from "./message";
-import {SortOrder} from "./sort-order";
-import {Subscription} from "rxjs";
-import {Store} from "@ngrx/store";
-import {AppState} from "../store/state/app.state";
-import {selectAllMessages} from "../store/selectors/snake.selectors";
-import {clearMessages} from "../store/actions/snake.actions";
+import {Message} from './message';
+import {SortOrder} from './sort-order';
+import {Subscription} from 'rxjs';
+import {Store} from '@ngrx/store';
+import {AppState} from '../store/state/app.state';
+import {selectAllMessages} from '../store/selectors/snake.selectors';
+import {clearMessages} from '../store/actions/snake.actions';
 
 @Component({
     selector: 'app-messages',
