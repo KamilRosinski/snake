@@ -2,7 +2,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 import {Message} from '../message';
 
 @Pipe({
-    name: 'ReverseOrder'
+    name: 'reverseOrder'
 })
 export class ReverseOrderPipe implements PipeTransform {
 
