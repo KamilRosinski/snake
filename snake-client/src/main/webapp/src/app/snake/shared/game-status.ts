@@ -1,4 +1,4 @@
-export enum GameState {
+export enum GameStatus {
 
     NEW = 0,
     RUNNING = 1,

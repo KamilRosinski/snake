@@ -1,26 +1,27 @@
 import * as Hammer from 'hammerjs'
 
-import {Component, HostListener, OnInit} from '@angular/core';
-import {GameState} from "./shared/game-state";
-import {Direction} from "./shared/direction";
-import {BehaviorSubject, interval, Observable, Subscription} from "rxjs";
-import {Coordinates} from "./shared/coordinates";
-import {MoveResult} from "./shared/move-result";
-import {SnakeStatus} from "./shared/snake-status";
-import {SnakeLogic} from "./shared/snake-logic";
-import {Dimensions} from "./shared/dimensions";
-import {SnakeControlData} from "./control/model/snake-control-data";
-import {Store} from "@ngrx/store";
-import {AppState} from "../store/state/app.state";
-import {sendMessage} from "../store/actions/snake.actions";
-import {Message} from "../messages/message";
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {GameStatus} from './shared/game-status';
+import {Direction} from './shared/direction';
+import {interval, Observable, Subscription} from 'rxjs';
+import {Coordinates} from './shared/coordinates';
+import {MoveResult} from './shared/move-result';
+import {SnakeStatus} from './shared/snake-status';
+import {SnakeLogic} from './shared/snake-logic';
+import {Dimensions} from './shared/dimensions';
+import {Store} from '@ngrx/store';
+import {AppState} from '../store/state/app.state';
+import {sendMessage, updateGameStatus} from '../store/actions/snake.actions';
+import {Message} from '../messages/message';
+import {selectGameControl, selectGameStatus} from '../store/selectors/snake.selectors';
+import {SnakeControlData} from './control/model/snake-control-data';
 
 @Component({
     selector: 'app-snake',
     templateUrl: './snake.component.html',
     styleUrls: ['./snake.component.scss']
 })
-export class SnakeComponent implements OnInit {
+export class SnakeComponent implements OnInit, OnDestroy {
 
     private static readonly _DIRECTIONS: Map<string | number, Direction> = new Map<string | number, Direction>([
         ['ArrowUp', Direction.NORTH],
@@ -33,38 +34,62 @@ export class SnakeComponent implements OnInit {
         [Hammer.DIRECTION_LEFT, Direction.WEST]
     ]);
 
+    private readonly _subscription: Subscription = new Subscription();
+
     private _snake: SnakeLogic = null;
-    private _gameState: GameState;
-    private _gameStateSubject: BehaviorSubject<GameState> = new BehaviorSubject<GameState>(GameState.NEW);
+    private _gameStatus: GameStatus;
     private _interval: Observable<number>;
     private _intervalSubscription: Subscription;
-    private _score: number = 0;
     private _boardDimensions: Dimensions;
     private _snakeSpeed: number;
+
+    private score: number;
 
     constructor(private readonly _store: Store<AppState>) {
     }
 
     ngOnInit(): void {
-        this.gameState = GameState.NEW;
+        this._subscription.add(this._store.select(selectGameStatus).subscribe((gameStatus: GameStatus) => {
+            this._gameStatus = gameStatus;
+            this._gameStatusChanged();
+        }));
+        this._subscription.add(this._store.select(selectGameControl).subscribe((gameControl: SnakeControlData) => {
+            this._snakeSpeed = gameControl.snakeSpeed;
+            this._boardDimensions = gameControl.boardDimensions;
+        }));
     }
 
-    set gameState(gameState: GameState) {
-        this._gameState = gameState;
-        this._gameStateSubject.next(gameState);
+    ngOnDestroy(): void {
+        this._subscription.unsubscribe();
     }
 
-    play(): void {
-        this.gameState = GameState.RUNNING;
+    private _gameStatusChanged(): void {
+        switch (this._gameStatus) {
+            case GameStatus.NEW:
+                this._reset();
+                break;
+            case GameStatus.PAUSED:
+                this._pause();
+                break;
+            case GameStatus.RUNNING:
+                this._play();
+                break;
+            default:
+                break;
+
+        }
+    }
+
+    private _play(): void {
         if (!this._snake) {
             this._snake = new SnakeLogic(this.boardDimensions);
         }
         this._interval = interval(1000 / this._snakeSpeed);
-        this._intervalSubscription = this._interval.subscribe(value => this.move());
-        this.sendMessage('Game started.');
+        this._intervalSubscription = this._interval.subscribe((value: number) => this.move());
+        this._sendMessage('Game started.');
     }
 
-    private sendMessage(body: string): void {
+    private _sendMessage(body: string): void {
         this._store.dispatch(sendMessage({payload: new Message(body)}));
     }
 
@@ -72,53 +97,55 @@ export class SnakeComponent implements OnInit {
         const moveResult: MoveResult = this._snake.move();
         switch (moveResult.status) {
             case SnakeStatus.WALL_COLLISION:
-                this.gameState = GameState.FINISHED;
+                this._updateGameStatus(GameStatus.FINISHED);
                 this._intervalSubscription.unsubscribe();
-                this.sendMessage(`Game ended: snake crashed into wall at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
+                this._sendMessage(`Game ended: snake crashed into wall at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
                 break;
             case SnakeStatus.TAIL_COLLISION:
-                this.gameState = GameState.FINISHED;
+                this._updateGameStatus(GameStatus.FINISHED);
                 this._intervalSubscription.unsubscribe();
-                this.sendMessage(`Game ended: snake crashed into its tail at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
+                this._sendMessage(`Game ended: snake crashed into its tail at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
                 break;
             default:
                 if (moveResult.directionChanged) {
-                    this.sendMessage(`Turned ${Direction[moveResult.moveDirection]} at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
+                    this._sendMessage(`Turned ${Direction[moveResult.moveDirection]} at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
                 }
                 if (moveResult.foodEaten) {
-                    ++this._score;
-                    this.sendMessage(`Food eaten at position (${moveResult.newHead.y}, ${moveResult.newHead.x}), new score: ${this._score}.`)
+                    ++this.score;
+                    this._sendMessage(`Food eaten at position (${moveResult.newHead.y}, ${moveResult.newHead.x}), new score: ${this.score}.`)
                 }
         }
     }
 
-    pause(): void {
-        this.gameState = GameState.PAUSED;
-        this._intervalSubscription.unsubscribe();
-        this.sendMessage('Game paused.');
+    private _updateGameStatus(gameStatus: GameStatus): void {
+        this._store.dispatch(updateGameStatus({payload: gameStatus}));
     }
 
-    reset(): void {
-        this.gameState = GameState.NEW;
+    private _pause(): void {
+        this._intervalSubscription.unsubscribe();
+        this._sendMessage('Game paused.');
+    }
+
+    private _reset(): void {
         if (this._intervalSubscription) {
             this._intervalSubscription.unsubscribe();
         }
         this._snake = null;
-        this._score = 0;
-        this.sendMessage('Game reset.');
+        this.score = 0;
+        this._sendMessage('Game reset.');
     }
 
     swipe(event: any): void {
-        this.changeDirection(SnakeComponent._DIRECTIONS.get(event.direction));
+        this._changeDirection(SnakeComponent._DIRECTIONS.get(event.direction));
     }
 
     @HostListener('document:keydown', ['$event'])
     keydown(event: KeyboardEvent): void {
-        this.changeDirection(SnakeComponent._DIRECTIONS.get(event.code));
+        this._changeDirection(SnakeComponent._DIRECTIONS.get(event.code));
     }
 
-    private changeDirection(newDirection: Direction): void {
-        if (this._gameState === GameState.RUNNING) {
+    private _changeDirection(newDirection: Direction): void {
+        if (this._gameStatus === GameStatus.RUNNING) {
             this._snake.turn(newDirection);
         }
     }
@@ -135,10 +162,6 @@ export class SnakeComponent implements OnInit {
         return this._snake.snake;
     }
 
-    get score(): number {
-        return this._score;
-    }
-
     get boardDimensions(): Dimensions {
         return this._boardDimensions;
     }
@@ -147,14 +170,4 @@ export class SnakeComponent implements OnInit {
         return !!this._snake;
     }
 
-    update(data: SnakeControlData): void {
-        if (data.valid) {
-            this._boardDimensions = data.boardDimensions;
-            this._snakeSpeed = data.snakeSpeed;
-        }
-    }
-
-    get gameStateObservable(): Observable<GameState> {
-        return this._gameStateSubject.asObservable();
-    }
 }

@@ -1,8 +1,11 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Observable, Subscription} from "rxjs";
-import {SnakeControlData} from "./model/snake-control-data";
-import {GameState} from "../shared/game-state";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Subscription} from 'rxjs';
+import {GameStatus} from '../shared/game-status';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../store/state/app.state';
+import {updateGameControl, updateGameStatus} from '../../store/actions/snake.actions';
+import {selectGameStatus} from '../../store/selectors/snake.selectors';
 
 @Component({
     selector: 'app-snake-control',
@@ -15,15 +18,12 @@ export class SnakeControlComponent implements OnInit, OnDestroy {
 
     private readonly _subscription: Subscription = new Subscription();
 
-    @Output() valueChangedEvent: EventEmitter<SnakeControlData> = new EventEmitter<SnakeControlData>();
-    @Output() playEvent: EventEmitter<void> = new EventEmitter<void>();
-    @Output() pauseEvent: EventEmitter<void> = new EventEmitter<void>();
-    @Output() resetEvent: EventEmitter<void> = new EventEmitter<void>();
-    @Input() gameStateChanged: Observable<GameState>;
-    private _gameState: GameState;
+    private _gameStatus: GameStatus;
+
     snakeControlForm: FormGroup;
 
-    constructor(private readonly _formBuilder: FormBuilder) {
+    constructor(private readonly _formBuilder: FormBuilder,
+                private readonly _store: Store<AppState>) {
     }
 
     ngOnInit(): void {
@@ -36,53 +36,58 @@ export class SnakeControlComponent implements OnInit, OnDestroy {
                 speed: [3, SnakeControlComponent.POSITIVE_INT_VALIDATORS]
             })
         });
-
-        this.notifyFormValueChanged();
-
-        this._subscription.add(this.snakeControlForm.valueChanges.subscribe(value => this.notifyFormValueChanged()));
-        this._subscription.add(this.gameStateChanged.subscribe(gameState => {
-            this._gameState = gameState;
-            if (this._gameState === GameState.NEW) {
+        this._updateGameControl(this.snakeControlForm.value);
+        this._subscription.add(this._store.select(selectGameStatus).subscribe((gameStatus: GameStatus) => {
+            this._gameStatus = gameStatus;
+            if (this._gameStatus === GameStatus.NEW) {
                 this.snakeControlForm.enable();
             } else {
                 this.snakeControlForm.disable();
             }
         }));
+        this._subscription.add(this.snakeControlForm.valueChanges.subscribe((value: any) => {
+            this._updateGameControl(value);
+        }));
     }
 
-    private notifyFormValueChanged(): void {
-        this.valueChangedEvent.emit({
-            valid: this.snakeControlForm.valid,
-            boardDimensions: {
-                numberOfColumns: this.snakeControlForm.value.board.width,
-                numberOfRows: this.snakeControlForm.value.board.height
-            },
-            snakeSpeed: this.snakeControlForm.value.snake.speed
-        });
+    private _updateGameControl(value: any) {
+        this._store.dispatch(updateGameControl({
+            payload: {
+                boardDimensions: {
+                    numberOfColumns: value.board.width,
+                    numberOfRows: value.board.height
+                },
+                snakeSpeed: value.snake.speed
+            }
+        }));
     }
 
     ngOnDestroy(): void {
-      this._subscription.unsubscribe();
+        this._subscription.unsubscribe();
     }
 
     get playable(): boolean {
-        return this._gameState === GameState.PAUSED || (this._gameState === GameState.NEW && this.snakeControlForm.valid);
+        return this._gameStatus === GameStatus.PAUSED || (this._gameStatus === GameStatus.NEW && this.snakeControlForm.valid);
     }
 
     get pausable(): boolean {
-        return this._gameState === GameState.RUNNING;
+        return this._gameStatus === GameStatus.RUNNING;
     }
 
     play(): void {
-        this.playEvent.emit();
+        this._updateGameStatus(GameStatus.RUNNING);
     }
 
     pause(): void {
-        this.pauseEvent.emit();
+        this._updateGameStatus(GameStatus.PAUSED);
     }
 
     reset(): void {
-        this.resetEvent.emit();
+        this._updateGameStatus(GameStatus.NEW);
+    }
+
+    private _updateGameStatus(gameStatus: GameStatus): void {
+        this._store.dispatch(updateGameStatus({payload: gameStatus}));
     }
 
 }

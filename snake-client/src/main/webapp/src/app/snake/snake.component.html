@@ -2,12 +2,7 @@
     <h2>Snake</h2>
     <div id="game-controls">
         <div>
-            <app-snake-control
-                    [gameStateChanged]="gameStateObservable"
-                    (valueChangedEvent)="update($event)"
-                    (playEvent)="play()"
-                    (pauseEvent)="pause()"
-                    (resetEvent)="reset()"></app-snake-control>
+            <app-snake-control></app-snake-control>
         </div>
         <div>Score: {{score}}</div>
     </div>
