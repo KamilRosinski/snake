@@ -51,15 +51,17 @@ export class SnakeControlComponent implements OnInit, OnDestroy {
     }
 
     private _updateGameControl(value: any) {
-        this._store.dispatch(updateGameControl({
-            payload: {
-                boardDimensions: {
-                    numberOfColumns: value.board.width,
-                    numberOfRows: value.board.height
-                },
-                snakeSpeed: value.snake.speed
-            }
-        }));
+        if (this.snakeControlForm.valid) {
+            this._store.dispatch(updateGameControl({
+                payload: {
+                    boardDimensions: {
+                        numberOfColumns: value.board.width,
+                        numberOfRows: value.board.height
+                    },
+                    snakeSpeed: value.snake.speed
+                }
+            }));
+        }
     }
 
     ngOnDestroy(): void {
