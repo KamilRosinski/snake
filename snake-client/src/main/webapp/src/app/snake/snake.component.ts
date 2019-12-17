@@ -54,8 +54,10 @@ export class SnakeComponent implements OnInit, OnDestroy {
             this._gameStatusChanged();
         }));
         this._subscription.add(this._store.select(selectGameControl).subscribe((gameControl: SnakeControlData) => {
-            this._snakeSpeed = gameControl.snakeSpeed;
-            this._boardDimensions = gameControl.boardDimensions;
+            if (gameControl) {
+                this._snakeSpeed = gameControl.snakeSpeed;
+                this._boardDimensions = gameControl.boardDimensions;
+            }
         }));
     }
 
@@ -132,7 +134,7 @@ export class SnakeComponent implements OnInit, OnDestroy {
         }
         this._snake = null;
         this.score = 0;
-        this._sendMessage('Game reset.');
+        this._sendMessage('New game.');
     }
 
     swipe(event: any): void {

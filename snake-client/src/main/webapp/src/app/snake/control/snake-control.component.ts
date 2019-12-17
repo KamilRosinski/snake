@@ -15,9 +15,9 @@ import {selectGameStatus} from '../../store/selectors/snake.selectors';
 export class SnakeControlComponent implements OnInit, OnDestroy {
 
     private static readonly POSITIVE_INT_VALIDATORS: Validators[] = [Validators.required, Validators.pattern('^[1-9][0-9]*$')];
-    private static readonly DEFAULT_WIDTH: number = 15;
-    private static readonly DEFAULT_HEIGHT: number = 15;
-    private static readonly DEFAULT_SPEED: number = 15;
+    private static readonly DEFAULT_WIDTH: number = 12;
+    private static readonly DEFAULT_HEIGHT: number = 8;
+    private static readonly DEFAULT_SPEED: number = 3;
 
     private readonly _subscription: Subscription = new Subscription();
 
@@ -71,20 +71,25 @@ export class SnakeControlComponent implements OnInit, OnDestroy {
         this._subscription.unsubscribe();
     }
 
-    get playable(): boolean {
-        return this._gameStatus === GameStatus.PAUSED || (this._gameStatus === GameStatus.NEW && this.snakeControlForm.valid);
-    }
-
-    get pausable(): boolean {
-        return this._gameStatus === GameStatus.RUNNING;
+    get isPlayable(): boolean {
+        return this._gameStatus === GameStatus.PAUSED
+            || (this._gameStatus === GameStatus.NEW && this.snakeControlForm.valid);
     }
 
     play(): void {
         this._updateGameStatus(GameStatus.RUNNING);
     }
 
+    get isPausable(): boolean {
+        return this._gameStatus === GameStatus.RUNNING;
+    }
+
     pause(): void {
         this._updateGameStatus(GameStatus.PAUSED);
+    }
+
+    get isResettable(): boolean {
+        return this._gameStatus !== GameStatus.NEW;
     }
 
     reset(): void {

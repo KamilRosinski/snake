@@ -7,6 +7,6 @@ export const sendMessage = createAction('[messages] Send new message', props<{ p
 
 export const clearMessages = createAction('[messages] Clear all messages');
 
-export const updateGameStatus = createAction('[game] update state', props<{ payload: GameStatus }>());
+export const updateGameStatus = createAction('[game] Update state', props<{ payload: GameStatus }>());
 
-export const updateGameControl = createAction('[game] update control', props<{ payload: SnakeControlData }>());
+export const updateGameControl = createAction('[game] Update control', props<{ payload: SnakeControlData }>());

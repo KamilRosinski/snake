@@ -4,7 +4,6 @@ import {Message} from '../../messages/message';
 import * as SnakeActions from '../actions/snake.actions';
 import {createEntityAdapter, EntityAdapter} from '@ngrx/entity';
 import {GameStatus} from '../../snake/shared/game-status';
-import {Dimensions} from '../../snake/shared/dimensions';
 import {SnakeControlData} from '../../snake/control/model/snake-control-data';
 
 export const messagesAdapter: EntityAdapter<Message> = createEntityAdapter<Message>({
@@ -16,10 +15,7 @@ const initialState: AppState = {
     messages: messagesAdapter.getInitialState(),
     game: {
         status: GameStatus.NEW,
-        control: {
-            snakeSpeed: null,
-            boardDimensions: null
-        }
+        control: null
     }
 };
 
@@ -37,7 +33,7 @@ const reducer = createReducer(
             messages: messagesAdapter.removeAll(state.messages)
         };
     }),
-    on(SnakeActions.updateGameStatus, (state: AppState, action: {payload: GameStatus}) => {
+    on(SnakeActions.updateGameStatus, (state: AppState, action: { payload: GameStatus }) => {
         return {
             ...state,
             game: {
@@ -46,7 +42,7 @@ const reducer = createReducer(
             }
         };
     }),
-    on(SnakeActions.updateGameControl, (state: AppState, action: {payload: SnakeControlData}) => {
+    on(SnakeActions.updateGameControl, (state: AppState, action: { payload: SnakeControlData }) => {
         return {
             ...state,
             game: {

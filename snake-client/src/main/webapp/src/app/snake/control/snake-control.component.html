@@ -1,8 +1,8 @@
 <form [formGroup]="snakeControlForm">
     <div class="ctrl-btns">
-        <button class=" btn" type="button" (click)="play()" [disabled]="!playable"><i class="material-icons">play_arrow</i></button>
-        <button class="btn" type="button" (click)="pause()" [disabled]="!pausable"><i class="material-icons">pause</i></button>
-        <button class="btn" type="button" (click)="reset()"><i class="material-icons">stop</i></button>
+        <button class=" btn" type="button" (click)="play()" [disabled]="!isPlayable"><i class="material-icons">play_arrow</i></button>
+        <button class="btn" type="button" (click)="pause()" [disabled]="!isPausable"><i class="material-icons">pause</i></button>
+        <button class="btn" type="button" (click)="reset()" [disabled]="!isResettable"><i class="material-icons">stop</i></button>
     </div>
     <fieldset formGroupName="board">
         <legend>Board</legend>
