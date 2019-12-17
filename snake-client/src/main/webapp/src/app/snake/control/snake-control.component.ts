@@ -15,6 +15,9 @@ import {selectGameStatus} from '../../store/selectors/snake.selectors';
 export class SnakeControlComponent implements OnInit, OnDestroy {
 
     private static readonly POSITIVE_INT_VALIDATORS: Validators[] = [Validators.required, Validators.pattern('^[1-9][0-9]*$')];
+    private static readonly DEFAULT_WIDTH: number = 15;
+    private static readonly DEFAULT_HEIGHT: number = 15;
+    private static readonly DEFAULT_SPEED: number = 15;
 
     private readonly _subscription: Subscription = new Subscription();
 
@@ -29,11 +32,11 @@ export class SnakeControlComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.snakeControlForm = this._formBuilder.group({
             board: this._formBuilder.group({
-                width: [15, SnakeControlComponent.POSITIVE_INT_VALIDATORS],
-                height: [10, SnakeControlComponent.POSITIVE_INT_VALIDATORS]
+                width: [SnakeControlComponent.DEFAULT_WIDTH, SnakeControlComponent.POSITIVE_INT_VALIDATORS],
+                height: [SnakeControlComponent.DEFAULT_HEIGHT, SnakeControlComponent.POSITIVE_INT_VALIDATORS]
             }),
             snake: this._formBuilder.group({
-                speed: [3, SnakeControlComponent.POSITIVE_INT_VALIDATORS]
+                speed: [SnakeControlComponent.DEFAULT_SPEED, SnakeControlComponent.POSITIVE_INT_VALIDATORS]
             })
         });
         this._updateGameControl(this.snakeControlForm.value);
