@@ -9,6 +9,9 @@ form{
     justify-content: space-between;
     margin: 0 0.2rem 0.2rem 0;
 
+    .btn:not(:last-child) {
+      margin-bottom: 0.2rem;
+    }
   }
 
   fieldset {

@@ -15,8 +15,15 @@
 
   svg {
     max-height: 50vh;
-    border: 1px solid $main-green;
-    border-radius: 0.3rem;
+
+    .checker {
+      &-light {
+        fill: $dark-grey;
+      }
+      &-dark {
+        fill: $darker-grey;
+      }
+    }
 
     .tail {
       stroke: $main-green;

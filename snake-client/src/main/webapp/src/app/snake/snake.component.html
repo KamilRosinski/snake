@@ -6,8 +6,17 @@
         </div>
         <div>Score: {{score}}</div>
     </div>
-    <div id="snake-box" class="inner-box" (swipe)="swipe($event)">
+    <div id="snake-box" (swipe)="swipe($event)">
         <svg [attr.viewBox]="boardDimensions | dimensionsFormatter">
+            <defs>
+                <pattern id="checkerboard" x="-0.5" y="-0.5" width="2" height="2" patternUnits="userSpaceOnUse">
+                    <rect class="checker-dark" x="0" y="1" width="1" height="1"></rect>
+                    <rect class="checker-dark" x="1" y="0" width="1" height="1"></rect>
+                    <rect class="checker-light" x="0" y="0" width="1" height="1"></rect>
+                    <rect class="checker-light" x="1" y="1" width="1" height="1"></rect>
+                </pattern>
+            </defs>
+            <rect id="playground" x="-0.5" y="-0.5" width="100%" height="100%" fill="url(#checkerboard)"></rect>
             <g *ngIf="isSnake">
                 <polyline class="tail" [attr.points]="snakeCoordinates | snakeFormatter"/>
                 <circle class="head" r="0.4" [attr.cx]="headCoordinates.x" [attr.cy]="headCoordinates.y"/>
