@@ -172,4 +172,8 @@ export class SnakeComponent implements OnInit, OnDestroy {
         return !!this._snake;
     }
 
+    get gameFinished(): boolean {
+        return this._gameStatus === GameStatus.FINISHED;
+    }
+
 }

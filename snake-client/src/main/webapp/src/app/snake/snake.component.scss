@@ -41,6 +41,16 @@
       fill: $red;
     }
 
+    .game-over {
+      opacity: 0.3;
+    }
+
+    .label-game-over {
+      font-size: 0.1rem;
+      font-weight: bold;
+      fill: $red;
+    }
+
   }
 
 }
