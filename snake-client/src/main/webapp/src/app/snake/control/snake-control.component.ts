@@ -6,6 +6,7 @@ import {Store} from '@ngrx/store';
 import {AppState} from '../../store/state/app.state';
 import {updateGameControl, updateGameStatus} from '../../store/actions/snake.actions';
 import {selectGameStatus} from '../../store/selectors/snake.selectors';
+import {distinctUntilChanged} from 'rxjs/operators';
 
 @Component({
     selector: 'app-snake-control',
@@ -48,9 +49,10 @@ export class SnakeControlComponent implements OnInit, OnDestroy {
                 this.snakeControlForm.disable();
             }
         }));
-        this._subscription.add(this.snakeControlForm.valueChanges.subscribe((value: any) => {
-            this._updateGameControl(value);
-        }));
+        this._subscription.add(this.snakeControlForm.valueChanges
+            // fix for: https://github.com/angular/angular/issues/12540
+            .pipe(distinctUntilChanged((v1: any, v2: any) => JSON.stringify(v1) === JSON.stringify(v2)))
+            .subscribe((value: any) => this._updateGameControl(value)));
     }
 
     private _updateGameControl(value: any) {
