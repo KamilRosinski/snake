@@ -8,10 +8,7 @@
 
 #snake-box {
 
-  p {
-    text-align: center;
-    padding: 5rem 0;
-  }
+  position: relative;
 
   svg {
     max-height: 50vh;
@@ -41,14 +38,26 @@
       fill: $red;
     }
 
-    .game-over {
+    .opacity3 {
       opacity: 0.3;
     }
 
-    .label-game-over {
-      font-size: 0.1rem;
+  }
+
+  .label-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+
+    .game-over {
+      font-size: 3rem;
       font-weight: bold;
-      fill: $red;
+    }
+
+    .score {
+      font-size: 2rem;
     }
 
   }
