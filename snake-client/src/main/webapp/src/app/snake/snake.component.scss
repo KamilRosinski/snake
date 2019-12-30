@@ -11,6 +11,8 @@
   position: relative;
 
   svg {
+    display: block;
+    margin: auto;
     max-height: 50vh;
 
     .checker {
