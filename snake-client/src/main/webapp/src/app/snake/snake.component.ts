@@ -42,8 +42,7 @@ export class SnakeComponent implements OnInit, OnDestroy {
     private _intervalSubscription: Subscription;
     private _boardDimensions: Dimensions;
     private _snakeSpeed: number;
-
-    private score: number;
+    private _score: number;
 
     constructor(private readonly _store: Store<AppState>) {
     }
@@ -113,7 +112,7 @@ export class SnakeComponent implements OnInit, OnDestroy {
                     this._sendMessage(`Turned ${Direction[moveResult.moveDirection]} at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
                 }
                 if (moveResult.foodEaten) {
-                    ++this.score;
+                    ++this._score;
                     this._sendMessage(`Food eaten at position (${moveResult.newHead.y}, ${moveResult.newHead.x}), new score: ${this.score}.`)
                 }
         }
@@ -133,7 +132,7 @@ export class SnakeComponent implements OnInit, OnDestroy {
             this._intervalSubscription.unsubscribe();
         }
         this._snake = null;
-        this.score = 0;
+        this._score = 0;
         this._sendMessage('New game.');
     }
 
@@ -174,6 +173,10 @@ export class SnakeComponent implements OnInit, OnDestroy {
 
     get gameFinished(): boolean {
         return this._gameStatus === GameStatus.FINISHED;
+    }
+
+    get score(): number {
+        return this._score;
     }
 
 }
