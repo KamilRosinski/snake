@@ -4,6 +4,11 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+
+  #energy {
+    display: flex;
+    align-items: center;
+  }
 }
 
 #snake-box {

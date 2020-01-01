@@ -1,0 +1,25 @@
+@import "../../variables";
+
+#background, #bar {
+  border-radius: 0.25rem;
+}
+
+#background {
+  height: 1.2rem;
+  min-width: 6rem;
+  margin: 0.2rem 0 0.2rem 0.2rem;
+  background-color: $darker-grey;
+
+  #bar {
+    height: 100%;
+  }
+
+  .warning {
+    background-color: $red;
+  }
+
+  .info {
+    background-color: $main-green;
+  }
+
+}

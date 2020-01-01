@@ -189,4 +189,8 @@ export class SnakeComponent implements OnInit, OnDestroy {
         return this._snake.energy;
     }
 
+    get initialSnakeEnergy(): number {
+        return this._initialSnakeEnergy;
+    }
+
 }

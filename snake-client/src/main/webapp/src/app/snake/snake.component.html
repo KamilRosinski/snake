@@ -4,9 +4,9 @@
         <div>
             <app-snake-control></app-snake-control>
         </div>
-        <div *ngIf="isSnake">
-            <p>Score: {{score}}</p>
-            <p>Energy: {{snakeEnergy}}</p>
+        <div id="game-info" *ngIf="isSnake">
+            <div id="score">Score: {{score}}</div>
+            <div id="energy">Energy: <app-progress-bar [value]="snakeEnergy / initialSnakeEnergy"></app-progress-bar></div>
         </div>
     </div>
     <div id="snake-box" (swipe)="swipe($event)">

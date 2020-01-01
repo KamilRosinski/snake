@@ -14,6 +14,7 @@ import {appReducer} from './store/reducers/snake-reducer';
 import {ReverseOrderPipe} from './messages/pipe/reverse-order.pipe';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
+import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 
 export class HammerConfig extends HammerGestureConfig {
     overrides = {
@@ -29,7 +30,8 @@ export class HammerConfig extends HammerGestureConfig {
         SnakeFormatterPipe,
         DimensionsFormatterPipe,
         SnakeControlComponent,
-        ReverseOrderPipe
+        ReverseOrderPipe,
+        ProgressBarComponent
     ],
     imports: [
         BrowserModule,
