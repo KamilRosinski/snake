@@ -1,7 +1,6 @@
 import {Message} from '../../messages/message';
 import {EntityState} from '@ngrx/entity';
 import {GameStatus} from '../../snake/shared/game-status';
-import {Dimensions} from '../../snake/shared/dimensions';
 import {SnakeControlData} from '../../snake/control/model/snake-control-data';
 
 export interface MessagesState extends EntityState<Message> {
