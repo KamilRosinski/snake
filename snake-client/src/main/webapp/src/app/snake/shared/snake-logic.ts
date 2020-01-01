@@ -1,9 +1,9 @@
-import {Coordinates} from "./coordinates";
-import {Direction} from "./direction";
-import {Dimensions} from "./dimensions";
-import {SnakeModel} from "./snake-model";
-import {MoveResult} from "./move-result";
-import {SnakeStatus} from "./snake-status";
+import {Coordinates} from './coordinates';
+import {Direction} from './direction';
+import {Dimensions} from './dimensions';
+import {SnakeModel} from './snake-model';
+import {MoveResult} from './move-result';
+import {SnakeStatus} from './snake-status';
 
 export class SnakeLogic {
 
@@ -19,9 +19,14 @@ export class SnakeLogic {
     private _lastMoveDirection: Direction;
     private _nextMoveDirection: Direction;
     private _snake: Coordinates[];
+    private _energy: number;
 
-    constructor(private readonly _boardDimensions: Dimensions, initialDirection: Direction = Direction.EAST) {
-        this._model = new SnakeModel(_boardDimensions);
+    constructor(private readonly _boardDimensions: Dimensions,
+                private readonly _initialEnergy: number,
+                initialDirection: Direction = Direction.EAST) {
+
+        this._model = new SnakeModel(this._boardDimensions);
+        this._energy = this._initialEnergy;
         this._lastMoveDirection = initialDirection;
         this._nextMoveDirection = initialDirection;
 
@@ -64,8 +69,13 @@ export class SnakeLogic {
             } else {
                 if (foodEaten) {
                     this._model.updateFoodField(this._model.hasEmptyFields() ? this._model.popRandomEmptyField() : null);
+                    this._energy = this._initialEnergy;
                 } else {
                     this._model.popEmptyField(newHead);
+                    --this._energy;
+                    if (this.energy <= 0) {
+                        status = SnakeStatus.STARVATION;
+                    }
                 }
                 this._model.pushSnake(newHead);
                 this._lastMoveDirection = this._nextMoveDirection;
@@ -94,6 +104,10 @@ export class SnakeLogic {
 
     get snake(): Coordinates[] {
         return this._snake;
+    }
+
+    get energy(): number {
+        return this._energy;
     }
 
 }

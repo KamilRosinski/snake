@@ -43,6 +43,7 @@ export class SnakeComponent implements OnInit, OnDestroy {
     private _boardDimensions: Dimensions;
     private _snakeSpeed: number;
     private _score: number;
+    private _initialSnakeEnergy: number;
 
     constructor(private readonly _store: Store<AppState>) {
     }
@@ -56,6 +57,7 @@ export class SnakeComponent implements OnInit, OnDestroy {
             if (gameControl) {
                 this._snakeSpeed = gameControl.snakeSpeed;
                 this._boardDimensions = gameControl.boardDimensions;
+                this._initialSnakeEnergy = gameControl.snakeEnergy;
             }
         }));
     }
@@ -83,7 +85,7 @@ export class SnakeComponent implements OnInit, OnDestroy {
 
     private _play(): void {
         if (!this._snake) {
-            this._snake = new SnakeLogic(this.boardDimensions);
+            this._snake = new SnakeLogic(this.boardDimensions, this._initialSnakeEnergy);
         }
         this._interval = interval(1000 / this._snakeSpeed);
         this._intervalSubscription = this._interval.subscribe((value: number) => this.move());
@@ -107,6 +109,10 @@ export class SnakeComponent implements OnInit, OnDestroy {
                 this._intervalSubscription.unsubscribe();
                 this._sendMessage(`Game ended: snake crashed into its tail at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
                 break;
+            case SnakeStatus.STARVATION:
+                this._updateGameStatus(GameStatus.FINISHED);
+                this._intervalSubscription.unsubscribe();
+                this._sendMessage(`Game ended: snake ran out of energy at position (${moveResult.newHead.y}, ${moveResult.newHead.x}).`);
             default:
                 if (moveResult.directionChanged) {
                     this._sendMessage(`Turned ${Direction[moveResult.moveDirection]} at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
@@ -177,6 +183,10 @@ export class SnakeComponent implements OnInit, OnDestroy {
 
     get score(): number {
         return this._score;
+    }
+
+    get snakeEnergy(): number {
+        return this._snake.energy;
     }
 
 }

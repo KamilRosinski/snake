@@ -4,7 +4,10 @@
         <div>
             <app-snake-control></app-snake-control>
         </div>
-        <div>Score: {{score}}</div>
+        <div *ngIf="isSnake">
+            <p>Score: {{score}}</p>
+            <p>Energy: {{snakeEnergy}}</p>
+        </div>
     </div>
     <div id="snake-box" (swipe)="swipe($event)">
         <svg [attr.viewBox]="boardDimensions | dimensionsFormatter">

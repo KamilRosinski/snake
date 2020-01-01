@@ -19,6 +19,7 @@ export class SnakeControlComponent implements OnInit, OnDestroy {
     private static readonly DEFAULT_WIDTH: number = 12;
     private static readonly DEFAULT_HEIGHT: number = 8;
     private static readonly DEFAULT_SPEED: number = 3;
+    private static readonly DEFAULT_ENERGY: number = 50;
 
     private readonly _subscription: Subscription = new Subscription();
 
@@ -37,7 +38,8 @@ export class SnakeControlComponent implements OnInit, OnDestroy {
                 height: [SnakeControlComponent.DEFAULT_HEIGHT, SnakeControlComponent.POSITIVE_INT_VALIDATORS]
             }),
             snake: this._formBuilder.group({
-                speed: [SnakeControlComponent.DEFAULT_SPEED, SnakeControlComponent.POSITIVE_INT_VALIDATORS]
+                speed: [SnakeControlComponent.DEFAULT_SPEED, SnakeControlComponent.POSITIVE_INT_VALIDATORS],
+                energy: [SnakeControlComponent.DEFAULT_ENERGY, SnakeControlComponent.POSITIVE_INT_VALIDATORS]
             })
         });
         this._updateGameControl(this.snakeControlForm.value);
@@ -63,7 +65,8 @@ export class SnakeControlComponent implements OnInit, OnDestroy {
                         numberOfColumns: value.board.width,
                         numberOfRows: value.board.height
                     },
-                    snakeSpeed: value.snake.speed
+                    snakeSpeed: value.snake.speed,
+                    snakeEnergy: value.snake.energy
                 }
             }));
         }
