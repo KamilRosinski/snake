@@ -7,7 +7,7 @@ import {SnakeStatus} from './snake-status';
 
 export class SnakeLogic {
 
-    private static readonly MOVE_VECTORS: Map<Direction, Coordinates> = new Map<Direction, Coordinates>([
+    private static readonly TRANSLATION_VECTORS: Map<Direction, Coordinates> = new Map<Direction, Coordinates>([
         [Direction.NORTH, new Coordinates(0, -1)],
         [Direction.EAST, new Coordinates(1, 0)],
         [Direction.SOUTH, new Coordinates(0, 1)],
@@ -49,7 +49,7 @@ export class SnakeLogic {
     move(): MoveResult {
         const directionChanged = this._lastMoveDirection != this._nextMoveDirection;
         const oldHead: Coordinates = this._model.head;
-        const newHead: Coordinates = oldHead.add(SnakeLogic.MOVE_VECTORS.get(this._nextMoveDirection));
+        const newHead: Coordinates = oldHead.add(SnakeLogic.TRANSLATION_VECTORS.get(this._nextMoveDirection));
         const moveDirection: Direction = this._nextMoveDirection;
         let foodEaten: boolean = false;
         let status: SnakeStatus = SnakeStatus.ALIVE;
