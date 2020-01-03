@@ -20,7 +20,7 @@ export class ProgressBarComponent {
     }
 
     get barClass(): string {
-        return this.value <= ProgressBarComponent.LOW_VALUE_THRESHOLD
+        return this._valuePercent <= ProgressBarComponent.LOW_VALUE_THRESHOLD
             ? 'warning'
             : 'info';
     }
