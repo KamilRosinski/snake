@@ -7,9 +7,17 @@ import {Component, Input} from '@angular/core';
 })
 export class ProgressBarComponent {
 
-    private static readonly LOW_VALUE_THRESHOLD: number = 0.25;
+    private static readonly LOW_VALUE_THRESHOLD: number = 25;
 
-    @Input() value: number;
+    private _valuePercent: number;
+
+    @Input() set value(value: number) {
+        this._valuePercent = value * 100;
+    }
+
+    get valuePercent(): number {
+        return this._valuePercent;
+    }
 
     get barClass(): string {
         return this.value <= ProgressBarComponent.LOW_VALUE_THRESHOLD
