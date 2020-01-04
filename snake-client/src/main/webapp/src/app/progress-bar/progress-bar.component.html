@@ -1,5 +1,10 @@
 <div id="background">
-    <div id="bar"
-         [style.width.%]="valuePercent"
-         [ngClass]="barClass"></div>
+    <div class="bar positive"
+         [style.width.%]="valuePercent">
+        <div class="label">{{valuePercent | number: '1.0-0'}}%</div>
+    </div>
+    <div class="bar negative"
+         [style.width.%]="100 - valuePercent">
+        <div class="label">{{valuePercent | number: '1.0-0'}}%</div>
+    </div>
 </div>
