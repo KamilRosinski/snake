@@ -14,13 +14,18 @@ import {appReducer} from './store/reducers/snake-reducer';
 import {ReverseOrderPipe} from './messages/pipe/reverse-order.pipe';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
-import { ProgressBarComponent } from './progress-bar/progress-bar.component';
+import {ProgressBarComponent} from './progress-bar/progress-bar.component';
+import {RouterModule, Routes} from '@angular/router';
 
 export class HammerConfig extends HammerGestureConfig {
     overrides = {
         'swipe': {direction: Hammer.DIRECTION_ALL}
     };
 }
+
+const appRoutes: Routes = [
+
+];
 
 @NgModule({
     declarations: [
@@ -37,6 +42,7 @@ export class HammerConfig extends HammerGestureConfig {
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
+        RouterModule.forRoot(appRoutes),
         StoreModule.forRoot({app: appReducer}, {
             runtimeChecks: {
                 strictStateImmutability: true,
