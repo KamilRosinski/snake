@@ -15,7 +15,14 @@ const initialState: AppState = {
     messages: messagesAdapter.getInitialState(),
     game: {
         status: GameStatus.NEW,
-        control: null
+        control: {
+            snakeEnergy: 25,
+            snakeSpeed: 3,
+            boardDimensions: {
+                numberOfRows: 8,
+                numberOfColumns: 12
+            }
+        }
     }
 };
 

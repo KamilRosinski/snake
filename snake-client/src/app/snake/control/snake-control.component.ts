@@ -5,8 +5,9 @@ import {GameStatus} from '../shared/game-status';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../store/state/app.state';
 import {updateGameControl, updateGameStatus} from '../../store/actions/snake.actions';
-import {selectGameStatus} from '../../store/selectors/snake.selectors';
+import {selectGameControl, selectGameStatus} from '../../store/selectors/snake.selectors';
 import {distinctUntilChanged} from 'rxjs/operators';
+import {SnakeControlData} from './model/snake-control-data';
 
 @Component({
     selector: 'app-snake-control',
@@ -16,10 +17,6 @@ import {distinctUntilChanged} from 'rxjs/operators';
 export class SnakeControlComponent implements OnInit, OnDestroy {
 
     private static readonly POSITIVE_INT_VALIDATORS: Validators[] = [Validators.required, Validators.pattern('^[1-9][0-9]*$')];
-    private static readonly DEFAULT_WIDTH: number = 12;
-    private static readonly DEFAULT_HEIGHT: number = 8;
-    private static readonly DEFAULT_SPEED: number = 3;
-    private static readonly DEFAULT_ENERGY: number = 25;
 
     private readonly _subscription: Subscription = new Subscription();
 
@@ -34,15 +31,14 @@ export class SnakeControlComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.snakeControlForm = this._formBuilder.group({
             board: this._formBuilder.group({
-                width: [SnakeControlComponent.DEFAULT_WIDTH, SnakeControlComponent.POSITIVE_INT_VALIDATORS],
-                height: [SnakeControlComponent.DEFAULT_HEIGHT, SnakeControlComponent.POSITIVE_INT_VALIDATORS]
+                width: [SnakeControlComponent.POSITIVE_INT_VALIDATORS],
+                height: [SnakeControlComponent.POSITIVE_INT_VALIDATORS]
             }),
             snake: this._formBuilder.group({
-                speed: [SnakeControlComponent.DEFAULT_SPEED, SnakeControlComponent.POSITIVE_INT_VALIDATORS],
-                energy: [SnakeControlComponent.DEFAULT_ENERGY, SnakeControlComponent.POSITIVE_INT_VALIDATORS]
+                speed: [SnakeControlComponent.POSITIVE_INT_VALIDATORS],
+                energy: [SnakeControlComponent.POSITIVE_INT_VALIDATORS]
             })
         });
-        this._updateGameControl(this.snakeControlForm.value);
         this._subscription.add(this._store.select(selectGameStatus).subscribe((gameStatus: GameStatus) => {
             this._gameStatus = gameStatus;
             if (this._gameStatus === GameStatus.NEW) {
@@ -51,25 +47,35 @@ export class SnakeControlComponent implements OnInit, OnDestroy {
                 this.snakeControlForm.disable();
             }
         }));
+        this._subscription.add(this._store.select(selectGameControl).subscribe((gameControl: SnakeControlData) => {
+            this.snakeControlForm.setValue({
+                board: {
+                    height: gameControl.boardDimensions.numberOfRows,
+                    width: gameControl.boardDimensions.numberOfColumns
+                },
+                snake: {
+                    speed: gameControl.snakeSpeed,
+                    energy: gameControl.snakeEnergy
+                }
+            });
+        }));
         this._subscription.add(this.snakeControlForm.valueChanges
             // fix for: https://github.com/angular/angular/issues/12540
             .pipe(distinctUntilChanged((v1: any, v2: any) => JSON.stringify(v1) === JSON.stringify(v2)))
-            .subscribe((value: any) => this._updateGameControl(value)));
-    }
-
-    private _updateGameControl(value: any) {
-        if (this.snakeControlForm.valid) {
-            this._store.dispatch(updateGameControl({
-                payload: {
-                    boardDimensions: {
-                        numberOfColumns: value.board.width,
-                        numberOfRows: value.board.height
-                    },
-                    snakeSpeed: value.snake.speed,
-                    snakeEnergy: value.snake.energy
+            .subscribe((value: any) => {
+                if (this.snakeControlForm.valid) {
+                    this._store.dispatch(updateGameControl({
+                        payload: {
+                            boardDimensions: {
+                                numberOfColumns: value.board.width,
+                                numberOfRows: value.board.height
+                            },
+                            snakeSpeed: value.snake.speed,
+                            snakeEnergy: value.snake.energy
+                        }
+                    }));
                 }
             }));
-        }
     }
 
     ngOnDestroy(): void {
