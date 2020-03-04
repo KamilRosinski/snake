@@ -1,5 +1,7 @@
 FROM maven:3.6.0-jdk-11-slim AS build
 WORKDIR /usr/app
+COPY pom.xml .
+RUN mvn dependency:go-offline
 COPY . .
 RUN mvn package
 

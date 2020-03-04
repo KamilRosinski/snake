@@ -1,7 +1,9 @@
 FROM node:lts AS build
 WORKDIR /usr/app
+COPY package.json .
+RUN npm install
 COPY . .
-RUN npm install && npm run build
+RUN npm run build
 
 FROM nginx:stable
 WORKDIR /usr/share/nginx/html
