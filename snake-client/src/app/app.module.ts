@@ -15,6 +15,7 @@ import {ReverseOrderPipe} from './messages/pipe/reverse-order.pipe';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {ProgressBarComponent} from './progress-bar/progress-bar.component';
+import {AppRoutingModule} from './app-routing.module';
 
 export class HammerConfig extends HammerGestureConfig {
     overrides = {
@@ -46,7 +47,8 @@ export class HammerConfig extends HammerGestureConfig {
         StoreDevtoolsModule.instrument({
             maxAge: 25,
             logOnly: environment.production
-        })
+        }),
+        AppRoutingModule
     ],
     providers: [
         {
