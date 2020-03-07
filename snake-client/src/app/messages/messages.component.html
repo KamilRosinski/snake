@@ -10,7 +10,7 @@
             <table>
                 <tbody>
                     <tr *ngFor="let message of messages | reverseOrder: isSortedAscending()">
-                        <td>{{message.timestamp | date: 'HH:mm:ss.SSS'}}</td>
+                        <td>{{message.timestamp}}</td>
                         <td>{{message.body}}</td>
                     </tr>
                 </tbody>

@@ -41,7 +41,9 @@ export class HammerConfig extends HammerGestureConfig {
         StoreModule.forRoot({app: appReducer}, {
             runtimeChecks: {
                 strictStateImmutability: true,
-                strictActionImmutability: true
+                strictStateSerializability: true,
+                strictActionImmutability: true,
+                strictActionSerializability: true
             }
         }),
         StoreDevtoolsModule.instrument({

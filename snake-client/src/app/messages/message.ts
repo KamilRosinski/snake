@@ -1,4 +1,4 @@
-class MessageIdGenerator {
+export class MessageIdGenerator {
 
     private static CURRENT_ID: number = 0;
 
@@ -8,14 +8,10 @@ class MessageIdGenerator {
 
 }
 
-export class Message {
+export interface Message {
 
-    readonly timestamp: Date;
-    readonly id: number;
-
-    constructor(public readonly body: string) {
-        this.timestamp = new Date();
-        this.id = MessageIdGenerator.generateId();
-    }
+    body: string;
+    timestamp: number;
+    id: number;
 
 }

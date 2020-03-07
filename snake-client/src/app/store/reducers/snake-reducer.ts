@@ -7,7 +7,7 @@ import {GameStatus} from '../../snake/shared/game-status';
 import {SnakeControlData} from '../../snake/control/model/snake-control-data';
 
 export const messagesAdapter: EntityAdapter<Message> = createEntityAdapter<Message>({
-    sortComparer: (m1: Message, m2: Message) => m2.timestamp.getTime() - m1.timestamp.getTime(),
+    sortComparer: (m1: Message, m2: Message) => m2.timestamp - m1.timestamp,
     selectId: (m: Message) => m.id
 });
 

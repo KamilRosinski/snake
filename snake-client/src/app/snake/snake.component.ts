@@ -12,7 +12,7 @@ import {Dimensions} from './shared/dimensions';
 import {Store} from '@ngrx/store';
 import {AppState} from '../store/state/app.state';
 import {sendMessage, updateGameStatus} from '../store/actions/snake.actions';
-import {Message} from '../messages/message';
+import {MessageIdGenerator} from '../messages/message';
 import {selectGameControl, selectGameStatus} from '../store/selectors/snake.selectors';
 import {SnakeControlData} from './control/model/snake-control-data';
 
@@ -93,7 +93,13 @@ export class SnakeComponent implements OnInit, OnDestroy {
     }
 
     private _sendMessage(body: string): void {
-        this._store.dispatch(sendMessage({payload: new Message(body)}));
+        this._store.dispatch(sendMessage({
+            payload: {
+                id: MessageIdGenerator.generateId(),
+                body,
+                timestamp: new Date().getTime()
+            }
+        }));
     }
 
     private move(): void {
