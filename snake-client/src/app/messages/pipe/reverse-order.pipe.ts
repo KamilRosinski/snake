@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {Message} from '../message';
+import {Message} from '../model/message.model';
 
 @Pipe({
     name: 'reverseOrder'

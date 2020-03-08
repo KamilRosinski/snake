@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {Message} from '../../messages/message';
+import {Message} from '../../messages/model/message.model';
 import {GameStatus} from '../../snake/shared/game-status';
 import {SnakeControlData} from '../../snake/control/model/snake-control-data';
 

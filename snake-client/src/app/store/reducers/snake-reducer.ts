@@ -1,18 +1,12 @@
 import {AppState} from '../state/app.state';
 import {Action, createReducer, on} from '@ngrx/store';
-import {Message} from '../../messages/message';
+import {Message} from '../../messages/model/message.model';
 import * as SnakeActions from '../actions/snake.actions';
-import {createEntityAdapter, EntityAdapter} from '@ngrx/entity';
 import {GameStatus} from '../../snake/shared/game-status';
 import {SnakeControlData} from '../../snake/control/model/snake-control-data';
 
-export const messagesAdapter: EntityAdapter<Message> = createEntityAdapter<Message>({
-    sortComparer: (m1: Message, m2: Message) => m2.timestamp - m1.timestamp,
-    selectId: (m: Message) => m.id
-});
-
 const initialState: AppState = {
-    messages: messagesAdapter.getInitialState(),
+    messages: [],
     game: {
         status: GameStatus.NEW,
         control: {
@@ -31,13 +25,13 @@ const reducer = createReducer(
     on(SnakeActions.sendMessage, (state: AppState, action: { payload: Message }) => {
         return {
             ...state,
-            messages: messagesAdapter.addOne(action.payload, state.messages)
+            messages: [...state.messages, action.payload]
         };
     }),
     on(SnakeActions.clearMessages, (state: AppState) => {
         return {
             ...state,
-            messages: messagesAdapter.removeAll(state.messages)
+            messages: []
         };
     }),
     on(SnakeActions.updateGameStatus, (state: AppState, action: { payload: GameStatus }) => {

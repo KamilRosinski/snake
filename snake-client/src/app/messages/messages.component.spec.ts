@@ -1,10 +1,10 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {MessagesComponent} from './messages.component';
-import {SortOrder} from "./sort-order";
+import {SortOrder} from "./model/sort-order";
 import {MessagingService} from "./service/messaging.service";
 import {Subject} from "rxjs";
-import {Message} from "./message";
+import {Message} from "./model/message.model";
 
 describe('MessagesComponent', () => {
 
