@@ -16,6 +16,7 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {ProgressBarComponent} from './progress-bar/progress-bar.component';
 import {AppRoutingModule} from './app-routing.module';
+import { MainMenuComponent } from './main-menu/main-menu.component';
 
 export class HammerConfig extends HammerGestureConfig {
     overrides = {
@@ -32,7 +33,8 @@ export class HammerConfig extends HammerGestureConfig {
         DimensionsFormatterPipe,
         SnakeControlComponent,
         ReverseOrderPipe,
-        ProgressBarComponent
+        ProgressBarComponent,
+        MainMenuComponent
     ],
     imports: [
         BrowserModule,

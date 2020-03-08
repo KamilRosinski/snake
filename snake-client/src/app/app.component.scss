@@ -1,0 +1,30 @@
+@import "../variables";
+
+header {
+  display: flex;
+  align-items: center;
+  color: $main-grey;
+  background-color: $main-green;
+}
+
+#home-link {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.3rem;
+  margin-right: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  transition: 0.25s;
+
+  &:hover {
+    background-color: $dark-green;
+    transition: 0.25s;
+  }
+
+  .material-icons {
+    color: $main-grey;
+    font-size: 1.5rem;
+  }
+}
