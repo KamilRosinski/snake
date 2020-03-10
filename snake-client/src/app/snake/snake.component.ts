@@ -92,12 +92,7 @@ export class SnakeComponent implements OnInit, OnDestroy {
     }
 
     private _sendMessage(body: string): void {
-        this._store.dispatch(sendMessage({
-            payload: {
-                body,
-                timestamp: new Date().getTime()
-            }
-        }));
+        this._store.dispatch(sendMessage({payload: body}));
     }
 
     private move(): void {

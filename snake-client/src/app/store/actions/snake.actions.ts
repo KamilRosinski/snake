@@ -3,7 +3,9 @@ import {Message} from '../../messages/model/message.model';
 import {GameStatus} from '../../snake/shared/game-status';
 import {SnakeControlData} from '../../snake/control/model/snake-control-data';
 
-export const sendMessage = createAction('[messages] Send new message', props<{ payload: Message }>());
+export const sendMessage = createAction('[messages] Send new message', props<{ payload: string }>());
+
+export const sendMessageWithTimestamp = createAction('[messages] Send new message with timestamp', props<{ payload: Message }>());
 
 export const clearMessages = createAction('[messages] Clear all messages');
 

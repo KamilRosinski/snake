@@ -22,7 +22,7 @@ const initialState: AppState = {
 
 const reducer = createReducer(
     initialState,
-    on(SnakeActions.sendMessage, (state: AppState, action: { payload: Message }) => {
+    on(SnakeActions.sendMessageWithTimestamp, (state: AppState, action: { payload: Message }) => {
         return {
             ...state,
             messages: [...state.messages, action.payload]
