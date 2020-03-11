@@ -3,10 +3,10 @@ import {Message} from './model/message.model';
 import {SortOrder} from './model/sort-order';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {AppState} from '../store/state/app.state';
-import {selectAllMessages} from '../store/selectors/snake.selectors';
-import {clearMessages} from '../store/actions/snake.actions';
 import {map} from 'rxjs/operators';
+import {AppState} from '../store/app.state';
+import {selectAllMessages} from '../store/app.selectors';
+import {clearMessages} from '../store/app.actions';
 
 @Component({
     selector: 'app-messages',

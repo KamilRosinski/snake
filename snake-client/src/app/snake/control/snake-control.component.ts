@@ -3,11 +3,11 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {GameStatus} from '../shared/game-status';
 import {Store} from '@ngrx/store';
-import {AppState} from '../../store/state/app.state';
-import {updateGameControl, updateGameStatus} from '../../store/actions/snake.actions';
-import {selectGameControl, selectGameStatus} from '../../store/selectors/snake.selectors';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {SnakeControlData} from './model/snake-control-data';
+import {AppState} from '../../store/app.state';
+import {selectGameControl, selectGameStatus} from '../../store/app.selectors';
+import {updateGameControl, updateGameStatus} from '../../store/app.actions';
 
 @Component({
     selector: 'app-snake-control',

@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {sendMessage, sendMessageWithTimestamp} from '../actions/snake.actions';
 import {map} from 'rxjs/operators';
+import * as AppActions from './app.actions';
 
 @Injectable()
-export class SnakeEffects {
+export class AppEffects {
 
-    sendMessageWithTimestamp$ = createEffect(() => this.actions$.pipe(
-        ofType(sendMessage),
-        map(action => sendMessageWithTimestamp({payload: {
+    sendMessage$ = createEffect(() => this.actions$.pipe(
+        ofType(AppActions.sendMessage),
+        map(action => AppActions.sendMessageWithTimestamp({payload: {
             body: action.payload,
             timestamp: new Date().getTime()
         }}))

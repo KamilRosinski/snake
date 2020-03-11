@@ -1,7 +1,7 @@
 import {createAction, props} from '@ngrx/store';
-import {Message} from '../../messages/model/message.model';
-import {GameStatus} from '../../snake/shared/game-status';
-import {SnakeControlData} from '../../snake/control/model/snake-control-data';
+import {GameStatus} from '../snake/shared/game-status';
+import {Message} from '../messages/model/message.model';
+import {SnakeControlData} from '../snake/control/model/snake-control-data';
 
 export const sendMessage = createAction('[messages] Send new message', props<{ payload: string }>());
 

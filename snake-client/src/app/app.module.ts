@@ -10,7 +10,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DimensionsFormatterPipe} from './snake/pipe/dimensions-formatter.pipe';
 import {SnakeControlComponent} from './snake/control/snake-control.component';
 import {StoreModule} from '@ngrx/store';
-import {appReducer} from './store/reducers/snake.reducer';
 import {ReverseOrderPipe} from './messages/pipe/reverse-order.pipe';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
@@ -18,7 +17,8 @@ import {ProgressBarComponent} from './progress-bar/progress-bar.component';
 import {AppRoutingModule} from './app-routing.module';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { EffectsModule } from '@ngrx/effects';
-import {SnakeEffects} from './store/effects/snake.effects';
+import {AppEffects} from './store/app.effects';
+import {appReducer} from './store/app.reducer';
 
 export class HammerConfig extends HammerGestureConfig {
     overrides = {
@@ -55,7 +55,7 @@ export class HammerConfig extends HammerGestureConfig {
             logOnly: environment.production
         }),
         AppRoutingModule,
-        EffectsModule.forRoot([SnakeEffects])
+        EffectsModule.forRoot([AppEffects])
     ],
     providers: [
         {

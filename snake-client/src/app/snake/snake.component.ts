@@ -10,10 +10,10 @@ import {SnakeStatus} from './shared/snake-status';
 import {SnakeLogic} from './shared/snake-logic';
 import {Dimensions} from './shared/dimensions';
 import {Store} from '@ngrx/store';
-import {AppState} from '../store/state/app.state';
-import {sendMessage, updateGameStatus} from '../store/actions/snake.actions';
-import {selectGameControl, selectGameStatus} from '../store/selectors/snake.selectors';
 import {SnakeControlData} from './control/model/snake-control-data';
+import {AppState} from '../store/app.state';
+import {selectGameControl, selectGameStatus} from '../store/app.selectors';
+import {sendMessage, updateGameStatus} from '../store/app.actions';
 
 @Component({
     selector: 'app-snake',
@@ -112,6 +112,7 @@ export class SnakeComponent implements OnInit, OnDestroy {
                 this._updateGameStatus(GameStatus.FINISHED);
                 this._intervalSubscription.unsubscribe();
                 this._sendMessage(`Game ended: snake ran out of energy at position (${moveResult.newHead.y}, ${moveResult.newHead.x}).`);
+                break;
             default:
                 if (moveResult.directionChanged) {
                     this._sendMessage(`Turned ${Direction[moveResult.moveDirection]} at position (${moveResult.oldHead.y}, ${moveResult.oldHead.x}).`);
