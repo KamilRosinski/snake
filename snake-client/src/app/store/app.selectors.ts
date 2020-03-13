@@ -7,4 +7,4 @@ export const selectAllMessages = createSelector(selectAppState, (state: AppState
 
 export const selectGameStatus = createSelector(selectAppState, (state: AppState) => state.game.status);
 
-export const selectGameControl = createSelector(selectAppState, (state: AppState) => state.game.control);
+export const selectGameControls = createSelector(selectAppState, (state: AppState) => state.game.controls);

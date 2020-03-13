@@ -10,10 +10,10 @@ import {SnakeStatus} from './shared/snake-status';
 import {SnakeLogic} from './shared/snake-logic';
 import {Dimensions} from './shared/dimensions';
 import {Store} from '@ngrx/store';
-import {SnakeControlData} from './control/model/snake-control-data';
+import {GameControls} from './control/model/game-controls';
 import {AppState} from '../store/app.state';
-import {selectGameControl, selectGameStatus} from '../store/app.selectors';
-import {sendMessage, updateGameStatus} from '../store/app.actions';
+import {selectGameControls, selectGameStatus} from '../store/app.selectors';
+import {addMessage, updateGameStatus} from '../store/app.actions';
 
 @Component({
     selector: 'app-snake',
@@ -52,11 +52,14 @@ export class SnakeComponent implements OnInit, OnDestroy {
             this._gameStatus = gameStatus;
             this._gameStatusChanged();
         }));
-        this._subscription.add(this._store.select(selectGameControl).subscribe((gameControl: SnakeControlData) => {
+        this._subscription.add(this._store.select(selectGameControls).subscribe((gameControl: GameControls) => {
             if (gameControl) {
-                this._snakeSpeed = gameControl.snakeSpeed;
-                this._boardDimensions = gameControl.boardDimensions;
-                this._initialSnakeEnergy = gameControl.snakeEnergy;
+                this._boardDimensions = {
+                    numberOfColumns: gameControl.board.width,
+                    numberOfRows: gameControl.board.height
+                };
+                this._snakeSpeed = gameControl.snake.speed;
+                this._initialSnakeEnergy = gameControl.snake.energy;
             }
         }));
     }
@@ -92,7 +95,7 @@ export class SnakeComponent implements OnInit, OnDestroy {
     }
 
     private _sendMessage(body: string): void {
-        this._store.dispatch(sendMessage({payload: body}));
+        this._store.dispatch(addMessage({payload: body}));
     }
 
     private move(): void {

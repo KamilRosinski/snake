@@ -7,8 +7,8 @@ import * as AppActions from './app.actions';
 export class AppEffects {
 
     sendMessage$ = createEffect(() => this.actions$.pipe(
-        ofType(AppActions.sendMessage),
-        map(action => AppActions.sendMessageWithTimestamp({payload: {
+        ofType(AppActions.addMessage),
+        map(action => AppActions.addMessageWithTimestamp({payload: {
             body: action.payload,
             timestamp: new Date().getTime()
         }}))

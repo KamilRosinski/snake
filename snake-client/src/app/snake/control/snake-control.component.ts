@@ -4,10 +4,10 @@ import {Subscription} from 'rxjs';
 import {GameStatus} from '../shared/game-status';
 import {Store} from '@ngrx/store';
 import {distinctUntilChanged} from 'rxjs/operators';
-import {SnakeControlData} from './model/snake-control-data';
+import {GameControls} from './model/game-controls';
 import {AppState} from '../../store/app.state';
-import {selectGameControl, selectGameStatus} from '../../store/app.selectors';
-import {updateGameControl, updateGameStatus} from '../../store/app.actions';
+import {selectGameControls, selectGameStatus} from '../../store/app.selectors';
+import {updateGameControls, updateGameStatus} from '../../store/app.actions';
 
 @Component({
     selector: 'app-snake-control',
@@ -47,33 +47,15 @@ export class SnakeControlComponent implements OnInit, OnDestroy {
                 this.snakeControlForm.disable();
             }
         }));
-        this._subscription.add(this._store.select(selectGameControl).subscribe((gameControl: SnakeControlData) => {
-            this.snakeControlForm.setValue({
-                board: {
-                    height: gameControl.boardDimensions.numberOfRows,
-                    width: gameControl.boardDimensions.numberOfColumns
-                },
-                snake: {
-                    speed: gameControl.snakeSpeed,
-                    energy: gameControl.snakeEnergy
-                }
-            });
+        this._subscription.add(this._store.select(selectGameControls).subscribe((gameControls: GameControls) => {
+            this.snakeControlForm.setValue(gameControls);
         }));
         this._subscription.add(this.snakeControlForm.valueChanges
             // fix for: https://github.com/angular/angular/issues/12540
             .pipe(distinctUntilChanged((v1: any, v2: any) => JSON.stringify(v1) === JSON.stringify(v2)))
-            .subscribe((value: any) => {
+            .subscribe((value: GameControls) => {
                 if (this.snakeControlForm.valid) {
-                    this._store.dispatch(updateGameControl({
-                        payload: {
-                            boardDimensions: {
-                                numberOfColumns: value.board.width,
-                                numberOfRows: value.board.height
-                            },
-                            snakeSpeed: value.snake.speed,
-                            snakeEnergy: value.snake.energy
-                        }
-                    }));
+                    this._store.dispatch(updateGameControls({payload: value}));
                 }
             }));
     }

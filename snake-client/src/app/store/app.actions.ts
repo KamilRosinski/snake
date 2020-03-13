@@ -1,14 +1,14 @@
 import {createAction, props} from '@ngrx/store';
 import {GameStatus} from '../snake/shared/game-status';
 import {Message} from '../messages/model/message.model';
-import {SnakeControlData} from '../snake/control/model/snake-control-data';
+import {GameControls} from '../snake/control/model/game-controls';
 
-export const sendMessage = createAction('[messages] Send new message', props<{ payload: string }>());
+export const addMessage = createAction('[messages] Add new message', props<{ payload: string }>());
 
-export const sendMessageWithTimestamp = createAction('[messages] Send new message with timestamp', props<{ payload: Message }>());
+export const addMessageWithTimestamp = createAction('[messages] Add new message with timestamp', props<{ payload: Message }>());
 
 export const clearMessages = createAction('[messages] Clear all messages');
 
 export const updateGameStatus = createAction('[game] Update state', props<{ payload: GameStatus }>());
 
-export const updateGameControl = createAction('[game] Update control', props<{ payload: SnakeControlData }>());
+export const updateGameControls = createAction('[game] Update control', props<{ payload: GameControls }>());

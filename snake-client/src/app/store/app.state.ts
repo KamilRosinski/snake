@@ -1,10 +1,10 @@
 import {GameStatus} from '../snake/shared/game-status';
-import {SnakeControlData} from '../snake/control/model/snake-control-data';
+import {GameControls} from '../snake/control/model/game-controls';
 import {Message} from '../messages/model/message.model';
 
 export interface GameState {
     status: GameStatus,
-    control: SnakeControlData
+    controls: GameControls
 }
 
 export interface AppState {

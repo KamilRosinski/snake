@@ -3,18 +3,20 @@ import * as AppActions from './app.actions';
 import {AppState} from './app.state';
 import {GameStatus} from '../snake/shared/game-status';
 import {Message} from '../messages/model/message.model';
-import {SnakeControlData} from '../snake/control/model/snake-control-data';
+import {GameControls} from '../snake/control/model/game-controls';
 
 const initialState: AppState = {
     messages: [],
     game: {
         status: GameStatus.NEW,
-        control: {
-            snakeEnergy: 25,
-            snakeSpeed: 3,
-            boardDimensions: {
-                numberOfRows: 8,
-                numberOfColumns: 12
+        controls: {
+            board: {
+                width: 12,
+                height: 8
+            },
+            snake: {
+                speed: 3,
+                energy: 25
             }
         }
     }
@@ -22,7 +24,7 @@ const initialState: AppState = {
 
 export const appReducer = createReducer(
     initialState,
-    on(AppActions.sendMessageWithTimestamp, (state: AppState, action: { payload: Message }) => {
+    on(AppActions.addMessageWithTimestamp, (state: AppState, action: { payload: Message }) => {
         return {
             ...state,
             messages: [...state.messages, action.payload]
@@ -43,12 +45,12 @@ export const appReducer = createReducer(
             }
         };
     }),
-    on(AppActions.updateGameControl, (state: AppState, action: { payload: SnakeControlData }) => {
+    on(AppActions.updateGameControls, (state: AppState, action: { payload: GameControls }) => {
         return {
             ...state,
             game: {
                 ...state.game,
-                control: action.payload
+                controls: action.payload
             }
         };
     })
