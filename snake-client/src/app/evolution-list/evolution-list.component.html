@@ -1,0 +1,5 @@
+<ul>
+    <li *ngFor="let evolution of evolutions$ | async">
+        EVO{{evolution.id | number: '3.0-0'}}<button>delete</button>
+    </li>
+</ul>
