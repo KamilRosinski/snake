@@ -1,13 +1,20 @@
-button {
-  visibility: hidden;
-  margin-left: 1rem;
-}
+table {
+  width: 100%;
 
-li {
-  padding: 0.25rem 0;
-  margin: 0 2rem;
+  tr {
+    padding: 0.25rem 0;
+    margin: 0 2rem;
 
-  &:hover button {
-    visibility: visible;
+    &:not(:hover) button {
+      visibility: hidden;
+    }
+
+    th {
+      text-align: left;
+    }
+
+    td:last-child {
+      text-align: right;
+    }
   }
 }

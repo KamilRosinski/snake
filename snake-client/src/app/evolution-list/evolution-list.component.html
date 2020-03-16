@@ -1,5 +1,18 @@
-<ul>
-    <li *ngFor="let evolution of evolutions$ | async">
-        EVO{{evolution.id | number: '3.0-0'}}<button>delete</button>
-    </li>
-</ul>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let evolution of evolutions$ | async">
+                <td>EVO{{evolution.id | number: '3.0-0'}}</td>
+                <td>score</td>
+                <td><button>delete</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <button>add new</button>
+</div>
