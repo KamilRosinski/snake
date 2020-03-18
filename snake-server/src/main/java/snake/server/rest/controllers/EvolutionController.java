@@ -1,6 +1,5 @@
 package snake.server.rest.controllers;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +13,6 @@ import java.util.List;
 
 @RestController()
 @RequestMapping("/api/evolution")
-@Slf4j
 public class EvolutionController {
 
 	@GetMapping("/all")
@@ -28,8 +26,8 @@ public class EvolutionController {
 	}
 
 	@DeleteMapping("/{evolutionId}")
-	public EvolutionDTO deleteEvolution(@PathVariable final long evolutionId) {
-		return new EvolutionDTO(evolutionId);
+	public long deleteEvolution(@PathVariable final long evolutionId) {
+		return evolutionId;
 	}
 
 }

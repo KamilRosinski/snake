@@ -7,7 +7,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let evolution of evolutions">
+            <tr *ngFor="let evolution of evolutions$ | async">
                 <td>EVO{{evolution.id | number: '3.0-0'}}</td>
                 <td>score</td>
                 <td><button (click)="delete(evolution.id)">delete</button></td>

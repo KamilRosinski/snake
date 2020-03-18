@@ -18,7 +18,7 @@ import {AppRoutingModule} from './app-routing.module';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { EffectsModule } from '@ngrx/effects';
 import {AppEffects} from './store/app.effects';
-import {appReducer} from './store/app.reducer';
+import {appReducers} from './store/app.reducers';
 import { EvolutionListComponent } from './evolution-list/evolution-list.component';
 import {HttpClientModule} from '@angular/common/http';
 
@@ -46,7 +46,7 @@ export class HammerConfig extends HammerGestureConfig {
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
-        StoreModule.forRoot({app: appReducer}, {
+        StoreModule.forRoot({app: appReducers}, {
             runtimeChecks: {
                 strictStateImmutability: true,
                 strictStateSerializability: true,

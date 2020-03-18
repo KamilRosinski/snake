@@ -21,8 +21,8 @@ export class EvolutionService {
         return this.http.post<Evolution>(EvolutionService.URL, null);
     }
 
-    deleteEvolution(evolutionId: number): Observable<Evolution> {
-        return this.http.delete<Evolution>(`${EvolutionService.URL}/${evolutionId}`);
+    deleteEvolution(evolutionId: number): Observable<number> {
+        return this.http.delete<number>(`${EvolutionService.URL}/${evolutionId}`);
     }
 
 }

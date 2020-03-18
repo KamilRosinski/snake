@@ -4,9 +4,14 @@ import {AppState} from './app.state';
 import {GameStatus} from '../snake/shared/game-status';
 import {Message} from '../messages/model/message.model';
 import {GameControls} from '../snake/control/model/game-controls';
+import {createEntityAdapter, EntityAdapter} from '@ngrx/entity';
+import {Evolution} from '../shared/evolution';
+
+const evolutionEntityAdapter: EntityAdapter<Evolution> = createEntityAdapter<Evolution>();
 
 const initialState: AppState = {
     messages: [],
+    evolutions: evolutionEntityAdapter.getInitialState(),
     game: {
         status: GameStatus.NEW,
         controls: {
@@ -22,7 +27,7 @@ const initialState: AppState = {
     }
 };
 
-export function appReducer(state: AppState, action: Action): AppState {
+export function appReducers(state: AppState, action: Action): AppState {
     return createReducer(
         initialState,
         on(AppActions.addMessageWithTimestamp, (state: AppState, action: { payload: Message }) => {
@@ -54,6 +59,20 @@ export function appReducer(state: AppState, action: Action): AppState {
                     controls: action.payload
                 }
             };
-        })
+        }),
+        on(AppActions.evolutionsLoaded, (state: AppState, action: {evolutions: Evolution[]}) => ({
+            ...state,
+            evolutions: evolutionEntityAdapter.addAll(action.evolutions, state.evolutions)
+        })),
+        on(AppActions.evolutionCreated, (state: AppState, action: {evolution: Evolution}) => ({
+            ...state,
+            evolutions: evolutionEntityAdapter.addOne(action.evolution, state.evolutions)
+        })),
+        on(AppActions.evolutionDeleted, (state: AppState, action: {evolutionId: number}) => ({
+            ...state,
+            evolutions: evolutionEntityAdapter.removeOne(action.evolutionId, state.evolutions)
+        }))
     )(state, action);
 }
+
+export const evolutionSelectors = evolutionEntityAdapter.getSelectors();

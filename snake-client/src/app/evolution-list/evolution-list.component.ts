@@ -1,6 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {EvolutionService} from '../services/evolution.service';
 import {Evolution} from '../shared/evolution';
+import {Store} from '@ngrx/store';
+import {AppState} from '../store/app.state';
+import {createEvolution, deleteEvolution, loadEvolutions} from '../store/app.actions';
+import {selectAllEvolutions} from '../store/app.selectors';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-evolution-list',
@@ -9,25 +13,22 @@ import {Evolution} from '../shared/evolution';
 })
 export class EvolutionListComponent implements OnInit {
 
-    evolutions: Evolution[] = [];
+    evolutions$: Observable<Evolution[]>;
 
-    constructor(private readonly evolutionService: EvolutionService) {
+    constructor(private readonly store: Store<AppState>) {
     }
 
     ngOnInit(): void {
-        this.evolutionService.getAllEvolutions()
-            .subscribe((evolutions: Evolution[]) => this.evolutions = evolutions);
+        this.store.dispatch(loadEvolutions());
+        this.evolutions$ = this.store.select(selectAllEvolutions);
     }
 
     delete(evolutionId: number): void {
-        this.evolutionService.deleteEvolution(evolutionId)
-            .subscribe((evolution: Evolution) => this.evolutions = this.evolutions
-                .filter((e: Evolution) => e.id !== evolution.id));
+        this.store.dispatch(deleteEvolution({evolutionId}))
     }
 
     create(): void {
-        this.evolutionService.createEvolution()
-            .subscribe((evolution: Evolution) => this.evolutions.push(evolution));
+        this.store.dispatch(createEvolution());
     }
 
 }
