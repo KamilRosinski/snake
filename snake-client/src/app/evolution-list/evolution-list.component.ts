@@ -1,22 +1,33 @@
 import {Component, OnInit} from '@angular/core';
 import {EvolutionService} from '../services/evolution.service';
-import {Observable} from 'rxjs';
 import {Evolution} from '../shared/evolution';
 
 @Component({
-  selector: 'app-evolution-list',
-  templateUrl: './evolution-list.component.html',
-  styleUrls: ['./evolution-list.component.scss']
+    selector: 'app-evolution-list',
+    templateUrl: './evolution-list.component.html',
+    styleUrls: ['./evolution-list.component.scss']
 })
 export class EvolutionListComponent implements OnInit {
 
-  evolutions$: Observable<Evolution[]>;
+    evolutions: Evolution[] = [];
 
-  constructor(private readonly _evolutionService: EvolutionService) {
-  }
+    constructor(private readonly evolutionService: EvolutionService) {
+    }
 
-  ngOnInit() {
-    this.evolutions$ = this._evolutionService.getAllEvolutions();
-  }
+    ngOnInit(): void {
+        this.evolutionService.getAllEvolutions()
+            .subscribe((evolutions: Evolution[]) => this.evolutions = evolutions);
+    }
+
+    delete(evolutionId: number): void {
+        this.evolutionService.deleteEvolution(evolutionId)
+            .subscribe((evolution: Evolution) => this.evolutions = this.evolutions
+                .filter((e: Evolution) => e.id !== evolution.id));
+    }
+
+    create(): void {
+        this.evolutionService.createEvolution()
+            .subscribe((evolution: Evolution) => this.evolutions.push(evolution));
+    }
 
 }

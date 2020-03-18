@@ -20,6 +20,7 @@ import { EffectsModule } from '@ngrx/effects';
 import {AppEffects} from './store/app.effects';
 import {appReducer} from './store/app.reducer';
 import { EvolutionListComponent } from './evolution-list/evolution-list.component';
+import {HttpClientModule} from '@angular/common/http';
 
 export class HammerConfig extends HammerGestureConfig {
     overrides = {
@@ -42,6 +43,7 @@ export class HammerConfig extends HammerGestureConfig {
     ],
     imports: [
         BrowserModule,
+        HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
         StoreModule.forRoot({app: appReducer}, {

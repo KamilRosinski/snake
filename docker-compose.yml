@@ -2,23 +2,23 @@ version: '3'
 
 services:
 
-  server:
+  snake-server:
     build: snake-server
     container_name: server
     ports:
       - 8080:8080
     networks:
-      - webapp-server-network
+      - webapp-server
 
-  webapp:
+  snake-webapp:
     build: snake-client
     container_name: webapp
     ports:
       - 4200:80
     depends_on:
-      - server
+      - snake-server
     networks:
-      - webapp-server-network
+      - webapp-server
 
 networks:
-  webapp-server-network:
+  webapp-server:
