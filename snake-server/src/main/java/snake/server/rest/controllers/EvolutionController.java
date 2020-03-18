@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 public class EvolutionController {
 
-	@GetMapping
+	@GetMapping("/all")
 	public List<EvolutionDTO> getEvolutions() {
 		return Arrays.asList(new EvolutionDTO(2), new EvolutionDTO(3), new EvolutionDTO(5));
 	}

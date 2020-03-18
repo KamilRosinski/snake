@@ -14,7 +14,7 @@ export class EvolutionService {
     }
 
     getAllEvolutions(): Observable<Evolution[]> {
-        return this.http.get<Evolution[]>(EvolutionService.URL);
+        return this.http.get<Evolution[]>(`${EvolutionService.URL}/all`);
     }
 
     createEvolution(): Observable<Evolution> {
