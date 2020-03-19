@@ -2,6 +2,7 @@ package snake.server.logic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import snake.server.persistance.EvolutionEntity;
 import snake.server.persistance.EvolutionRepository;
 import snake.server.rest.dto.EvolutionDTO;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class EvolutionService {
 
 	private final EvolutionRepository evolutionRepository;
