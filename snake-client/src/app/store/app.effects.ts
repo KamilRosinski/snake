@@ -3,7 +3,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {concatMap, map} from 'rxjs/operators';
 import * as AppActions from './app.actions';
 import {EvolutionService} from '../services/evolution.service';
-import {Evolution} from '../shared/evolution';
+import {Evolution} from '../models/evolution.model';
 
 @Injectable()
 export class AppEffects {

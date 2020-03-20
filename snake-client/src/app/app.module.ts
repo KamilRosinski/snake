@@ -3,23 +3,23 @@ import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig} from '@angula
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
-import {SnakeComponent} from './snake/snake.component';
-import {MessagesComponent} from './messages/messages.component';
-import {SnakeFormatterPipe} from './snake/pipe/snake-formatter.pipe';
+import {SnakeComponent} from './components/snake/snake.component';
+import {MessagesComponent} from './components/messages/messages.component';
+import {SnakeFormatterPipe} from './pipes/snake-formatter.pipe';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {DimensionsFormatterPipe} from './snake/pipe/dimensions-formatter.pipe';
-import {SnakeControlComponent} from './snake/control/snake-control.component';
+import {DimensionsFormatterPipe} from './pipes/dimensions-formatter.pipe';
+import {SnakeControlComponent} from './components/snake-control/snake-control.component';
 import {StoreModule} from '@ngrx/store';
-import {ReverseOrderPipe} from './messages/pipe/reverse-order.pipe';
+import {ReverseOrderPipe} from './pipes/reverse-order.pipe';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
-import {ProgressBarComponent} from './progress-bar/progress-bar.component';
+import {ProgressBarComponent} from './components/progress-bar/progress-bar.component';
 import {AppRoutingModule} from './app-routing.module';
-import { MainMenuComponent } from './main-menu/main-menu.component';
+import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { EffectsModule } from '@ngrx/effects';
 import {AppEffects} from './store/app.effects';
 import {appReducers} from './store/app.reducers';
-import { EvolutionListComponent } from './evolution-list/evolution-list.component';
+import { EvolutionListComponent } from './components/evolution-list/evolution-list.component';
 import {HttpClientModule} from '@angular/common/http';
 
 export class HammerConfig extends HammerGestureConfig {

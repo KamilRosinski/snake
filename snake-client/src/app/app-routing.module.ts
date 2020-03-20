@@ -1,9 +1,9 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {SnakeComponent} from './snake/snake.component';
-import {MessagesComponent} from './messages/messages.component';
-import {MainMenuComponent} from './main-menu/main-menu.component';
-import {EvolutionListComponent} from './evolution-list/evolution-list.component';
+import {SnakeComponent} from './components/snake/snake.component';
+import {MessagesComponent} from './components/messages/messages.component';
+import {MainMenuComponent} from './components/main-menu/main-menu.component';
+import {EvolutionListComponent} from './components/evolution-list/evolution-list.component';
 
 const routes: Routes = [
   {path: '', component: MainMenuComponent},

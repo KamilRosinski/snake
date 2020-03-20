@@ -1,0 +1,46 @@
+@import "src/variables";
+
+#background {
+  position: relative;
+  height: 1.2rem;
+  width: 6rem;
+  margin: 0.2rem 0 0.2rem 0.2rem;
+  border-radius: 0.25rem;
+  overflow: hidden;
+
+  .bar {
+    position: absolute;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .label {
+      position: absolute;
+      text-align: center;
+      font-size: 0.8rem;
+      width: 6rem;
+    }
+
+    &.positive {
+      background-color: $main-green;
+      left: 0;
+      .label {
+        left: 0;
+        color: $darker-grey;
+      }
+    }
+
+    &.negative {
+      background-color: $darker-grey;
+      right: 0;
+      .label {
+        right: 0;
+        color: $main-green;
+      }
+    }
+
+  }
+
+}

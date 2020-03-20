@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Evolution} from '../shared/evolution';
+import {Evolution} from '../models/evolution.model';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 

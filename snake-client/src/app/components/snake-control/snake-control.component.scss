@@ -1,0 +1,68 @@
+@import "src/variables";
+
+form{
+  display: flex;
+
+  .ctrl-btns {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0 0.2rem 0.2rem 0;
+
+    .btn:not(:last-child) {
+      margin-bottom: 0.2rem;
+    }
+  }
+
+  fieldset {
+    border-radius: 0.3rem;
+    border: 1px solid $main-green;
+    margin: 0 0.2rem 0.2rem 0;
+    padding: 0.2rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  legend {
+    font-size: 1.2rem;
+    padding: 0 0.2rem;
+  }
+
+  label {
+    padding-right: 0.5rem;
+  }
+
+  input {
+    &[type=number] {
+      border: 1px solid $dark-grey;
+      padding: 0.1rem;
+      border-radius: 0.3rem;
+      width: 3rem;
+      &:disabled {
+        background-color: $dark-grey;
+        color: $darkest-grey;
+        transition: 0.25s;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .form-line {
+    margin-bottom: 0.2rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  input.ng {
+    &-valid, &-invalid {
+      transition: 0.25s;
+    }
+    &-invalid {
+      border: 1px solid $red;
+      background-color: $light-red;
+    }
+  }
+
+}

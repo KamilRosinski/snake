@@ -1,8 +1,8 @@
 import {createAction, props} from '@ngrx/store';
-import {GameStatus} from '../snake/shared/game-status';
-import {Message} from '../messages/model/message.model';
-import {GameControls} from '../snake/control/model/game-controls';
-import {Evolution} from '../shared/evolution';
+import {GameStatus} from '../models/game-status';
+import {Message} from '../models/message.model';
+import {GameControls} from '../models/game-controls';
+import {Evolution} from '../models/evolution.model';
 
 export const addMessage = createAction('[messages] Add new message', props<{ payload: string }>());
 

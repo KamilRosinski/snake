@@ -1,8 +1,8 @@
-import {GameStatus} from '../snake/shared/game-status';
-import {GameControls} from '../snake/control/model/game-controls';
-import {Message} from '../messages/model/message.model';
+import {GameStatus} from '../models/game-status';
+import {GameControls} from '../models/game-controls';
+import {Message} from '../models/message.model';
 import {EntityState} from '@ngrx/entity';
-import {Evolution} from '../shared/evolution';
+import {Evolution} from '../models/evolution.model';
 
 export interface AppState {
     messages: Message[],

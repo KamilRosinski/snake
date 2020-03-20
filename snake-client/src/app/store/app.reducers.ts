@@ -1,11 +1,11 @@
 import {Action, createReducer, on} from '@ngrx/store';
 import * as AppActions from './app.actions';
 import {AppState} from './app.state';
-import {GameStatus} from '../snake/shared/game-status';
-import {Message} from '../messages/model/message.model';
-import {GameControls} from '../snake/control/model/game-controls';
+import {GameStatus} from '../models/game-status';
+import {Message} from '../models/message.model';
+import {GameControls} from '../models/game-controls';
 import {createEntityAdapter, EntityAdapter} from '@ngrx/entity';
-import {Evolution} from '../shared/evolution';
+import {Evolution} from '../models/evolution.model';
 
 const evolutionEntityAdapter: EntityAdapter<Evolution> = createEntityAdapter<Evolution>();
 
