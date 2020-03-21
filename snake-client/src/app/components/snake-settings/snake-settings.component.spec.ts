@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SnakeControlComponent } from './snake-control.component';
+import { SnakeSettingsComponent } from './snake-settings.component';
 
-describe('SnakeControlComponent', () => {
-  let component: SnakeControlComponent;
-  let fixture: ComponentFixture<SnakeControlComponent>;
+describe('SnakeSettingsComponent', () => {
+  let component: SnakeSettingsComponent;
+  let fixture: ComponentFixture<SnakeSettingsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SnakeControlComponent ]
+      declarations: [ SnakeSettingsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SnakeControlComponent);
+    fixture = TestBed.createComponent(SnakeSettingsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

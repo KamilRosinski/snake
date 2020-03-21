@@ -1,77 +1,78 @@
-import {Coordinates} from "./coordinates";
-import {BoardDimensions} from "./boardDimensions";
+import {Coordinates} from './coordinates';
+import {BoardSettings} from '../components/snake/snake.component';
 
 export class SnakeModel {
 
-    private _food: number;
-    private readonly _snake: number[] = [];
-    private readonly _empty: Set<number> = new Set<number>();
+    private food: number;
+    private readonly snake: number[] = [];
+    private readonly empty: Set<number> = new Set<number>();
 
-    private readonly _encodeCoordinates: (coordinates: Coordinates) => number;
-    private readonly _decodeCoordinates: (coordinates: number) => Coordinates;
+    constructor(private readonly boardSettings: BoardSettings) {
 
-    constructor(boardDimensions: BoardDimensions) {
-
-        this._encodeCoordinates = (coords: Coordinates) =>
-            coords !== null ? coords.x + coords.y * boardDimensions.numberOfColumns : null;
-
-        this._decodeCoordinates = (coords: number) =>
-            coords !== null ? new Coordinates(coords % boardDimensions.numberOfColumns, Math.floor(coords / boardDimensions.numberOfColumns)) : null;
-
-        for (let row = 0; row < boardDimensions.numberOfRows; ++row) {
-            for (let column = 0; column < boardDimensions.numberOfColumns; ++column) {
+        for (let row = 0; row < this.boardSettings.height; ++row) {
+            for (let column = 0; column < this.boardSettings.width; ++column) {
                 this.pushEmptyField(new Coordinates(column, row));
             }
         }
     }
 
+    private encodeCoordinates(coordinates: Coordinates): number {
+        return !coordinates ? undefined : coordinates.x + coordinates.y * this.boardSettings.width;
+    }
+
+    private decodeCoordinates(coordinates: number): Coordinates {
+        return !coordinates ? undefined : new Coordinates(coordinates % this.boardSettings.width,
+            Math.floor(coordinates / this.boardSettings.width));
+    }
+
     pushEmptyField(coordinates: Coordinates): void {
-        this._empty.add(this._encodeCoordinates(coordinates));
+        this.empty.add(this.encodeCoordinates(coordinates));
     }
 
     popEmptyField(coordinates: Coordinates): void {
-        this._empty.delete(this._encodeCoordinates(coordinates));
+        this.empty.delete(this.encodeCoordinates(coordinates));
     }
 
     popRandomEmptyField(): Coordinates {
-        const randomField: number = Array.from(this._empty.values())[Math.floor(Math.random() * this._empty.size)];
-        this._empty.delete(randomField);
-        return this._decodeCoordinates(randomField);
+        const randomField: number = Array.from(this.empty.values())[Math.floor(Math.random() * this.empty.size)];
+        this.empty.delete(randomField);
+        return this.decodeCoordinates(randomField);
     }
 
     updateFoodField(newFoodCoordinates: Coordinates): void {
-        this._food = this._encodeCoordinates(newFoodCoordinates);
+        this.food = this.encodeCoordinates(newFoodCoordinates);
     }
 
     pushSnake(newSnakeCoordinates: Coordinates): void {
-        this._snake.unshift(this._encodeCoordinates(newSnakeCoordinates));
+        this.snake.unshift(this.encodeCoordinates(newSnakeCoordinates));
     }
 
     popSnake(): Coordinates {
-        return this._decodeCoordinates(this._snake.pop());
+        return this.decodeCoordinates(this.snake.pop());
     }
 
-    isSnake(coordinates: Coordinates): boolean {
-        return this._snake.includes(this._encodeCoordinates(coordinates));
+    get snakeCoordinates(): Coordinates[] {
+        return this.snake.map((coordinates: number) => this.decodeCoordinates(coordinates));
     }
 
-    get snake(): Coordinates[] {
-        return this._snake.map(c => this._decodeCoordinates(c));
+    get headCoordinates(): Coordinates {
+        return this.decodeCoordinates(this.snake[0]);
     }
 
-    get head(): Coordinates {
-        return this._decodeCoordinates(this._snake[0]);
-    }
-
-    get food(): Coordinates {
-        return this._decodeCoordinates(this._food);
+    get foodCoordinates(): Coordinates {
+        return this.decodeCoordinates(this.food);
     }
 
     isFood(coordinates: Coordinates): boolean {
-        return this._encodeCoordinates(coordinates) === this._food;
+        return this.encodeCoordinates(coordinates) === this.food;
+    }
+
+    isSnake(coordinates: Coordinates): boolean {
+        return this.snake.includes(this.encodeCoordinates(coordinates));
     }
 
     hasEmptyFields(): boolean {
-        return this._empty.size > 0;
+        return this.empty.size > 0;
     }
+
 }

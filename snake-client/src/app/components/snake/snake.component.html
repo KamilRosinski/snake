@@ -1,16 +1,14 @@
 <section>
     <h2>Snake</h2>
-    <div id="game-controls">
-        <div>
-            <app-snake-control></app-snake-control>
-        </div>
-        <div id="game-info" *ngIf="isSnake">
-            <div id="score">Score: {{score}}</div>
-            <div id="energy">Energy: <app-progress-bar [value]="snakeEnergy / initialSnakeEnergy"></app-progress-bar></div>
-        </div>
+    <button (click)="play()">play</button>
+    <button (click)="pause()">pause</button>
+    <button (click)="reset()">reset</button>
+    <div id="game-info">
+        <div id="score">Score: {{score}}</div>
+        <div id="energy">Energy: <app-progress-bar *ngIf="snake" [value]="snakeEnergy / settings.snake.initialEnergy"></app-progress-bar></div>
     </div>
     <div id="snake-box" (swipe)="swipe($event)">
-        <svg [attr.viewBox]="boardDimensions | dimensionsFormatter">
+        <svg [attr.viewBox]="settings.board | dimensionsFormatter">
             <defs>
                 <pattern id="checkerboard" x="-0.5" y="-0.5" width="2" height="2" patternUnits="userSpaceOnUse">
                     <rect class="checker-dark" x="0" y="1" width="1" height="1"></rect>

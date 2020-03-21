@@ -8,7 +8,6 @@ import {MessagesComponent} from './components/messages/messages.component';
 import {SnakeFormatterPipe} from './pipes/snake-formatter.pipe';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DimensionsFormatterPipe} from './pipes/dimensions-formatter.pipe';
-import {SnakeControlComponent} from './components/snake-control/snake-control.component';
 import {StoreModule} from '@ngrx/store';
 import {ReverseOrderPipe} from './pipes/reverse-order.pipe';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
@@ -21,6 +20,7 @@ import {AppEffects} from './store/app.effects';
 import {appReducers} from './store/app.reducers';
 import { EvolutionListComponent } from './components/evolution-list/evolution-list.component';
 import {HttpClientModule} from '@angular/common/http';
+import { SnakeSettingsComponent } from './components/snake-settings/snake-settings.component';
 
 export class HammerConfig extends HammerGestureConfig {
     overrides = {
@@ -35,11 +35,11 @@ export class HammerConfig extends HammerGestureConfig {
         MessagesComponent,
         SnakeFormatterPipe,
         DimensionsFormatterPipe,
-        SnakeControlComponent,
         ReverseOrderPipe,
         ProgressBarComponent,
         MainMenuComponent,
-        EvolutionListComponent
+        EvolutionListComponent,
+        SnakeSettingsComponent
     ],
     imports: [
         BrowserModule,

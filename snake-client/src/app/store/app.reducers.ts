@@ -1,9 +1,7 @@
 import {Action, createReducer, on} from '@ngrx/store';
 import * as AppActions from './app.actions';
 import {AppState} from './app.state';
-import {GameStatus} from '../models/game-status';
 import {Message} from '../models/message.model';
-import {GameControls} from '../models/game-controls';
 import {createEntityAdapter, EntityAdapter} from '@ngrx/entity';
 import {Evolution} from '../models/evolution.model';
 
@@ -12,19 +10,6 @@ const evolutionEntityAdapter: EntityAdapter<Evolution> = createEntityAdapter<Evo
 const initialState: AppState = {
     messages: [],
     evolutions: evolutionEntityAdapter.getInitialState(),
-    game: {
-        status: GameStatus.NEW,
-        controls: {
-            board: {
-                width: 12,
-                height: 8
-            },
-            snake: {
-                speed: 3,
-                energy: 25
-            }
-        }
-    }
 };
 
 export function appReducers(state: AppState, action: Action): AppState {
@@ -40,24 +25,6 @@ export function appReducers(state: AppState, action: Action): AppState {
             return {
                 ...state,
                 messages: []
-            };
-        }),
-        on(AppActions.updateGameStatus, (state: AppState, action: { payload: GameStatus }) => {
-            return {
-                ...state,
-                game: {
-                    ...state.game,
-                    status: action.payload
-                }
-            };
-        }),
-        on(AppActions.updateGameControls, (state: AppState, action: { payload: GameControls }) => {
-            return {
-                ...state,
-                game: {
-                    ...state.game,
-                    controls: action.payload
-                }
             };
         }),
         on(AppActions.evolutionsLoaded, (state: AppState, action: {evolutions: Evolution[]}) => ({

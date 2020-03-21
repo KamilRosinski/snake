@@ -4,10 +4,12 @@ import {SnakeComponent} from './components/snake/snake.component';
 import {MessagesComponent} from './components/messages/messages.component';
 import {MainMenuComponent} from './components/main-menu/main-menu.component';
 import {EvolutionListComponent} from './components/evolution-list/evolution-list.component';
+import {SnakeSettingsComponent} from './components/snake-settings/snake-settings.component';
 
 const routes: Routes = [
   {path: '', component: MainMenuComponent},
-  {path: 'snake', component: SnakeComponent},
+  {path: 'snake/settings', component: SnakeSettingsComponent},
+  {path: 'snake/game', component: SnakeComponent},
   {path: 'messages', component: MessagesComponent},
   {path: 'evolutions', component: EvolutionListComponent}
 ];

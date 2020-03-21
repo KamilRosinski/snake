@@ -1,29 +1,27 @@
-<form [formGroup]="snakeControlForm">
-    <div class="ctrl-btns">
-        <button class="btn" type="button" (click)="play()" [disabled]="!isPlayable"><i class="material-icons">play_arrow</i></button>
-        <button class="btn" type="button" (click)="pause()" [disabled]="!isPausable"><i class="material-icons">pause</i></button>
-        <button class="btn" type="button" (click)="reset()" [disabled]="!isResettable"><i class="material-icons">stop</i></button>
-    </div>
+<form [formGroup]="snakeSettingsForm" (ngSubmit)="play()">
     <fieldset formGroupName="board">
         <legend>Board</legend>
-        <div class="form-line">
+        <div>
             <label for="width">Width</label>
             <input id="width" type="number" formControlName="width">
         </div>
-        <div class="form-line">
+        <div>
             <label for="height">Height</label>
             <input id="height" type="number" formControlName="height">
         </div>
     </fieldset>
     <fieldset formGroupName="snake">
         <legend>Snake</legend>
-        <div class="form-line">
+        <div>
             <label for="speed">Speed</label>
             <input id="speed" type="number" formControlName="speed">
         </div>
-        <div class="form-line">
+        <div>
             <label for="energy">Energy</label>
             <input id="energy" type="number" formControlName="energy">
         </div>
     </fieldset>
+    <div>
+        <button [disabled]="!snakeSettingsForm.valid">Play</button>
+    </div>
 </form>

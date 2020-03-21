@@ -7,4 +7,8 @@ export class Coordinates {
         return new Coordinates(this.x + other.x, this.y + other.y);
     }
 
+    equals(other: Coordinates): boolean {
+        return this.x === other.x && this.y === other.y;
+    }
+
 }
