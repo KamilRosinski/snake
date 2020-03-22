@@ -1,5 +1,5 @@
+import {Coordinates} from '../models/game.model';
 import {Pipe, PipeTransform} from '@angular/core';
-import {Coordinates} from '../models/coordinates';
 
 @Pipe({
     name: 'snakeFormatter'

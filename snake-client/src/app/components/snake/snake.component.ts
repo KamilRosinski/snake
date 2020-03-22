@@ -1,29 +1,10 @@
 import * as Hammer from 'hammerjs'
 
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {GameStatus} from '../../models/game-status';
-import {Direction} from '../../models/direction';
+import {Direction, GameSettings, GameStatus, MoveResult, SnakeStatus, Coordinates} from '../../models/game.model';
 import {interval, Subscription} from 'rxjs';
-import {MoveResult} from '../../models/move-result';
-import {SnakeStatus} from '../../models/snake-status';
 import {Snake} from '../../models/snake';
 import {ActivatedRoute} from '@angular/router';
-import {Coordinates} from '../../models/coordinates';
-
-export interface GameSettings {
-    board: BoardSettings;
-    snake: SnakeSettings;
-}
-
-export interface BoardSettings {
-    width: number;
-    height: number;
-}
-
-export interface SnakeSettings {
-    speed: number;
-    initialEnergy: number;
-}
 
 @Component({
     selector: 'app-snake',
@@ -45,7 +26,7 @@ export class SnakeComponent implements OnInit, OnDestroy {
 
     private gameStatus: GameStatus = GameStatus.NEW;
     private snake: Snake;
-    private intervalSubscription: Subscription = new Subscription();
+    private intervalSubscription: Subscription;
     private settings: GameSettings;
     private score: number = 0;
 
@@ -68,7 +49,9 @@ export class SnakeComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.intervalSubscription.unsubscribe();
+        if (this.intervalSubscription) {
+            this.intervalSubscription.unsubscribe();
+        }
     }
 
     play(): void {
@@ -90,7 +73,7 @@ export class SnakeComponent implements OnInit, OnDestroy {
                 if (!this.snake) {
                     this.snake = new Snake(this.settings);
                 }
-                this.intervalSubscription.add(interval(1e3 / this.settings.snake.speed).subscribe(_ => this.move()));
+                this.intervalSubscription = interval(1e3 / this.settings.snake.speed).subscribe(_ => this.move());
                 break;
             case GameStatus.PAUSED:
                 this.intervalSubscription.unsubscribe();
@@ -157,6 +140,18 @@ export class SnakeComponent implements OnInit, OnDestroy {
 
     get foodCoordinates(): Coordinates {
         return this.snake.model.foodCoordinates;
+    }
+
+    get playable(): boolean {
+        return [GameStatus.NEW, GameStatus.PAUSED].includes(this.gameStatus);
+    }
+
+    get pausable(): boolean {
+        return GameStatus.RUNNING === this.gameStatus;
+    }
+
+    get resettable(): boolean {
+        return GameStatus.NEW !== this.gameStatus;
     }
 
 }

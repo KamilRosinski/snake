@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {Message} from '../models/message.model';
-import {SortOrder} from '../models/sort-order';
+import {SortOrder} from '../models/messages.model';
 
 @Pipe({
     name: 'reverseOrder'

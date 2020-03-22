@@ -1,17 +1,12 @@
-import {Coordinates} from './coordinates';
-import {Direction} from './direction';
-import {SnakeModel} from './snake-model';
-import {MoveResult} from './move-result';
-import {SnakeStatus} from './snake-status';
-import {GameSettings} from '../components/snake/snake.component';
+import {BoardSettings, Coordinates, Direction, GameSettings, MoveResult, SnakeStatus} from './game.model';
 
 export class Snake {
 
     private static readonly TRANSLATION_VECTORS: Map<Direction, Coordinates> = new Map<Direction, Coordinates>([
-        [Direction.NORTH, new Coordinates(0, -1)],
-        [Direction.EAST, new Coordinates(1, 0)],
-        [Direction.SOUTH, new Coordinates(0, 1)],
-        [Direction.WEST, new Coordinates(-1, 0)]
+        [Direction.NORTH, {x: 0, y: -1}],
+        [Direction.EAST, {x: 1, y: 0}],
+        [Direction.SOUTH, {x: 0, y: 1}],
+        [Direction.WEST, {x: -1, y: 0}]
     ]);
 
     readonly model: SnakeModel;
@@ -29,7 +24,10 @@ export class Snake {
         this.lastMoveDirection = initialDirection;
         this.nextMoveDirection = initialDirection;
 
-        const headCoordinates: Coordinates = new Coordinates(Math.floor(this.settings.board.width / 2), Math.floor(this.settings.board.height / 2));
+        const headCoordinates: Coordinates = {
+            x: Math.floor(this.settings.board.width / 2),
+            y: Math.floor(this.settings.board.height / 2)
+        };
         this.model.popEmptyField(headCoordinates);
         this.model.pushSnake(headCoordinates);
 
@@ -47,7 +45,11 @@ export class Snake {
 
     move(): MoveResult {
         const oldHead: Coordinates = this.model.headCoordinates;
-        const newHead: Coordinates = oldHead.add(Snake.TRANSLATION_VECTORS.get(this.nextMoveDirection));
+        const translation: Coordinates = Snake.TRANSLATION_VECTORS.get(this.nextMoveDirection);
+        const newHead: Coordinates = {
+            x: oldHead.x + translation.x,
+            y: oldHead.y + translation.y
+        };
         const moveDirection: Direction = this.nextMoveDirection;
         let foodEaten: boolean = false;
         let status: SnakeStatus = SnakeStatus.ALIVE;
@@ -87,6 +89,87 @@ export class Snake {
             oldHead,
             newHead
         };
+    }
+
+}
+
+export class SnakeModel {
+
+    private food: number;
+    private readonly snake: number[] = [];
+    private readonly empty: Set<number> = new Set<number>();
+
+    constructor(private readonly boardSettings: BoardSettings) {
+
+        for (let row = 0; row < this.boardSettings.height; ++row) {
+            for (let column = 0; column < this.boardSettings.width; ++column) {
+                this.pushEmptyField({
+                    x: column,
+                    y: row
+                });
+            }
+        }
+    }
+
+    private encodeCoordinates(coordinates: Coordinates): number {
+        return !coordinates ? undefined : coordinates.x + coordinates.y * this.boardSettings.width;
+    }
+
+    private decodeCoordinates(coordinates: number): Coordinates {
+        return !coordinates ? undefined : {
+            x: coordinates % this.boardSettings.width,
+            y: Math.floor(coordinates / this.boardSettings.width)
+        };
+    }
+
+    pushEmptyField(coordinates: Coordinates): void {
+        this.empty.add(this.encodeCoordinates(coordinates));
+    }
+
+    popEmptyField(coordinates: Coordinates): void {
+        this.empty.delete(this.encodeCoordinates(coordinates));
+    }
+
+    popRandomEmptyField(): Coordinates {
+        const randomField: number = Array.from(this.empty.values())[Math.floor(Math.random() * this.empty.size)];
+        this.empty.delete(randomField);
+        return this.decodeCoordinates(randomField);
+    }
+
+    updateFoodField(newFoodCoordinates: Coordinates): void {
+        this.food = this.encodeCoordinates(newFoodCoordinates);
+    }
+
+    pushSnake(newSnakeCoordinates: Coordinates): void {
+        this.snake.unshift(this.encodeCoordinates(newSnakeCoordinates));
+    }
+
+    popSnake(): Coordinates {
+        return this.decodeCoordinates(this.snake.pop());
+    }
+
+    get snakeCoordinates(): Coordinates[] {
+        return this.snake.map((coordinates: number) => this.decodeCoordinates(coordinates));
+    }
+
+    get headCoordinates(): Coordinates {
+        return this.decodeCoordinates(this.snake[0]);
+    }
+
+    get foodCoordinates(): Coordinates {
+        return this.decodeCoordinates(this.food);
+    }
+
+    isFood(coordinates: Coordinates): boolean {
+        return this.encodeCoordinates(coordinates) === this.food;
+    }
+
+    isSnake(coordinates: Coordinates): boolean {
+        return this.snake.includes(this.encodeCoordinates(coordinates));
+    }
+
+    hasEmptyFields(): boolean {
+        return this.empty.size > 0;
     }
 
 }

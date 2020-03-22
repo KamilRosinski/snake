@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Message} from '../../models/message.model';
-import {SortOrder} from '../../models/sort-order';
+import {SortOrder} from '../../models/messages.model';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';

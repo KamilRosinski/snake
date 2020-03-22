@@ -1,8 +1,8 @@
 <section>
     <h2>Snake</h2>
-    <button (click)="play()">play</button>
-    <button (click)="pause()">pause</button>
-    <button (click)="reset()">reset</button>
+    <button (click)="play()" [disabled]="!playable">play</button>
+    <button (click)="pause()" [disabled]="!pausable">pause</button>
+    <button (click)="reset()" [disabled]="!resettable">reset</button>
     <div id="game-info">
         <div id="score">Score: {{score}}</div>
         <div id="energy">Energy: <app-progress-bar *ngIf="snake" [value]="snakeEnergy / settings.snake.initialEnergy"></app-progress-bar></div>

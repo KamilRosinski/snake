@@ -1,6 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {BoardDimensions} from '../models/boardDimensions';
-import {BoardSettings} from '../components/snake/snake.component';
+import {BoardSettings} from '../models/game.model';
 
 @Pipe({
     name: 'dimensionsFormatter'
