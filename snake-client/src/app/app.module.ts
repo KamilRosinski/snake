@@ -12,9 +12,9 @@ import {environment} from '../environments/environment';
 import {AppRoutingModule} from './app-routing.module';
 import {MainMenuComponent} from './components/main-menu/main-menu.component';
 import {EffectsModule} from '@ngrx/effects';
-import {AppEffects} from './store/app.effects';
-import {appReducers} from './store/app.reducers';
-import {EvolutionListComponent} from './components/evolution-list/evolution-list.component';
+import {EvolutionEffects} from './evolution/store/evolution.effects';
+import {evolutionReducers} from './evolution/store/evolution.reducers';
+import {EvolutionListComponent} from './evolution/components/evolution-list/evolution-list.component';
 import {HttpClientModule} from '@angular/common/http';
 
 export class HammerConfig extends HammerGestureConfig {
@@ -28,15 +28,14 @@ export class HammerConfig extends HammerGestureConfig {
         AppComponent,
         MessagesComponent,
         ReverseOrderPipe,
-        MainMenuComponent,
-        EvolutionListComponent
+        MainMenuComponent
     ],
     imports: [
         BrowserModule,
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
-        StoreModule.forRoot({app: appReducers}, {
+        StoreModule.forRoot({}, {
             runtimeChecks: {
                 strictStateImmutability: true,
                 strictStateSerializability: true,
@@ -49,7 +48,7 @@ export class HammerConfig extends HammerGestureConfig {
             logOnly: environment.production
         }),
         AppRoutingModule,
-        EffectsModule.forRoot([AppEffects])
+        EffectsModule.forRoot([EvolutionEffects])
     ],
     providers: [
         {

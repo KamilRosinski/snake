@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Evolution} from '../../models/evolution.model';
 import {Store} from '@ngrx/store';
-import {AppState} from '../../store/app.state';
-import {createEvolution, deleteEvolution, loadEvolutions} from '../../store/app.actions';
-import {selectAllEvolutions} from '../../store/app.selectors';
+import {EvolutionState} from '../../store/evolution.state';
+import {createEvolution, deleteEvolution, loadEvolutions} from '../../store/evolution.actions';
+import {selectAllEvolutions} from '../../store/evolution.selectors';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -15,7 +15,7 @@ export class EvolutionListComponent implements OnInit {
 
     evolutions$: Observable<Evolution[]>;
 
-    constructor(private readonly store: Store<AppState>) {
+    constructor(private readonly store: Store<EvolutionState>) {
     }
 
     ngOnInit(): void {

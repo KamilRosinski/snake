@@ -4,9 +4,7 @@ import {SortOrder} from '../../models/messages.model';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
-import {AppState} from '../../store/app.state';
-import {selectAllMessages} from '../../store/app.selectors';
-import {clearMessages} from '../../store/app.actions';
+import {EvolutionState} from '../../evolution/store/evolution.state';
 
 @Component({
     selector: 'app-messages',
@@ -19,16 +17,16 @@ export class MessagesComponent implements OnInit {
     hasMessages$: Observable<boolean>;
     sortOrder: SortOrder = SortOrder.DESCENDING;
 
-    constructor(private readonly _store: Store<AppState>) {
+    constructor(private readonly _store: Store<EvolutionState>) {
     }
 
     ngOnInit(): void {
-        this.messages$ = this._store.select(selectAllMessages);
-        this.hasMessages$ = this.messages$.pipe(map((messages: Message[]) => messages.length > 0));
+        // this.messages$ = this._store.select(selectAllMessages);
+        // this.hasMessages$ = this.messages$.pipe(map((messages: Message[]) => messages.length > 0));
     }
 
     clearMessages(): void {
-        this._store.dispatch(clearMessages());
+        // this._store.dispatch(clearMessages());
     }
 
     toggleSortOrder(): void {

@@ -1,20 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {concatMap, map} from 'rxjs/operators';
-import * as AppActions from './app.actions';
+import * as AppActions from './evolution.actions';
 import {EvolutionService} from '../services/evolution.service';
 import {Evolution} from '../models/evolution.model';
 
 @Injectable()
-export class AppEffects {
-
-    sendMessage$ = createEffect(() => this.actions$.pipe(
-        ofType(AppActions.addMessage),
-        map(action => AppActions.addMessageWithTimestamp({payload: {
-            body: action.payload,
-            timestamp: new Date().getTime()
-        }}))
-    ));
+export class EvolutionEffects {
 
     loadEvolutions$ = createEffect(() => this.actions$.pipe(
         ofType(AppActions.loadEvolutions),
