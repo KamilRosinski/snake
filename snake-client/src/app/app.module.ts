@@ -3,18 +3,14 @@ import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig} from '@angula
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
-import {MessagesComponent} from './components/messages/messages.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {StoreModule} from '@ngrx/store';
-import {ReverseOrderPipe} from './pipes/reverse-order.pipe';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {AppRoutingModule} from './app-routing.module';
 import {MainMenuComponent} from './components/main-menu/main-menu.component';
 import {EffectsModule} from '@ngrx/effects';
 import {EvolutionEffects} from './evolution/store/evolution.effects';
-import {evolutionReducers} from './evolution/store/evolution.reducers';
-import {EvolutionListComponent} from './evolution/components/evolution-list/evolution-list.component';
 import {HttpClientModule} from '@angular/common/http';
 
 export class HammerConfig extends HammerGestureConfig {
@@ -26,8 +22,6 @@ export class HammerConfig extends HammerGestureConfig {
 @NgModule({
     declarations: [
         AppComponent,
-        MessagesComponent,
-        ReverseOrderPipe,
         MainMenuComponent
     ],
     imports: [
