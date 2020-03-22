@@ -46,7 +46,7 @@ export class SnakeSettingsComponent implements OnInit {
   }
 
   play(): void {
-    this.router.navigateByUrl(`/snake/game?width=${this.width.value}&height=${this.height.value}&speed=${this.speed.value}&energy=${this.energy.value}`).then(noop);
+    this.router.navigateByUrl(`/game/play?width=${this.width.value}&height=${this.height.value}&speed=${this.speed.value}&energy=${this.energy.value}`).then(noop);
   }
 
 }

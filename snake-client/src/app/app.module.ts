@@ -3,24 +3,19 @@ import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig} from '@angula
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
-import {SnakeComponent} from './components/snake/snake.component';
 import {MessagesComponent} from './components/messages/messages.component';
-import {SnakeFormatterPipe} from './pipes/snake-formatter.pipe';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {DimensionsFormatterPipe} from './pipes/dimensions-formatter.pipe';
 import {StoreModule} from '@ngrx/store';
 import {ReverseOrderPipe} from './pipes/reverse-order.pipe';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
-import {ProgressBarComponent} from './components/progress-bar/progress-bar.component';
 import {AppRoutingModule} from './app-routing.module';
-import { MainMenuComponent } from './components/main-menu/main-menu.component';
-import { EffectsModule } from '@ngrx/effects';
+import {MainMenuComponent} from './components/main-menu/main-menu.component';
+import {EffectsModule} from '@ngrx/effects';
 import {AppEffects} from './store/app.effects';
 import {appReducers} from './store/app.reducers';
-import { EvolutionListComponent } from './components/evolution-list/evolution-list.component';
+import {EvolutionListComponent} from './components/evolution-list/evolution-list.component';
 import {HttpClientModule} from '@angular/common/http';
-import { SnakeSettingsComponent } from './components/snake-settings/snake-settings.component';
 
 export class HammerConfig extends HammerGestureConfig {
     overrides = {
@@ -31,15 +26,10 @@ export class HammerConfig extends HammerGestureConfig {
 @NgModule({
     declarations: [
         AppComponent,
-        SnakeComponent,
         MessagesComponent,
-        SnakeFormatterPipe,
-        DimensionsFormatterPipe,
         ReverseOrderPipe,
-        ProgressBarComponent,
         MainMenuComponent,
-        EvolutionListComponent,
-        SnakeSettingsComponent
+        EvolutionListComponent
     ],
     imports: [
         BrowserModule,
@@ -67,7 +57,9 @@ export class HammerConfig extends HammerGestureConfig {
             useClass: HammerConfig
         }
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [
+        AppComponent
+    ]
 })
 export class AppModule {
 }
