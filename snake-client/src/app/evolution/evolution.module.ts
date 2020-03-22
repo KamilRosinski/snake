@@ -16,7 +16,7 @@ import {evolutionReducers} from './store/evolution.reducers';
     imports: [
         CommonModule,
         EvolutionRoutingModule,
-        StoreModule.forFeature("evolution", evolutionReducers)
+        StoreModule.forFeature('evolution', evolutionReducers)
     ]
 })
 export class EvolutionModule {
