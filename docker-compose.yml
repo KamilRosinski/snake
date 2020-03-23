@@ -2,6 +2,17 @@ version: '3'
 
 services:
 
+  snake-database:
+    image: "postgres"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: p@S5w0Rd
+      POSTGRES_DB: snake
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    networks:
+      - server-database
+
   snake-server:
     build: snake-server
     container_name: server
@@ -9,6 +20,7 @@ services:
       - 8080:8080
     networks:
       - webapp-server
+      - server-database
 
   snake-webapp:
     build: snake-client
@@ -22,3 +34,7 @@ services:
 
 networks:
   webapp-server:
+  server-database:
+
+volumes:
+  database-data:
