@@ -8,10 +8,11 @@ import {StoreModule} from '@ngrx/store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {AppRoutingModule} from './app-routing.module';
-import {MainMenuComponent} from './components/main-menu/main-menu.component';
+import {MainMenuComponent} from './shared/components/main-menu/main-menu.component';
 import {EffectsModule} from '@ngrx/effects';
 import {EvolutionEffects} from './evolution/store/evolution.effects';
 import {HttpClientModule} from '@angular/common/http';
+import { SharedModule } from './shared/shared.module';
 
 export class HammerConfig extends HammerGestureConfig {
     overrides = {
@@ -41,8 +42,9 @@ export class HammerConfig extends HammerGestureConfig {
             maxAge: 25,
             logOnly: environment.production
         }),
+        EffectsModule.forRoot([EvolutionEffects]),
         AppRoutingModule,
-        EffectsModule.forRoot([EvolutionEffects])
+        SharedModule
     ],
     providers: [
         {
