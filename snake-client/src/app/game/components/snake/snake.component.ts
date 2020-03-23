@@ -25,10 +25,10 @@ export class SnakeComponent implements OnInit, OnDestroy {
     ]);
 
     private gameStatus: GameStatus = GameStatus.NEW;
-    private snake: Snake;
+    snake: Snake;
     private intervalSubscription: Subscription;
-    private settings: GameSettings;
-    private score: number = 0;
+    settings: GameSettings;
+    score: number = 0;
 
     constructor(private readonly activatedRoute: ActivatedRoute) {
     }
