@@ -9,6 +9,9 @@ import {ProgressBarComponent} from './components/progress-bar/progress-bar.compo
 import {SnakeFormatterPipe} from './pipes/snake-formatter.pipe';
 import {DimensionsFormatterPipe} from './pipes/dimensions-formatter.pipe';
 import {ReactiveFormsModule} from '@angular/forms';
+import {ControlsComponent} from './components/controls/controls.component';
+import {StoreModule} from '@ngrx/store';
+import {gameReducers} from './store/game.reducers';
 
 
 @NgModule({
@@ -19,12 +22,14 @@ import {ReactiveFormsModule} from '@angular/forms';
         ProgressBarComponent,
         SnakeFormatterPipe,
         DimensionsFormatterPipe,
+        ControlsComponent,
 
     ],
     imports: [
         CommonModule,
         GameRoutingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        StoreModule.forFeature('game', gameReducers)
     ]
 })
 export class GameModule {

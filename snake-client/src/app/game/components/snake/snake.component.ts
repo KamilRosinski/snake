@@ -1,10 +1,14 @@
 import * as Hammer from 'hammerjs'
 
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {Direction, GameSettings, GameStatus, MoveResult, SnakeStatus, Coordinates} from '../../models/game.model';
+import {Coordinates, Direction, GameSettings, GameStatus, MoveResult, SnakeStatus} from '../../models/game.model';
 import {interval, Subscription} from 'rxjs';
 import {Snake} from '../../models/snake';
 import {ActivatedRoute} from '@angular/router';
+import {Store} from '@ngrx/store';
+import {GameState} from '../../store/game.state';
+import {selectStatus} from '../../store/game.selectors';
+import {updateStatus} from '../../store/game.actions';
 
 @Component({
     selector: 'app-snake',
@@ -30,11 +34,14 @@ export class SnakeComponent implements OnInit, OnDestroy {
     settings: GameSettings;
     score: number = 0;
 
-    constructor(private readonly activatedRoute: ActivatedRoute) {
+    private readonly subscription: Subscription = new Subscription();
+
+    constructor(private readonly activatedRoute: ActivatedRoute,
+                private readonly store: Store<GameState>) {
     }
 
     ngOnInit(): void {
-        this.activatedRoute.queryParams.subscribe((params: {width: number; height: number; speed: number; energy: number}) => {
+        this.activatedRoute.queryParams.subscribe((params: { width: number; height: number; speed: number; energy: number }) => {
             this.settings = {
                 board: {
                     width: params.width,
@@ -46,24 +53,14 @@ export class SnakeComponent implements OnInit, OnDestroy {
                 }
             };
         });
+        this.subscription.add(this.store.select(selectStatus).subscribe((status: GameStatus) => this.updateGameStatus(status)));
     }
 
     ngOnDestroy(): void {
         if (this.intervalSubscription) {
             this.intervalSubscription.unsubscribe();
         }
-    }
-
-    play(): void {
-        this.updateGameStatus(GameStatus.RUNNING);
-    }
-
-    pause(): void {
-        this.updateGameStatus(GameStatus.PAUSED);
-    }
-
-    reset(): void {
-        this.updateGameStatus(GameStatus.NEW);
+        this.subscription.unsubscribe();
     }
 
     private updateGameStatus(gameStatus: GameStatus): void {
@@ -81,7 +78,9 @@ export class SnakeComponent implements OnInit, OnDestroy {
             case GameStatus.NEW:
             case GameStatus.FINISHED:
                 this.snake = null;
-                this.intervalSubscription.unsubscribe();
+                if (this.intervalSubscription) {
+                    this.intervalSubscription.unsubscribe();
+                }
                 this.score = 0;
                 break;
         }
@@ -93,7 +92,7 @@ export class SnakeComponent implements OnInit, OnDestroy {
             case SnakeStatus.WALL_COLLISION:
             case SnakeStatus.TAIL_COLLISION:
             case SnakeStatus.STARVATION:
-                this.updateGameStatus(GameStatus.FINISHED);
+                this.store.dispatch(updateStatus({status: GameStatus.FINISHED}));
                 break;
             case SnakeStatus.ALIVE:
                 if (moveResult.foodEaten) {
@@ -140,18 +139,6 @@ export class SnakeComponent implements OnInit, OnDestroy {
 
     get foodCoordinates(): Coordinates {
         return this.snake.model.foodCoordinates;
-    }
-
-    get playable(): boolean {
-        return [GameStatus.NEW, GameStatus.PAUSED].includes(this.gameStatus);
-    }
-
-    get pausable(): boolean {
-        return GameStatus.RUNNING === this.gameStatus;
-    }
-
-    get resettable(): boolean {
-        return GameStatus.NEW !== this.gameStatus;
     }
 
 }
