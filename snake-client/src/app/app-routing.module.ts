@@ -1,11 +1,13 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {MainMenuComponent} from './shared/components/main-menu/main-menu.component';
+import {MessagesComponent} from './shared/components/messages/messages.component';
 
 const routes: Routes = [
     {path: '', component: MainMenuComponent},
     {path: 'game', loadChildren: () => import('./game/game.module').then(m => m.GameModule)},
-    {path: 'evolution', loadChildren: () => import('./evolution/evolution.module').then(m => m.EvolutionModule)}
+    {path: 'evolution', loadChildren: () => import('./evolution/evolution.module').then(m => m.EvolutionModule)},
+    {path: 'messages', component: MessagesComponent}
 ];
 
 @NgModule({
