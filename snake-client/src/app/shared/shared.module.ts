@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MessagesComponent} from './components/messages/messages.component';
 import {MainMenuComponent} from './components/main-menu/main-menu.component';
+import {RouterModule} from '@angular/router';
 
 
 @NgModule({
@@ -10,7 +11,8 @@ import {MainMenuComponent} from './components/main-menu/main-menu.component';
         MessagesComponent
     ],
     imports: [
-        CommonModule
+        CommonModule,
+        RouterModule
     ]
 })
 export class SharedModule {
