@@ -34,15 +34,19 @@ export enum Direction {
     WEST = 270
 }
 
-export interface MoveResult {
-    readonly status: SnakeStatus;
-    readonly foodEaten: boolean;
-    readonly moveDirection: Direction;
-    readonly oldHead: Coordinates;
-    readonly newHead: Coordinates;
-}
-
 export interface Coordinates {
     x: number;
     y: number;
+}
+
+export interface SnakeModel {
+    foodField: number;
+    readonly snakeFields: number[];
+    readonly emptyFields: Set<number>;
+}
+
+export interface MoveResult {
+    readonly status: SnakeStatus;
+    readonly foodEaten: boolean;
+    readonly energy: number;
 }

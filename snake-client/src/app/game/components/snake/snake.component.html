@@ -16,7 +16,7 @@
                 </pattern>
             </defs>
             <rect id="playground" x="-0.5" y="-0.5" width="100%" height="100%" fill="url(#checkerboard)"></rect>
-            <g *ngIf="isSnake" [class.opacity3]="gameFinished">
+            <g *ngIf="snake" [class.opacity3]="gameFinished">
                 <polyline class="tail" [attr.points]="snakeCoordinates | snakeFormatter"/>
                 <circle class="head" r="0.4" [attr.cx]="headCoordinates.x" [attr.cy]="headCoordinates.y"/>
                 <circle class="food" *ngIf="foodCoordinates" r="0.3" [attr.cx]="foodCoordinates.x" [attr.cy]="foodCoordinates.y"/>

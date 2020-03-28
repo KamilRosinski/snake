@@ -34,6 +34,18 @@ export class SnakeComponent implements OnInit, OnDestroy {
     settings: GameSettings;
     score: number = 0;
 
+    get snakeCoordinates(): Coordinates[] {
+        return this.snake.snakeCoordinates;
+    }
+
+    get headCoordinates(): Coordinates {
+        return this.snake.headCoordinates;
+    }
+
+    get foodCoordinates(): Coordinates {
+        return this.snake.foodCoordinates;
+    }
+
     private readonly subscription: Subscription = new Subscription();
 
     constructor(private readonly activatedRoute: ActivatedRoute,
@@ -118,27 +130,11 @@ export class SnakeComponent implements OnInit, OnDestroy {
     }
 
     get snakeEnergy(): number {
-        return this.snake.energy;
-    }
-
-    get isSnake(): boolean {
-        return !!this.snake;
+        return this.snake.snakeEnergy;
     }
 
     get gameFinished(): boolean {
         return this.gameStatus === GameStatus.FINISHED;
-    }
-
-    get snakeCoordinates(): Coordinates[] {
-        return this.snake.snake;
-    }
-
-    get headCoordinates(): Coordinates {
-        return this.snake.snake[0];
-    }
-
-    get foodCoordinates(): Coordinates {
-        return this.snake.model.foodCoordinates;
     }
 
 }
