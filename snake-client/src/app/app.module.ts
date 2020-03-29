@@ -27,8 +27,8 @@ export class HammerConfig extends HammerGestureConfig {
     imports: [
         BrowserModule,
         HttpClientModule,
-        FormsModule,
         ReactiveFormsModule,
+        AppRoutingModule,
         StoreModule.forRoot({}, {
             runtimeChecks: {
                 strictStateImmutability: true,
@@ -41,9 +41,7 @@ export class HammerConfig extends HammerGestureConfig {
             maxAge: 25,
             logOnly: environment.production
         }),
-        EffectsModule.forRoot([EvolutionEffects]),
-        AppRoutingModule,
-        SharedModule
+        EffectsModule.forRoot([EvolutionEffects])
     ],
     providers: [
         {

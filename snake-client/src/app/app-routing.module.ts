@@ -1,9 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {MainMenuComponent} from './shared/components/main-menu/main-menu.component';
 
 const routes: Routes = [
-    {path: '', component: MainMenuComponent}
+    {path: '', loadChildren: () => import('./shared/shared.module').then(m => m.SharedModule)}
 ];
 
 @NgModule({

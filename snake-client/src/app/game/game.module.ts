@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {GameRoutingModule} from './game-routing.module';
-import {GameComponent} from './game.component';
 import {SnakeComponent} from './components/snake/snake.component';
 import {SnakeSettingsComponent} from './components/snake-settings/snake-settings.component';
 import {ProgressBarComponent} from './components/progress-bar/progress-bar.component';
@@ -16,7 +15,6 @@ import {gameReducers} from './store/game.reducers';
 
 @NgModule({
     declarations: [
-        GameComponent,
         SnakeComponent,
         SnakeSettingsComponent,
         ProgressBarComponent,
