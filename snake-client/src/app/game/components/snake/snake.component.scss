@@ -18,15 +18,11 @@
   svg {
     display: block;
     margin: auto;
-    max-height: 50vh;
+    border: 1px solid $main-green;
+    border-radius: 1rem;
 
-    .checker {
-      &-light {
-        fill: $dark-grey;
-      }
-      &-dark {
-        fill: $darker-grey;
-      }
+    #playground {
+      fill: $dark-grey;
     }
 
     .tail {

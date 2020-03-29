@@ -1,8 +1,11 @@
 @import "src/variables";
 
 #menu-list {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   list-style-type: none;
-  margin: 1rem 0;
 
   li {
     display: flex;
@@ -14,8 +17,8 @@
       text-decoration: none;
       color: $main-green;
       background-color: $dark-grey;
-      padding: 0.5rem 0;
-      margin: 0.5rem 0;
+      padding: 0.8rem 0;
+      margin: 0.8rem 0;
       font-size: 1.2rem;
       border-radius: 0.5rem;
       transition: 0.25s;

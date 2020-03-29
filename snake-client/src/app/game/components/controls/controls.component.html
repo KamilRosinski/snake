@@ -1,5 +1,5 @@
-<div>
-    <button (click)="play()" [disabled]="!(isPlayable$ | async)">play</button>
-    <button (click)="pause()" [disabled]="!(isPausable$ | async)">pause</button>
-    <button (click)="reset()" [disabled]="!(isResettable$ | async)">reset</button>
+<div id="content">
+    <button class="btn" (click)="play()" [disabled]="!(isPlayable$ | async)">play</button>
+    <button class="btn" (click)="pause()" [disabled]="!(isPausable$ | async)">pause</button>
+    <button class="btn" (click)="reset()" [disabled]="!(isResettable$ | async)">reset</button>
 </div>
