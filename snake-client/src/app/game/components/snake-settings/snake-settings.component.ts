@@ -10,6 +10,8 @@ import {noop} from 'rxjs';
 })
 export class SnakeSettingsComponent implements OnInit {
 
+  private static readonly POSITIVE_INT_PATTERN: RegExp = new RegExp('^[1-9][0-9]*$');
+
   snakeSettingsForm: FormGroup;
 
   constructor(private readonly formBuilder: FormBuilder,
@@ -35,12 +37,12 @@ export class SnakeSettingsComponent implements OnInit {
   ngOnInit(): void {
     this.snakeSettingsForm = this.formBuilder.group({
       board: this.formBuilder.group({
-        width: [10, Validators.required],
-        height: [8, Validators.required]
+        width: [10, [Validators.required, Validators.pattern(SnakeSettingsComponent.POSITIVE_INT_PATTERN)]],
+        height: [8, [Validators.required, Validators.pattern(SnakeSettingsComponent.POSITIVE_INT_PATTERN)]]
       }),
       snake: this.formBuilder.group({
-        speed: [3, Validators.required],
-        energy: [40, Validators.required]
+        speed: [2, [Validators.required, Validators.pattern(SnakeSettingsComponent.POSITIVE_INT_PATTERN)]],
+        energy: [40, [Validators.required, Validators.pattern(SnakeSettingsComponent.POSITIVE_INT_PATTERN)]]
       })
     });
   }

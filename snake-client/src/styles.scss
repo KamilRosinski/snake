@@ -43,14 +43,9 @@ main {
     border: none;
     border-radius: 0.3rem;
     cursor: pointer;
-    font-size: 0.8rem;
+    font-size: 1rem;
     min-width: 2.5rem;
-    height: 1.5rem;
     transition: 0.25s;
-
-    span {
-      padding-right: 0.2rem;
-    }
 
     .material-icons {
       font-size: 1rem;

@@ -1,27 +1,41 @@
 <form [formGroup]="snakeSettingsForm" (ngSubmit)="play()">
-    <fieldset formGroupName="board">
-        <legend>Board</legend>
-        <div>
-            <label for="width">Width</label>
-            <input id="width" type="number" formControlName="width">
-        </div>
-        <div>
-            <label for="height">Height</label>
-            <input id="height" type="number" formControlName="height">
-        </div>
-    </fieldset>
-    <fieldset formGroupName="snake">
-        <legend>Snake</legend>
-        <div>
-            <label for="speed">Speed</label>
-            <input id="speed" type="number" formControlName="speed">
-        </div>
-        <div>
-            <label for="energy">Energy</label>
-            <input id="energy" type="number" formControlName="energy">
-        </div>
-    </fieldset>
-    <div>
-        <button [disabled]="!snakeSettingsForm.valid">Play</button>
+    <div id="fieldsets">
+        <fieldset formGroupName="board">
+            <legend>Board</legend>
+            <div class="input-group">
+                <label for="width">Width</label>
+                <input id="width" [class.invalid]="!width.valid" type="number" formControlName="width">
+                <p class="validation-msg" *ngIf="!width.valid">
+                    Width must be positive integer value.
+                </p>
+            </div>
+            <div class="input-group">
+                <label for="height">Height</label>
+                <input id="height" [class.invalid]="!height.valid" type="number" formControlName="height">
+                <p class="validation-msg" *ngIf="!height.valid">
+                    Height must be positive integer value.
+                </p>
+            </div>
+        </fieldset>
+        <fieldset formGroupName="snake">
+            <legend>Snake</legend>
+            <div class="input-group">
+                <label for="speed">Speed</label>
+                <input id="speed" [class.invalid]="!speed.valid" type="number" formControlName="speed">
+                <p class="validation-msg" *ngIf="!speed.valid">
+                    Speed must be positive integer value.
+                </p>
+            </div>
+            <div class="input-group">
+                <label for="energy">Energy</label>
+                <input id="energy" [class.invalid]="!energy.valid" type="number" formControlName="energy">
+                <p class="validation-msg" *ngIf="!energy.valid">
+                    Energy must be positive integer value.
+                </p>
+            </div>
+        </fieldset>
+    </div>
+    <div id="submit-btn">
+        <button class="btn" [disabled]="!snakeSettingsForm.valid">Play</button>
     </div>
 </form>

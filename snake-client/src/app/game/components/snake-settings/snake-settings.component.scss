@@ -1,0 +1,60 @@
+@import "src/variables";
+
+#fieldsets {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+fieldset {
+  flex-basis: 0;
+  flex-grow: 1;
+  font-size: 1.2rem;
+  border: 1px solid $main-green;
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem 0.5rem;
+
+  &:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+
+  &:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+}
+
+label {
+  margin-bottom: 0.15rem;
+}
+
+input {
+  font-size: 1rem;
+  color: $main-green;
+  padding: 0.15rem 0.25rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  outline: none;
+  transition: 0.25s;
+
+  &.invalid {
+    color: $red;
+    background-color: $light-red;
+    border-color: $red;
+    transition: 0.25s;
+  }
+}
+
+.validation-msg {
+  font-size: 0.8rem;
+  color: $red;
+}
+
+#submit-btn {
+  display: flex;
+  justify-content: flex-end;
+}
