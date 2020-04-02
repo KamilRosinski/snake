@@ -18,19 +18,19 @@ export class SnakeSettingsComponent implements OnInit {
               private readonly router: Router) {
   }
 
-  private get width(): AbstractControl {
+  get width(): AbstractControl {
     return this.snakeSettingsForm.get('board.width');
   }
 
-  private get height(): AbstractControl {
+  get height(): AbstractControl {
     return this.snakeSettingsForm.get('board.height');
   }
 
-  private get speed(): AbstractControl {
+  get speed(): AbstractControl {
     return this.snakeSettingsForm.get('snake.speed');
   }
 
-  private get energy(): AbstractControl {
+  get energy(): AbstractControl {
     return this.snakeSettingsForm.get('snake.energy');
   }
 
