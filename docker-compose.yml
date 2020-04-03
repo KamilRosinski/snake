@@ -16,8 +16,8 @@ services:
   snake-server:
     build: snake-server
     container_name: server
-    ports:
-      - 8080:8080
+    depends_on:
+      - snake-database
     networks:
       - webapp-server
       - server-database
@@ -26,7 +26,7 @@ services:
     build: snake-client
     container_name: webapp
     ports:
-      - 4200:80
+      - 80:80
     depends_on:
       - snake-server
     networks:
