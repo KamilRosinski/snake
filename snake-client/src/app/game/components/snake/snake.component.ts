@@ -2,13 +2,14 @@ import * as Hammer from 'hammerjs'
 
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {Coordinates, Direction, GameSettings, GameStatus, MoveResult, SnakeStatus} from '../../models/game.model';
-import {interval, Subscription} from 'rxjs';
+import {interval, Observable, Subscription} from 'rxjs';
 import {Snake} from '../../models/snake';
 import {ActivatedRoute} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {GameState} from '../../store/game.state';
-import {selectStatus} from '../../store/game.selectors';
-import {updateStatus} from '../../store/game.actions';
+import {selectScore, selectStatus} from '../../store/game.selectors';
+import {incrementScore, resetScore, updateStatus} from '../../store/game.actions';
+import {map} from 'rxjs/operators';
 
 @Component({
     selector: 'app-snake',
@@ -28,11 +29,12 @@ export class SnakeComponent implements OnInit, OnDestroy {
         [Hammer.DIRECTION_LEFT, Direction.WEST]
     ]);
 
-    private gameStatus: GameStatus = GameStatus.NEW;
-    snake: Snake;
     private intervalSubscription: Subscription;
+
+    snake: Snake;
     settings: GameSettings;
-    score: number = 0;
+    score$: Observable<number>;
+    gameFinished$: Observable<boolean>;
 
     get snakeCoordinates(): Coordinates[] {
         return this.snake.snakeCoordinates;
@@ -65,7 +67,10 @@ export class SnakeComponent implements OnInit, OnDestroy {
                 }
             };
         });
-        this.subscription.add(this.store.select(selectStatus).subscribe((status: GameStatus) => this.updateGameStatus(status)));
+        this.store.dispatch(updateStatus({status: GameStatus.NEW}));
+        this.subscription.add(this.store.select(selectStatus).subscribe((status: GameStatus) => this.gameStatusChanged(status)));
+        this.gameFinished$ = this.store.select(selectStatus).pipe(map((status: GameStatus) => status === GameStatus.FINISHED));
+        this.score$ = this.store.select(selectScore);
     }
 
     ngOnDestroy(): void {
@@ -75,42 +80,36 @@ export class SnakeComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    private updateGameStatus(gameStatus: GameStatus): void {
-        this.gameStatus = gameStatus;
-        switch (this.gameStatus) {
+    private gameStatusChanged(gameStatus: GameStatus): void {
+        switch (gameStatus) {
             case GameStatus.RUNNING:
-                if (!this.snake) {
-                    this.snake = new Snake(this.settings);
-                }
                 this.intervalSubscription = interval(1e3 / this.settings.snake.speed).subscribe(_ => this.move());
                 break;
             case GameStatus.PAUSED:
                 this.intervalSubscription.unsubscribe();
                 break;
             case GameStatus.NEW:
-            case GameStatus.FINISHED:
-                this.snake = null;
                 if (this.intervalSubscription) {
                     this.intervalSubscription.unsubscribe();
                 }
-                this.score = 0;
+                this.snake = new Snake(this.settings);
+                this.store.dispatch(resetScore());
+                break;
+            case GameStatus.FINISHED:
+                this.intervalSubscription.unsubscribe();
                 break;
         }
     }
 
     private move(): void {
         const moveResult: MoveResult = this.snake.move();
-        switch (moveResult.status) {
-            case SnakeStatus.WALL_COLLISION:
-            case SnakeStatus.TAIL_COLLISION:
-            case SnakeStatus.STARVATION:
-                this.store.dispatch(updateStatus({status: GameStatus.FINISHED}));
-                break;
-            case SnakeStatus.ALIVE:
-                if (moveResult.foodEaten) {
-                    ++this.score;
-                }
-                break;
+        if (moveResult.status === SnakeStatus.ALIVE) {
+            if (moveResult.foodEaten) {
+                this.store.dispatch(incrementScore({increment: 1}));
+            }
+        } else {
+            this.store.dispatch(updateStatus({status: GameStatus.FINISHED}));
+
         }
     }
 
@@ -124,17 +123,13 @@ export class SnakeComponent implements OnInit, OnDestroy {
     }
 
     private changeDirection(newDirection: Direction): void {
-        if (this.gameStatus === GameStatus.RUNNING) {
+        if (this.snake) {
             this.snake.turn(newDirection);
         }
     }
 
     get snakeEnergy(): number {
         return this.snake.snakeEnergy;
-    }
-
-    get gameFinished(): boolean {
-        return this.gameStatus === GameStatus.FINISHED;
     }
 
 }

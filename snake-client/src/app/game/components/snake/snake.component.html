@@ -2,21 +2,23 @@
     <h2>Snake</h2>
     <app-controls></app-controls>
     <div id="game-info">
-        <div id="score">Score: {{score}}</div>
-        <div id="energy">Energy: <app-progress-bar *ngIf="snake" [value]="snakeEnergy / settings.snake.initialEnergy"></app-progress-bar></div>
+        <div id="score">Score: {{score$ | async}}</div>
+        <div id="energy">
+            Energy: <app-progress-bar *ngIf="snake" [value]="snakeEnergy / settings.snake.initialEnergy"></app-progress-bar>
+        </div>
     </div>
     <div id="snake-box" (swipe)="swipe($event)">
         <svg [attr.viewBox]="settings.board | dimensionsFormatter">
             <rect id="playground" x="-0.5" y="-0.5" width="100%" height="100%"></rect>
-            <g *ngIf="snake" [class.opacity3]="gameFinished">
+            <g *ngIf="snake" [class.opacity3]="gameFinished$ | async">
                 <polyline class="tail" [attr.points]="snakeCoordinates | snakeFormatter"/>
                 <circle class="head" r="0.4" [attr.cx]="headCoordinates.x" [attr.cy]="headCoordinates.y"/>
                 <circle class="food" *ngIf="foodCoordinates" r="0.3" [attr.cx]="foodCoordinates.x" [attr.cy]="foodCoordinates.y"/>
             </g>
         </svg>
-        <div *ngIf="gameFinished" class="label-overlay">
+        <div *ngIf="gameFinished$ | async" class="label-overlay">
             <p class="game-over">Game over!</p>
-            <p class="score">Your score: {{score}}</p>
+            <p class="score">Your score: {{score$ | async}}</p>
         </div>
     </div>
 </div>
