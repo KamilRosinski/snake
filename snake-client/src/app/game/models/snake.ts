@@ -45,8 +45,8 @@ export class Snake {
         this.nextMoveDirection = initialDirection;
 
         const headPosition: number = this.coordinates2number({
-            x: Math.floor(this.settings.board.width / 2),
-            y: Math.floor(this.settings.board.height / 2)
+            x: Math.floor((this.settings.board.width - 1) / 2),
+            y: Math.floor((this.settings.board.height - 1) / 2)
         });
         this.model.emptyFields.delete(headPosition);
         this.model.snakeFields.unshift(headPosition);
