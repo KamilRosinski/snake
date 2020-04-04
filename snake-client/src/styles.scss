@@ -34,10 +34,10 @@ main {
   background-color: $main-grey;
 
   .btn {
-    display: inline-flex;
+    display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.25rem 1rem;
+    padding: 0.35rem 1rem;
     margin: 0;
     background-color: $main-green;
     color: $main-grey;
@@ -49,7 +49,7 @@ main {
     transition: 0.25s;
 
     .material-icons {
-      font-size: 1rem;
+      font-size: 1.2rem;
     }
 
     &:hover {
@@ -62,10 +62,6 @@ main {
       color: $darkest-grey;
       transition: 0.25s;
       cursor: not-allowed;
-    }
-
-    &:not(:last-child) {
-      margin-right: 0.2rem;
     }
 
   }

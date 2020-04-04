@@ -1,15 +1,20 @@
 @import "src/variables";
 
-#game-controls {
+#controls {
+  margin: 0.5rem 0;
+}
+
+#game-info {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
 
   #energy {
     display: flex;
     align-items: center;
   }
 }
+
 
 #snake-box {
 

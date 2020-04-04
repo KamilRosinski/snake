@@ -1,11 +1,13 @@
 <div>
     <h2>Snake</h2>
-    <app-controls></app-controls>
+    <div id="controls">
+        <app-controls></app-controls>
+    </div>
     <div id="game-info">
-        <div id="score">Score: {{score$ | async}}</div>
         <div id="energy">
             Energy: <app-progress-bar *ngIf="snake" [value]="snakeEnergy / settings.snake.initialEnergy"></app-progress-bar>
         </div>
+        <div id="score">Score: {{score$ | async}}</div>
     </div>
     <div id="snake-box" (swipe)="swipe($event)">
         <svg [attr.viewBox]="settings.board | dimensionsFormatter">
