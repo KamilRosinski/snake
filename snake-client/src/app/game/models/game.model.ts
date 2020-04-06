@@ -34,9 +34,15 @@ export enum Direction {
     WEST = 270
 }
 
-export interface Coordinates {
-    x: number;
-    y: number;
+export class Coordinates {
+
+    constructor(public readonly x: number, public readonly y: number) {
+    }
+
+    add(other: Coordinates): Coordinates {
+        return new Coordinates(this.x + other.x, this.y + other.y);
+    }
+
 }
 
 export interface SnakeModel {
