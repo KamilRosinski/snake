@@ -1,4 +1,4 @@
-import {Coordinates, Direction, GameSettings, MoveResult, SnakeModel, SnakeStatus} from './game.model';
+import {Coordinates, Direction, GameSettings, MoveResult, SnakeStatus} from './game.model';
 
 export class Snake {
 
@@ -9,22 +9,24 @@ export class Snake {
         [Direction.WEST, new Coordinates(-1, 0)]
     ]);
 
-    readonly model: SnakeModel;
+    foodField: number;
+    readonly snakeFields: number[] = [];
+    readonly emptyFields: Set<number> = new Set<number>(Array(this.settings.board.width * this.settings.board.height).keys());
 
     private lastMoveDirection: Direction;
     private nextMoveDirection: Direction;
     private energy: number;
 
     get snakeCoordinates(): Coordinates[] {
-        return this.model.snakeFields.map((field: number) => this.number2coordinates(field));
+        return this.snakeFields.map((field: number) => this.number2coordinates(field));
     }
 
     get headCoordinates(): Coordinates {
-        return this.number2coordinates(this.model.snakeFields[0]);
+        return this.number2coordinates(this.snakeFields[0]);
     }
 
     get foodCoordinates(): Coordinates {
-        return this.number2coordinates(this.model.foodField);
+        return this.number2coordinates(this.foodField);
     }
 
     get snakeEnergy(): number {
@@ -34,12 +36,6 @@ export class Snake {
     constructor(private readonly settings: GameSettings,
                 initialDirection: Direction = Direction.EAST) {
 
-        this.model = {
-            foodField: undefined,
-            snakeFields: [],
-            emptyFields: new Set<number>(Array(this.settings.board.width * this.settings.board.height).keys())
-        };
-
         this.energy = this.settings.snake.initialEnergy;
         this.lastMoveDirection = initialDirection;
         this.nextMoveDirection = initialDirection;
@@ -48,16 +44,16 @@ export class Snake {
             Math.floor((this.settings.board.width - 1) / 2),
             Math.floor((this.settings.board.height - 1) / 2)
         ));
-        this.model.emptyFields.delete(headPosition);
-        this.model.snakeFields.unshift(headPosition);
+        this.emptyFields.delete(headPosition);
+        this.snakeFields.unshift(headPosition);
 
-        this.model.foodField = this.selectFoodField();
-        this.model.emptyFields.delete(this.model.foodField);
+        this.foodField = this.selectFoodField();
+        this.emptyFields.delete(this.foodField);
     }
 
     private selectFoodField(): number {
-        return this.model.emptyFields.size > 0
-            ? Array.from(this.model.emptyFields)[Math.floor(Math.random() * this.model.emptyFields.size)]
+        return this.emptyFields.size > 0
+            ? Array.from(this.emptyFields)[Math.floor(Math.random() * this.emptyFields.size)]
             : undefined;
     }
 
@@ -68,7 +64,7 @@ export class Snake {
     }
 
     move(): MoveResult {
-        const newHeadCoordinates: Coordinates = this.number2coordinates(this.model.snakeFields[0])
+        const newHeadCoordinates: Coordinates = this.number2coordinates(this.snakeFields[0])
             .add(Snake.TRANSLATION_VECTORS.get(this.nextMoveDirection));
         const newHeadField: number = this.coordinates2number(newHeadCoordinates);
 
@@ -80,21 +76,21 @@ export class Snake {
         } else if (newHeadCoordinates.x < 0 || newHeadCoordinates.x >= this.settings.board.width
             || newHeadCoordinates.y < 0 || newHeadCoordinates.y >= this.settings.board.height) {
             status = SnakeStatus.WALL_COLLISION;
-        } else if (this.model.snakeFields.some((snakeField: number) => snakeField === newHeadField)
-                && newHeadField !== this.model.snakeFields[this.model.snakeFields.length - 1]) {
+        } else if (this.snakeFields.some((snakeField: number) => snakeField === newHeadField)
+                && newHeadField !== this.snakeFields[this.snakeFields.length - 1]) {
             status = SnakeStatus.TAIL_COLLISION;
         } else {
             this.lastMoveDirection = this.nextMoveDirection;
-            this.model.snakeFields.unshift(newHeadField);
-            if (this.model.foodField === newHeadField) {
+            this.snakeFields.unshift(newHeadField);
+            if (this.foodField === newHeadField) {
                 foodEaten = true;
                 this.energy = this.settings.snake.initialEnergy;
-                this.model.foodField = this.selectFoodField();
-                this.model.emptyFields.delete(this.model.foodField);
+                this.foodField = this.selectFoodField();
+                this.emptyFields.delete(this.foodField);
             } else {
                 --this.energy;
-                this.model.emptyFields.delete(newHeadField);
-                this.model.emptyFields.add(this.model.snakeFields.pop());
+                this.emptyFields.delete(newHeadField);
+                this.emptyFields.add(this.snakeFields.pop());
             }
         }
 

@@ -45,12 +45,6 @@ export class Coordinates {
 
 }
 
-export interface SnakeModel {
-    foodField: number;
-    readonly snakeFields: number[];
-    readonly emptyFields: Set<number>;
-}
-
 export interface MoveResult {
     readonly status: SnakeStatus;
     readonly foodEaten: boolean;
